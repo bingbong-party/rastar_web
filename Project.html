@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project — Rabyeol Comms</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-nav="solid">
+<script src="site-nav.js"></script>
+
+<!-- ARTICLE -->
+<main style="margin-top:var(--nav-h)">
+  <article class="article" id="project-detail">
+    <!-- content.json(projects) 에서 렌더링 -->
+  </article>
+</main>
+
+<!-- CTA BAND -->
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-inner">
+      <p class="eyebrow on-red no-rule" style="justify-content:center;margin-bottom:20px">Let's Talk</p>
+      <h2 class="display" style="font-size:clamp(32px,6vw,72px)">당신의 행사도 이렇게.</h2>
+      <p class="cta-kr">라별과 함께 다음 행사를 만들어 보세요.</p>
+      <a class="btn btn-light" href="Contact.html">무료 상담 신청하기 <span class="arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<script src="site-footer.js"></script>
+
+<script src="site-data.js"></script>
+<script src="app.js"></script>
+<script src="consult-modal.js"></script>
+<script>RabyeolData.renderProject("#project-detail");</script>
+</body>
+</html>

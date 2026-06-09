@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Rabyeol Comms</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<script src="site-nav.js"></script>
+
+<!-- PAGE HERO -->
+<section class="page-hero" data-screen-label="Projects Hero">
+  <div class="container">
+    <p class="eyebrow on-red">Selected Work</p>
+    <h1>PROJECTS</h1>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section" style="padding-top:clamp(40px,5vw,64px)">
+  <div class="container">
+    <div class="gallery" id="gallery"><!-- content.json 에서 렌더링 --></div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-inner">
+      <p class="eyebrow on-red no-rule" style="justify-content:center;margin-bottom:20px">Let's Talk</p>
+      <h2 class="display" style="font-size:clamp(34px,6.5vw,80px); letter-spacing: 1.4px; line-height: 1.1">당신의 다음 행사를<br>라별과 함께</h2>
+      <a class="btn btn-light" href="Contact.html">‘함께’ 지금 시작하기 <span class="arrow" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<script src="site-footer.js"></script>
+
+<script src="site-data.js"></script>
+<script src="app.js"></script>
+<script src="consult-modal.js"></script>
+<script>RabyeolData.renderGallery("#gallery");</script>
+</body>
+</html>

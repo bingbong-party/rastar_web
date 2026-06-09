@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>무료 상담 신청 — Rabyeol Comms</title>
+<link rel="stylesheet" href="styles.css">
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#c3141b"/>
+    <text x="50" y="62" font-family="Archivo, sans-serif" font-size="44" font-weight="800" fill="#ffffff" text-anchor="middle">R</text>
+  </svg>
+</template>
+</head>
+<body>
+<header class="nav scrolled">
+  <div class="container">
+    <a class="brand" href="index.html" aria-label="Rabyeol Comms 홈">
+      <img class="logo logo-white" src="images/logo-white.png" alt="Rabyeol Comms"><img class="logo logo-red" src="images/logo-red.png" alt="Rabyeol Comms">
+    </a>
+    <nav class="nav-links">
+      <a class="nav-link" href="Projects.html">projects</a>
+      <a class="nav-link" href="Blog.html">insights</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-nav-cta" href="Contact.html">무료 상담하기 <span class="arrow" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"></path></svg></span></a>
+      <button class="nav-toggle" aria-label="메뉴 열기">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero" data-screen-label="Contact Hero">
+  <div class="container">
+    <p class="eyebrow on-red">Free Consulting</p>
+    <h1>CONTACT</h1>
+    <p class="ph-kr">행사를 구상 중이신가요? 간단한 정보만 남겨주시면 담당 PM이 1영업일 이내에 직접 연락드립니다. 상담·제안서·견적까지 모두 무료입니다.</p>
+  </div>
+</section>
+
+<!-- CONSULTATION -->
+<section class="section consult">
+  <div class="container">
+    <div class="consult-grid">
+      <aside class="consult-aside">
+        <div class="consult-block">
+          <h4>상담 안내</h4>
+          <p>접수 후 1영업일 이내에 담당 PM이 연락드립니다. 예상 시기·규모·예산을 함께 적어주시면 더 정확한 제안을 받아보실 수 있어요.</p>
+        </div>
+        <div class="consult-block">
+          <h4>직접 연락</h4>
+          <p><a href="tel:0212345678">02-1234-5678</a><br><a href="mailto:hello@rabyeol.co.kr">hello@rabyeol.co.kr</a></p>
+        </div>
+        <div class="consult-block">
+          <h4>오시는 길</h4>
+          <p>서울특별시 성동구<br>성수일로 12, 5F</p>
+        </div>
+      </aside>
+
+      <div class="consult-form-card">
+        <form novalidate>
+          <div class="field-row">
+            <div class="field"><label>이름 <span class="req">*</span></label><input name="name" type="text" placeholder="홍길동" autocomplete="name"></div>
+            <div class="field"><label>회사 / 단체 <span class="req">*</span></label><input name="company" type="text" placeholder="라별 주식회사" autocomplete="organization"></div>
+          </div>
+          <div class="field"><label>연락처 (전화 또는 이메일) <span class="req">*</span></label><input name="contact" type="text" placeholder="010-1234-5678 또는 you@email.com"></div>
+          <div class="field">
+            <label>행사 유형</label>
+            <div class="chip-select">
+              <button type="button" class="chip-opt active" data-value="컨퍼런스·세미나">컨퍼런스·세미나</button>
+              <button type="button" class="chip-opt" data-value="축제·공연">축제·공연</button>
+              <button type="button" class="chip-opt" data-value="기업 행사">기업 행사</button>
+              <button type="button" class="chip-opt" data-value="공공기관 행사">공공기관 행사</button>
+              <button type="button" class="chip-opt" data-value="기타">기타</button>
+            </div>
+          </div>
+          <div class="field"><label>행사 내용 (선택)</label><textarea name="message" placeholder="예상 시기, 규모, 예산, 필요한 서비스 등 자유롭게 적어주세요."></textarea></div>
+          <button type="submit" class="btn btn-primary btn-submit">상담 신청 보내기 <span class="arrow" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"></path></svg></span></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand-col">
+        <span class="brand"><img class="logo logo-white" src="images/logo-white.png" alt="Rabyeol Comms"></span>
+        <p class="footer-about">행사의 모든 순간을 업그레이드하는 종합 이벤트 대행사. 기획부터 중계까지, 한 팀이 끝까지 책임집니다.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="index.html#services">서비스</a>
+        <a href="Projects.html">프로젝트</a>
+        <a href="Blog.html">블로그</a>
+        <a href="Contact.html">무료 상담</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p>02-1234-5678</p>
+        <p>hello@rabyeol.co.kr</p>
+        <p>서울특별시 성동구<br>성수일로 12, 5F</p>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Behance</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Rabyeol Comms. All rights reserved.</span>
+      <span>BUSINESS LICENSE 123-45-67890</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,106 @@
+# =====================================================================
+# Decap CMS 설정 — 라별 홈페이지
+# 콘텐츠 원본: 저장소 루트의 content.json (단일 파일)
+# 편집 → 저장하면 Decap 이 content.json 을 git 에 커밋 → 자동 배포 → 사이트 반영
+# 이미지는 images/uploads/ 에 파일로 업로드되고 경로만 content.json 에 저장됩니다.
+# =====================================================================
+
+backend:
+  name: github
+  repo: OWNER/REPO            # ← 실제 깃허브 저장소로 변경 (예: rabyeol/homepage)
+  branch: main                # ← 배포 브랜치
+  # 인증 방법 두 가지 중 하나를 쓰세요 (아래 운영 가이드 참고):
+  #  1) Netlify 호스팅 + Identity  → backend 를 git-gateway 로 교체
+  #  2) 별도 OAuth 중개 서비스      → 위 github 설정 그대로 + base_url/auth_endpoint 추가
+
+# 로컬에서 미리 보고 테스트할 때: 터미널에서 `npx decap-server` 실행 후
+# http://localhost:8080/admin/ 접속하면 git 인증 없이 로컬 파일로 동작합니다.
+local_backend: true
+
+media_folder: "images/uploads"   # 업로드 파일이 저장되는 폴더 (저장소 기준)
+public_folder: "images/uploads"  # 사이트에서 이미지를 참조할 경로
+
+locale: "ko"
+
+collections:
+  - name: "site"
+    label: "사이트 콘텐츠"
+    delete: false
+    files:
+      - name: "content"
+        label: "프로젝트 · 인사이트"
+        file: "content.json"
+        format: "json"
+        description: "프로젝트와 블로그(인사이트) 글을 추가·수정·정렬합니다."
+        fields:
+          - { label: "데이터 버전", name: "version", widget: "hidden", default: 2 }
+
+          # ----------------------------- 프로젝트 -----------------------------
+          - label: "프로젝트"
+            name: "projects"
+            label_singular: "프로젝트"
+            widget: "list"
+            summary: "{{fields.title}}  ·  {{fields.category}}{{#if fields.featured}}  ★노출{{/if}}"
+            hint: "위에서부터의 순서대로 사이트에 표시됩니다. 항목을 드래그해 순서를 바꿀 수 있어요."
+            fields:
+              - { label: "ID", name: "id", widget: "string", hint: "고유 식별자 (예: p11). 한 번 정하면 바꾸지 마세요." }
+              - { label: "제목", name: "title", widget: "string" }
+              - label: "카테고리"
+                name: "category"
+                widget: "select"
+                options: ["Conference", "Festival", "Corporate", "Pop-up", "Public", "Brand", "Launch", "Seminar"]
+              - { label: "날짜", name: "date", widget: "string", hint: "예: 2024.09" }
+              - { label: "장소", name: "location", widget: "string", required: false, hint: "예: COEX" }
+              - { label: "클라이언트", name: "client", widget: "string", required: false }
+              - { label: "대표 이미지", name: "cover", widget: "image", required: false, choose_url: false }
+              - label: "본문 이미지"
+                name: "images"
+                widget: "list"
+                required: false
+                field: { label: "이미지", name: "src", widget: "image", choose_url: false }
+              - { label: "요약", name: "summary", widget: "text", hint: "목록·카드에 한두 문장으로 표시됩니다." }
+              - { label: "본문", name: "body", widget: "text", required: false }
+              - { label: "랜딩 노출 (featured)", name: "featured", widget: "boolean", default: false, hint: "메인 페이지 상단 갤러리에 노출. 켠 프로젝트 중 위에서부터 최대 6개가 보입니다." }
+              - label: "상태"
+                name: "status"
+                widget: "select"
+                default: "published"
+                options:
+                  - { label: "게시", value: "published" }
+                  - { label: "임시저장", value: "draft" }
+
+          # ----------------------------- 인사이트 -----------------------------
+          - label: "인사이트 (블로그)"
+            name: "insights"
+            label_singular: "인사이트"
+            widget: "list"
+            summary: "{{fields.title}}  ·  {{fields.date}}"
+            fields:
+              - { label: "ID", name: "id", widget: "string", hint: "고유 식별자 (예: i4). 글 주소(?id=)로 쓰입니다." }
+              - { label: "제목", name: "title", widget: "string" }
+              - label: "카테고리"
+                name: "category"
+                widget: "select"
+                options: ["Insight", "How-to", "Case Study", "Notice", "Interview"]
+              - { label: "날짜", name: "date", widget: "string", hint: "예: 2026.05.20" }
+              - { label: "작성자", name: "author", widget: "string", default: "라별 에디터", required: false }
+              - label: "태그"
+                name: "tags"
+                widget: "list"
+                required: false
+                field: { label: "태그", name: "tag", widget: "string" }
+              - { label: "대표 이미지", name: "cover", widget: "image", required: false, choose_url: false }
+              - label: "본문 이미지"
+                name: "images"
+                widget: "list"
+                required: false
+                field: { label: "이미지", name: "src", widget: "image", choose_url: false }
+              - { label: "요약", name: "summary", widget: "text", hint: "목록 카드에 표시됩니다." }
+              - { label: "본문", name: "body", widget: "markdown", hint: "## 로 소제목을 만들 수 있습니다." }
+              - label: "상태"
+                name: "status"
+                widget: "select"
+                default: "published"
+                options:
+                  - { label: "게시", value: "published" }
+                  - { label: "임시저장", value: "draft" }

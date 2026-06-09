@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Rabyeol Comms</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<script src="site-nav.js"></script>
+
+<!-- PAGE HERO -->
+<section class="page-hero" data-screen-label="Blog Hero">
+  <div class="container">
+    <p class="eyebrow on-red">Rabyeol Journal</p>
+    <h1>INSIGHTS</h1>
+  </div>
+</section>
+
+<!-- POSTS -->
+<section class="section">
+  <div class="container">
+    <div class="blog-grid" id="blog-grid"><!-- content.json 에서 렌더링 --></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<script src="site-footer.js"></script>
+
+<script src="site-data.js"></script>
+<script src="app.js"></script>
+<script src="consult-modal.js"></script>
+<script>RabyeolData.renderBlogList("#blog-grid");</script>
+</body>
+</html>
