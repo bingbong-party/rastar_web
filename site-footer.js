@@ -17,7 +17,7 @@
     '  <div class="container">\n' +
     '    <div class="footer-top">\n' +
     '      <div class="footer-brand-col">\n' +
-    '        <span class="brand"><img class="logo logo-white" src="images/logo-white.png" alt="Rabyeol Comms"></span>\n' +
+    '        <span class="brand"><img class="logo logo-white" src="projects_images/logo-white.png" alt="Rabyeol Comms"></span>\n' +
     '        <p class="footer-about">행사의 모든 순간을 업그레이드하는 종합 이벤트 대행사.<br>기획부터 운영까지, 한 팀이 끝까지 책임집니다.</p>\n' +
     '      </div>\n' +
     '      <div class="footer-legal">\n' +
