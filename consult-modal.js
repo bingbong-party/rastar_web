@@ -196,7 +196,7 @@
       '<div class="cm-choice-contact">' +
         '<span class="cm-contact-item">' + IC.phone + "032-262-2164</span>" +
         '<span class="cm-contact-sep"></span>' +
-        '<span class="cm-contact-item">' + IC.mail + "ws@rastarcomms.com</span>" +
+        '<span class="cm-contact-item">' + IC.mail + "ejkoon@rastarcomms.com</span>" +
       "</div>";
     wrap.querySelector('[data-go="kakao"]').addEventListener("click", function () {
       window.open(KAKAO_URL, "_blank", "noopener");
@@ -567,6 +567,41 @@
     else goStep(cur - 1);
   }
 
+  /* ---------- EmailJS ---------- */
+  var EMAILJS_PUBLIC_KEY = "mqLLueKGy2aYF-YBR";
+  var EMAILJS_SERVICE_ID = "service_qzdcnz4";
+  var EMAILJS_TEMPLATE_ID = "template_32zpy6s";
+
+  function loadEmailJS(cb) {
+    if (window.emailjs) { emailjs.init(EMAILJS_PUBLIC_KEY); cb(); return; }
+    var s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
+    s.onload = function () { emailjs.init(EMAILJS_PUBLIC_KEY); cb(); };
+    s.onerror = function () { console.error("EmailJS SDK 로드 실패"); };
+    document.head.appendChild(s);
+  }
+
+  function sendConsultEmail() {
+    var c = answers.contact || {};
+    var sc = answers.scope && answers.scope.length ? answers.scope.join(" · ") : "미정";
+    var params = {
+      event_name:    answers.eventName || "미정",
+      date:          answers.date      || "미정",
+      headcount:     answers.headcount || "미정",
+      place:         answers.place     || "미정",
+      budget:        answers.budget    || "미정",
+      scope:         sc,
+      note:          answers.note      || "없음",
+      contact_name:  c.name  || "미입력",
+      contact_email: c.email || "",
+      contact_phone: c.phone || "미입력"
+    };
+    loadEmailJS(function () {
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params)
+        .catch(function (err) { console.error("EmailJS 전송 오류:", err); });
+    });
+  }
+
   /* ---------- finish ---------- */
   function finish() {
     cur = "done";
@@ -600,6 +635,7 @@
     done.appendChild(closeBtn);
     showScreen(done);
     persist();
+    sendConsultEmail();
   }
 
   /* ---------- persistence (sessionStorage, survives page navigation) ---------- */
