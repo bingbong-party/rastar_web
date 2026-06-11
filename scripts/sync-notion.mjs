@@ -68,6 +68,7 @@ function richText(page, name) {
   if (!prop) return "";
   if (prop.type === "title") return prop.title.map((t) => t.plain_text).join("").trim();
   if (prop.type === "rich_text") return prop.rich_text.map((t) => t.plain_text).join("").trim();
+  if (prop.type === "number") return prop.number == null ? "" : String(prop.number);
   return "";
 }
 function selectVal(page, name) {
