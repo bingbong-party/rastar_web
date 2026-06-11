@@ -2,8 +2,16 @@
    Notion → content.json 동기화 스크립트 (projects 전용)
 
    Notion의 "Projects" 데이터베이스를 읽어 content.json 의 projects 배열을
-   교체하고, 커버/이미지 파일을 projects_images/<id>/ 로 다운로드한 뒤,
-   sitemap.xml 을 재생성한다. insights 는 건드리지 않는다.
+   교체하고, 커버/이미지/본문 이미지 파일을 projects_images/<id>/ 로
+   다운로드한 뒤, sitemap.xml 을 재생성한다. insights 는 건드리지 않는다.
+
+   본문(페이지 콘텐츠) 안의 이미지 블록도 다운로드하여
+   projects_images/<id>/body-N.<ext> 로 저장하고, body 의 markdown은
+   해당 로컬 경로를 가리키도록 변환된다.
+
+   사용하는 Notion 속성:
+     ID, Name, Category, Date, Location, Client, Cover, Images,
+     Summary, Status, Written Date(date), Main_Visible(checkbox)
 
    필요 환경변수:
      NOTION_API_KEY        - Notion Internal Integration 토큰
@@ -34,6 +42,26 @@ if (!NOTION_API_KEY || !NOTION_PROJECTS_DB_ID) {
 const notion = new Client({ auth: NOTION_API_KEY });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+/* ---------------- 본문 인라인 이미지 다운로드 ----------------
+   mapProject() 가 페이지를 처리하기 직전에 currentImageDir/bodyImageIndex 를
+   설정해두면, n2m 이 본문의 image 블록을 만날 때마다 다운로드하여
+   projects_images/<id>/body-N.<ext> 로 저장하고 로컬 경로를 가리키는
+   markdown 으로 치환한다. main() 에서 페이지를 순차 처리하므로
+   동시성 문제는 없다. */
+let currentImageDir = "";
+let bodyImageIndex = 0;
+n2m.setCustomTransformer("image", async (block) => {
+  const img = block.image;
+  const url = img?.type === "external" ? img.external?.url : img?.file?.url;
+  if (!url) return "";
+  bodyImageIndex += 1;
+  const dest = path.join(currentImageDir, `body-${bodyImageIndex}${extFromUrl(url)}`);
+  await downloadFile(url, dest);
+  const rel = path.relative(ROOT, dest).split(path.sep).join("/");
+  const caption = (img.caption || []).map((t) => t.plain_text).join("");
+  return `![${caption}](${rel})`;
+});
+
 /* ---------------- Notion 속성 헬퍼 ---------------- */
 function richText(page, name) {
   const prop = page.properties[name];
@@ -47,6 +75,11 @@ function selectVal(page, name) {
 }
 function checkboxVal(page, name) {
   return !!page.properties[name]?.checkbox;
+}
+function dateVal(page, name) {
+  const prop = page.properties[name];
+  if (!prop || prop.type !== "date" || !prop.date) return "";
+  return prop.date.start || "";
 }
 function fileUrls(page, name) {
   const prop = page.properties[name];
@@ -78,7 +111,6 @@ function sanitizeMarkdown(md) {
   return md
     .split("\n")
     .map((line) => line.replace(/^\s+/, "")) // 중첩 들여쓰기 평탄화
-    .filter((line) => !/^!\[.*\]\(.*\)\s*$/.test(line)) // 인라인 이미지 제거
     .map((line) => line.replace(/^#\s+/, "## ")) // H1 -> H2
     .map((line) => line.replace(/^####+\s+/, "### ")) // H4+ -> H3
     .map((line) => line.replace(/^>\s?/, "")) // blockquote -> 문단
@@ -129,6 +161,8 @@ async function mapProject(page) {
     images.push(path.relative(ROOT, dest).split(path.sep).join("/"));
   }
 
+  currentImageDir = dir;
+  bodyImageIndex = 0;
   const mdBlocks = await n2m.pageToMarkdown(page.id);
   const { parent } = n2m.toMarkdownString(mdBlocks);
   const body = sanitizeMarkdown(parent || "");
@@ -140,13 +174,14 @@ async function mapProject(page) {
     title: richText(page, "Name"),
     category: selectVal(page, "Category"),
     date: richText(page, "Date"),
+    writtenDate: dateVal(page, "Written Date"),
     location: richText(page, "Location"),
     client: richText(page, "Client"),
     cover,
     images,
     summary: richText(page, "Summary"),
     body,
-    featured: checkboxVal(page, "Featured"),
+    featured: checkboxVal(page, "Main_Visible"),
     status,
   };
 }
