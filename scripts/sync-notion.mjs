@@ -69,6 +69,7 @@ function richText(page, name) {
   if (prop.type === "title") return prop.title.map((t) => t.plain_text).join("").trim();
   if (prop.type === "rich_text") return prop.rich_text.map((t) => t.plain_text).join("").trim();
   if (prop.type === "number") return prop.number == null ? "" : String(prop.number);
+  if (prop.type === "unique_id") return prop.unique_id?.number == null ? "" : String(prop.unique_id.number);
   return "";
 }
 function selectVal(page, name) {
@@ -140,7 +141,12 @@ async function fetchAllPages(databaseId) {
 async function mapProject(page) {
   const id = richText(page, "ID");
   if (!id) {
-    console.warn(`[skip] ID 속성이 비어 있는 페이지를 건너뜁니다: ${page.id}`);
+    const idProp = page.properties["ID"];
+    console.warn(
+      `[skip] ID 속성이 비어 있는 페이지를 건너뜁니다: ${page.id} ` +
+      `(ID 속성 타입: ${idProp ? idProp.type : "속성 없음"}, ` +
+      `사용 가능한 속성: ${Object.keys(page.properties).join(", ")})`
+    );
     return null;
   }
 
@@ -220,6 +226,7 @@ async function main() {
   const content = JSON.parse(await fs.readFile(CONTENT_PATH, "utf8"));
 
   const pages = await fetchAllPages(NOTION_PROJECTS_DB_ID);
+  console.log(`Notion에서 조회된 페이지 수: ${pages.length}`);
   const projects = [];
   for (const page of pages) {
     const project = await mapProject(page);
