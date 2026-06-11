@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  content.json 의 projects/insights 가 추가·삭제될 때마다
-  아래 <url> 항목도 함께 갱신해 주세요.
--->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://rastarcomms.com/</loc></url>
   <url><loc>https://rastarcomms.com/Projects.html</loc></url>
   <url><loc>https://rastarcomms.com/Blog.html</loc></url>
   <url><loc>https://rastarcomms.com/Contact.html</loc></url>
-
-  <url><loc>https://rastarcomms.com/Project.html?id=p1</loc></url>
-  <url><loc>https://rastarcomms.com/Project.html?id=p2</loc></url>
-  <url><loc>https://rastarcomms.com/Project.html?id=p3</loc></url>
-  <url><loc>https://rastarcomms.com/Project.html?id=p4</loc></url>
-  <url><loc>https://rastarcomms.com/Project.html?id=p5</loc></url>
-  <url><loc>https://rastarcomms.com/Project.html?id=p6</loc></url>
-  <url><loc>https://rastarcomms.com/Project.html?id=p7</loc></url>
-  <url><loc>https://rastarcomms.com/Project.html?id=p8</loc></url>
-  <url><loc>https://rastarcomms.com/Project.html?id=p9</loc></url>
-  <url><loc>https://rastarcomms.com/Project.html?id=p10</loc></url>
-
   <url><loc>https://rastarcomms.com/Blog%20Post.html?id=i1</loc></url>
   <url><loc>https://rastarcomms.com/Blog%20Post.html?id=i2</loc></url>
   <url><loc>https://rastarcomms.com/Blog%20Post.html?id=i3</loc></url>
