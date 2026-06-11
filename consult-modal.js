@@ -49,7 +49,7 @@
       skip: "아직 시기는 미정이에요" },
     { key: "headcount", kr: "참여 인원", type: "chips",
       q: "예상 참여 인원은 어느 정도인가요?",
-      options: ["50명 미만", "50~100명", "100~300명", "300명 이상"],
+      options: ["100명 미만", "100~300명", "300~1000명", "1000명 이상"],
       custom: "직접 입력", customPh: "예) 약 500명",
       skip: "아직 인원은 미정이에요" },
     { key: "place", kr: "장소", type: "text",
@@ -72,7 +72,8 @@
         { v: "제작 및 시공", d: "무대 · 부스 · 조명 · 음향" },
         { v: "영상·실시간 중계", d: "스케치 영상 · 라이브 송출" },
         { v: "커스텀", d: "필요한 부분만 골라서", custom: true }
-      ] },
+      ],
+      skip: "아직 맡길 영역은 미정이에요" },
     { key: "note", kr: "기타 요청", type: "textarea",
       q: "더 전하고 싶은 내용이 있나요?",
       sub: "선택 항목이에요. 없으면 건너뛰어도 좋아요.",
@@ -115,11 +116,11 @@
   function build() {
     var panel = h("div", "cm-panel");
     panel.setAttribute("role", "dialog");
-    panel.setAttribute("aria-label", "무료 상담 신청");
+    panel.setAttribute("aria-label", "상담 신청");
 
     var bar = h("div", "cm-bar");
     var title = h("span", "cm-bar-title",
-      '<span class="cm-bar-dot"></span>무료 상담 신청');
+      '<span class="cm-bar-dot"></span>상담 신청');
     var actions = h("div", "cm-bar-actions");
     var minBtn = h("button", "cm-iconbtn", IC.minus);
     minBtn.setAttribute("aria-label", "접어두기");
@@ -297,6 +298,7 @@
           '<span class="cm-card-ttl">' + esc(cd.v) + "</span>" +
           '<span class="cm-card-desc">' + esc(cd.d) + "</span>";
         card.addEventListener("click", function () {
+          clearSkip(node);
           card.classList.toggle("active");
           if (cd.custom) {
             var on = card.classList.contains("active");
@@ -311,6 +313,8 @@
       field.appendChild(grid);
       field.appendChild(ccwrap);
       node.appendChild(field);
+      var sr3 = skipRow(cfg);
+      if (sr3) { node.appendChild(sr3); bindSkip(node, []); }
     }
 
     else if (cfg.type === "contact") {
@@ -352,7 +356,7 @@
       var on = !btn.classList.contains("active");
       btn.classList.toggle("active", on);
       if (on) {
-        node.querySelectorAll(".cm-chip").forEach(function (c) { c.classList.remove("active"); });
+        node.querySelectorAll(".cm-chip, .cm-card").forEach(function (c) { c.classList.remove("active"); });
         var cw = node.querySelector(".cm-custom-wrap");
         if (cw) { cw.hidden = true; cw.querySelector("input").value = ""; }
         inputsToClear.forEach(function (i) { i.value = ""; });
@@ -387,6 +391,7 @@
       return true;
     }
     if (cfg.type === "cards") {
+      if (skip) return true;
       if (node.querySelectorAll(".cm-card.active").length === 0) return false;
       var cc = node.querySelector(".cm-card.active[data-custom]");
       if (cc) {
@@ -422,7 +427,7 @@
     var node = stepNodes[idx];
     var cfg = STEPS[idx];
     var skip = node.querySelector(".cm-skip.active");
-    if (skip) { answers[cfg.key] = "미정"; return; }
+    if (skip) { answers[cfg.key] = (cfg.type === "cards") ? [] : "미정"; return; }
     if (cfg.type === "text") {
       var tv = node.querySelector(".cm-input").value.trim();
       if (tv) answers[cfg.key] = tv;
@@ -520,6 +525,11 @@
         }
       }
     } else if (cfg.type === "cards") {
+      if (Array.isArray(v) && v.length === 0) {
+        var skb = node.querySelector(".cm-skip");
+        if (skb) skb.classList.add("active");
+        return;
+      }
       (v || []).forEach(function (val) {
         if (typeof val === "string" && val.indexOf("커스텀") === 0) {
           var cc = node.querySelector(".cm-card[data-custom]");
@@ -720,13 +730,24 @@
     else if (typeof st.cur === "number") goStep(st.cur);
     else goChoice();
     document.body.classList.add("cm-has-panel");
+
+    /* Reveal synchronously, before first paint, so the new document's
+       view-transition snapshot of the panel matches the page we came from
+       (same step → same size). With the panel lifted out of the root snapshot
+       (view-transition-name + animation:none in CSS), old and new snapshots are
+       identical, so it stays put across navigation — no resize, shift, or
+       scrollbar flicker. No transition on this initial open (it's a resume,
+       not a fresh slide-in). */
     if (st.phase === "collapsed") {
       collapsed = true;
       updateLauncher();
       els.launcher.classList.add("show");
     } else {
-      void els.panel.offsetWidth;
+      var prevT = els.panel.style.transition;
+      els.panel.style.transition = "none";
       els.panel.classList.add("open");
+      void els.panel.offsetWidth;
+      els.panel.style.transition = prevT || "";
     }
   }
 

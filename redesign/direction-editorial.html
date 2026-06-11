@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>방향 1 — Editorial Monochrome</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
+
+.ed {
+  --paper: #f4f1ea;
+  --paper-2: #ece7dc;
+  --ink: #15120d;
+  --ink-2: #4a463e;
+  --muted: #8c867a;
+  --line: rgba(21,18,13,.16);
+  --line-2: rgba(21,18,13,.08);
+  --acc: #cf3b1e;
+
+  --kr: "Pretendard Variable", system-ui, sans-serif;
+  --lat: "Archivo", system-ui, sans-serif;
+  --serif: "Newsreader", Georgia, serif;
+  --mono: "Space Mono", monospace;
+
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--kr);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+.ed *, .ed *::before, .ed *::after { box-sizing: border-box; }
+.ed h1, .ed h2, .ed h3, .ed h4, .ed p { margin: 0; }
+.ed ul { margin: 0; padding: 0; list-style: none; }
+.ed a { color: inherit; text-decoration: none; }
+.ed img { max-width: 100%; display: block; }
+.ed-wrap { max-width: 1180px; margin: 0 auto; padding-inline: 56px; }
+
+.ed-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--acc);
+  display: flex; align-items: center; gap: 12px;
+}
+.ed-eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--acc); }
+
+/* ---- nav ---- */
+.ed-nav {
+  border-bottom: 1px solid var(--ink);
+  position: sticky; top: 0; z-index: 5;
+  background: var(--paper);
+}
+.ed-nav .ed-wrap {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 78px;
+}
+.ed-brand {
+  font-family: var(--lat); font-weight: 800; font-size: 21px;
+  letter-spacing: -.02em; text-transform: uppercase;
+  display: flex; align-items: baseline; gap: 9px;
+}
+.ed-brand sup { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; color: var(--acc); }
+.ed-navlinks { display: flex; align-items: center; gap: 38px; }
+.ed-navlinks a {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
+  padding-bottom: 3px; border-bottom: 1px solid transparent; transition: border-color .2s;
+}
+.ed-navlinks a:hover { border-color: var(--ink); }
+.ed-cta {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase;
+  border: 1px solid var(--ink); padding: 11px 20px; transition: all .2s;
+}
+.ed-cta:hover { background: var(--ink); color: var(--paper); }
+
+/* ---- hero ---- */
+.ed-hero { border-bottom: 1px solid var(--ink); padding: 70px 0 0; }
+.ed-hero-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; }
+.ed-hero-meta { font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; line-height: 2; text-align: right; }
+.ed-hero h1 {
+  font-family: var(--lat); font-weight: 900; text-transform: uppercase;
+  font-size: clamp(64px, 13.5vw, 188px); line-height: .86; letter-spacing: -.03em;
+  margin: 34px 0 0; text-wrap: balance;
+}
+.ed-hero h1 .it { font-family: var(--serif); font-weight: 500; font-style: italic; text-transform: none; letter-spacing: -.01em; }
+.ed-hero h1 .acc { color: var(--acc); }
+.ed-hero-bottom {
+  display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px;
+  border-top: 1px solid var(--line); margin-top: 48px; padding: 36px 0 54px;
+}
+.ed-lead { font-size: 17px; line-height: 1.8; color: var(--ink-2); max-width: 30em; letter-spacing: -.01em; }
+.ed-lead .em { font-family: var(--serif); font-style: italic; color: var(--ink); }
+.ed-stats { display: flex; gap: 0; justify-content: flex-end; align-self: end; }
+.ed-stat { padding-left: 30px; margin-left: 30px; border-left: 1px solid var(--line); text-align: left; }
+.ed-stat:first-child { border-left: none; margin-left: 0; padding-left: 0; }
+.ed-stat .n { font-family: var(--lat); font-weight: 800; font-size: 44px; letter-spacing: -.03em; line-height: 1; }
+.ed-stat .n sup { font-size: .5em; color: var(--acc); }
+.ed-stat .l { font-family: var(--mono); font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-top: 9px; }
+
+/* ---- section frame ---- */
+.ed-sec { padding: 78px 0; border-bottom: 1px solid var(--ink); }
+.ed-sec-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; margin-bottom: 46px; }
+.ed-sec-head h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 4.4vw, 52px); letter-spacing: -.02em; line-height: 1.05; }
+.ed-sec-head h2 b { font-weight: 600; }
+.ed-idx { font-family: var(--mono); font-size: 12px; letter-spacing: 1.5px; color: var(--muted); }
+
+/* capabilities */
+.ed-cap { border-top: 1px solid var(--line); }
+.ed-cap-row { display: grid; grid-template-columns: 70px 1fr 1.3fr; gap: 30px; align-items: start; padding: 30px 0; border-bottom: 1px solid var(--line); transition: padding-left .25s; }
+.ed-cap-row:hover { padding-left: 14px; }
+.ed-cap-no { font-family: var(--mono); font-size: 13px; color: var(--acc); padding-top: 6px; }
+.ed-cap-ttl { font-family: var(--lat); font-weight: 700; font-size: 25px; letter-spacing: -.01em; }
+.ed-cap-ttl .kr { display: block; font-family: var(--kr); font-weight: 600; font-size: 16px; color: var(--muted); margin-top: 8px; letter-spacing: 0; }
+.ed-cap-desc { font-size: 14.5px; line-height: 1.75; color: var(--ink-2); }
+.ed-cap-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.ed-cap-tags span { font-family: var(--mono); font-size: 11px; letter-spacing: .5px; color: var(--muted); border: 1px solid var(--line); padding: 5px 11px; }
+
+/* packages */
+.ed-pk { background: var(--ink); color: var(--paper); border-bottom: 1px solid var(--ink); }
+.ed-pk .ed-eyebrow { color: #e8a08e; }
+.ed-pk .ed-eyebrow::before { background: #e8a08e; }
+.ed-pk .ed-sec-head h2 { color: var(--paper); }
+.ed-pk .ed-idx { color: rgba(244,241,234,.5); }
+.ed-aio { display: flex; justify-content: space-between; align-items: flex-end; gap: 30px; padding: 30px 0; border-top: 1px solid rgba(244,241,234,.18); border-bottom: 1px solid rgba(244,241,234,.18); margin-bottom: 4px; }
+.ed-aio-badge { font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--acc); }
+.ed-aio h3 { font-family: var(--lat); font-weight: 800; font-size: 30px; margin-top: 12px; }
+.ed-aio-tags { display: flex; gap: 26px; font-family: var(--mono); font-size: 13px; letter-spacing: 1px; text-transform: uppercase; color: rgba(244,241,234,.6); }
+.ed-pk-grid { display: grid; grid-template-columns: repeat(5, 1fr); }
+.ed-pk-card { padding: 34px 22px 30px; border-right: 1px solid rgba(244,241,234,.18); min-height: 250px; display: flex; flex-direction: column; transition: background .25s; }
+.ed-pk-card:last-child { border-right: none; }
+.ed-pk-card:hover { background: rgba(244,241,234,.04); }
+.ed-pk-no { font-family: var(--mono); font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: rgba(244,241,234,.45); }
+.ed-pk-en { font-family: var(--lat); font-weight: 800; font-size: 22px; margin-top: 16px; }
+.ed-pk-kr { font-size: 13.5px; color: rgba(244,241,234,.65); margin-top: 3px; }
+.ed-pk-feat { margin-top: auto; padding-top: 24px; }
+.ed-pk-feat li { font-size: 12.5px; color: rgba(244,241,234,.78); padding: 5px 0; border-top: 1px solid rgba(244,241,234,.12); }
+
+/* CTA */
+.ed-cta-band { padding: 96px 0; text-align: center; border-bottom: 1px solid var(--ink); }
+.ed-cta-band h2 { font-family: var(--lat); font-weight: 900; text-transform: uppercase; font-size: clamp(40px, 7vw, 92px); line-height: .9; letter-spacing: -.03em; }
+.ed-cta-band h2 .it { font-family: var(--serif); font-weight: 500; font-style: italic; text-transform: none; color: var(--acc); }
+.ed-cta-kr { font-size: 16px; color: var(--ink-2); margin-top: 24px; }
+.ed-cta-link { display: inline-flex; align-items: center; gap: 14px; font-family: var(--mono); font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; border-bottom: 1px solid var(--ink); padding-bottom: 8px; margin-top: 40px; transition: gap .2s; }
+.ed-cta-link:hover { gap: 22px; }
+
+/* footer */
+.ed-foot { padding: 50px 0 40px; }
+.ed-foot-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; }
+.ed-foot .ed-brand { font-size: 24px; }
+.ed-foot-legal { font-family: var(--mono); font-size: 11px; letter-spacing: .5px; color: var(--muted); text-align: right; line-height: 2.1; }
+</style>
+</head>
+<body>
+<div class="ed">
+  <!-- NAV -->
+  <header class="ed-nav">
+    <div class="ed-wrap">
+      <div class="ed-brand">RABYEOL<sup>COMMS</sup></div>
+      <nav class="ed-navlinks">
+        <a href="#">Projects</a>
+        <a href="#">Insights</a>
+        <a href="#">About</a>
+        <a class="ed-cta" href="#">무료 상담 →</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="ed-hero">
+    <div class="ed-wrap">
+      <div class="ed-hero-top">
+        <div class="ed-eyebrow">Event Production Studio</div>
+        <div class="ed-hero-meta">Seoul · Incheon<br>Est. 2014</div>
+      </div>
+      <h1>UPGRADE<br><span class="it">your</span> EVENT<span class="acc">.</span></h1>
+      <div class="ed-hero-bottom">
+        <p class="ed-lead">행사의 모든 순간을 업그레이드하는 종합 이벤트 대행사. <span class="em">기획부터 운영까지</span>, 한 팀이 처음부터 끝까지 책임집니다.</p>
+        <div class="ed-stats">
+          <div class="ed-stat"><div class="n">1,200<sup>+</sup></div><div class="l">누적 행사 운영</div></div>
+          <div class="ed-stat"><div class="n">98<sup>%</sup></div><div class="l">고객 재의뢰율</div></div>
+          <div class="ed-stat"><div class="n">12<sup>년</sup></div><div class="l">업계 경력</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAPABILITIES -->
+  <section class="ed-sec">
+    <div class="ed-wrap">
+      <div class="ed-sec-head">
+        <h2>무엇을 <b>맡기실 수 있나요</b></h2>
+        <span class="ed-idx">(How We Work)</span>
+      </div>
+      <div class="ed-cap">
+        <div class="ed-cap-row">
+          <div class="ed-cap-no">01</div>
+          <div class="ed-cap-ttl">Strategy<span class="kr">전략 &amp; 기획</span></div>
+          <div><div class="ed-cap-desc">행사의 목적·타깃·예산을 함께 정의하고, 그 위에 컨셉과 시나리오, 운영 시뮬레이션을 설계합니다. 모든 결정의 기준이 되는 단단한 설계도를 먼저 그립니다.</div><div class="ed-cap-tags"><span>컨셉 기획</span><span>예산 설계</span><span>큐시트</span><span>리스크 점검</span></div></div>
+        </div>
+        <div class="ed-cap-row">
+          <div class="ed-cap-no">02</div>
+          <div class="ed-cap-ttl">Design<span class="kr">공간 &amp; 연출</span></div>
+          <div><div class="ed-cap-desc">공간 구성을 미리 시각화해 검토하고, 브랜드의 톤을 담은 공간으로 시공합니다. 보이는 모든 것이 메시지가 되도록 연출합니다.</div><div class="ed-cap-tags"><span>무대 디자인</span><span>공간 시각화</span><span>부스·시공</span><span>조명·음향</span></div></div>
+        </div>
+        <div class="ed-cap-row">
+          <div class="ed-cap-no">03</div>
+          <div class="ed-cap-ttl">Operate<span class="kr">현장 운영 &amp; 진행</span></div>
+          <div><div class="ed-cap-desc">등록·안내·인력·VIP 의전·안전 관리까지 현장의 모든 흐름을 빈틈없이 조율합니다. 돌발 상황에도 흔들리지 않는 매뉴얼과 전담 PM이 함께합니다.</div><div class="ed-cap-tags"><span>현장 PM</span><span>인력 운영</span><span>의전·안내</span><span>안전 관리</span></div></div>
+        </div>
+        <div class="ed-cap-row">
+          <div class="ed-cap-no">04</div>
+          <div class="ed-cap-ttl">Aftercare<span class="kr">사후 관리</span></div>
+          <div><div class="ed-cap-desc">협력업체 정산 대행, 실집행 결과 정리, 현장 스케치 영상·사진까지. 행사가 끝난 뒤에 해야 할 일도 함께 처리합니다.</div><div class="ed-cap-tags"><span>정산 대행</span><span>결과 정리</span><span>현장 스케치</span><span>영상·사진</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section class="ed-sec ed-pk">
+    <div class="ed-wrap">
+      <div class="ed-sec-head">
+        <h2>필요한 <b>만큼만</b></h2>
+        <span class="ed-idx">(Service Packages)</span>
+      </div>
+      <div class="ed-aio">
+        <div><div class="ed-aio-badge">All-in-One</div><h3>올인원 패키지</h3></div>
+        <div class="ed-aio-tags"><span>Plan</span><span>Operate</span><span>Build</span><span>Stage</span></div>
+      </div>
+      <div class="ed-pk-grid">
+        <div class="ed-pk-card"><div class="ed-pk-no">Package 01</div><div class="ed-pk-en">Plan</div><div class="ed-pk-kr">기획</div><ul class="ed-pk-feat"><li>컨셉·시나리오</li><li>예산 설계</li><li>큐시트·운영안</li></ul></div>
+        <div class="ed-pk-card"><div class="ed-pk-no">Package 02</div><div class="ed-pk-en">Operate</div><div class="ed-pk-kr">운영</div><ul class="ed-pk-feat"><li>현장 PM</li><li>등록·안내</li><li>의전·안전</li></ul></div>
+        <div class="ed-pk-card"><div class="ed-pk-no">Package 03</div><div class="ed-pk-en">Build</div><div class="ed-pk-kr">제작·시공</div><ul class="ed-pk-feat"><li>무대·부스</li><li>조명·음향</li><li>사이니지</li></ul></div>
+        <div class="ed-pk-card"><div class="ed-pk-no">Package 04</div><div class="ed-pk-en">Live</div><div class="ed-pk-kr">영상·중계</div><ul class="ed-pk-feat"><li>스케치 영상</li><li>라이브 중계</li><li>하이브리드</li></ul></div>
+        <div class="ed-pk-card"><div class="ed-pk-no">Package 05</div><div class="ed-pk-en">Custom</div><div class="ed-pk-kr">커스텀</div><ul class="ed-pk-feat"><li>필요 항목만</li><li>단일 서비스</li><li>예산 맞춤</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="ed-cta-band">
+    <div class="ed-wrap">
+      <h2>Ready to <span class="it">upgrade?</span></h2>
+      <p class="ed-cta-kr">다음 행사, 라별과 함께 한 단계 끌어올려 보세요. 물론 상담은 무료입니다.</p>
+      <a class="ed-cta-link" href="#">무료 상담 신청하기 →</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="ed-foot">
+    <div class="ed-wrap ed-foot-top">
+      <div class="ed-brand">RABYEOL<sup>COMMS</sup></div>
+      <div class="ed-foot-legal">주식회사 라별커뮤니케이션즈 · 이원석<br>032-262-2164 · ws@rastarcomms.com<br>인천광역시 서구 중봉대로 490, 893호</div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

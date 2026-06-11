@@ -17,8 +17,8 @@
     '  <div class="container">\n' +
     '    <div class="footer-top">\n' +
     '      <div class="footer-brand-col">\n' +
-    '        <span class="brand"><img class="logo logo-white" src="projects_images/logo-white.png" alt="Rabyeol Comms"></span>\n' +
-    '        <p class="footer-about">행사의 모든 순간을 업그레이드하는 종합 이벤트 대행사.<br>기획부터 운영까지, 한 팀이 끝까지 책임집니다.</p>\n' +
+    '        <span class="brand"><img class="logo logo-white" src="images/logo-white.png" alt="Rabyeol Comms"></span>\n' +
+    '        <p class="footer-about">행사의 모든 순간을 한 단계 위로.<br>기획부터 현장 운영까지, 라별이 처음부터 끝까지 함께합니다.</p>\n' +
     '      </div>\n' +
     '      <div class="footer-legal">\n' +
     '        <p>주식회사 라별커뮤니케이션즈<span class="sep">|</span>이원석<span class="sep">|</span>130-86-30508</p>\n' +
@@ -27,7 +27,7 @@
     '      </div>\n' +
     '    </div>\n' +
     '    <div class="footer-bottom">\n' +
-    '      <span>© 2026 Rabyeol Comms. All rights reserved.</span>\n' +
+    '      <span>© 2026 Rastar Comms. All rights reserved.</span>\n' +
     '    </div>\n' +
     '  </div>\n' +
     '</footer>';
