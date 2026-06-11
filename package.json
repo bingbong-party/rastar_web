@@ -1,0 +1,13 @@
+{
+  "name": "rastar-web-tools",
+  "private": true,
+  "type": "module",
+  "description": "Build/sync tooling for the rastar_web static site (not used by the site itself).",
+  "scripts": {
+    "sync-notion": "node scripts/sync-notion.mjs"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "notion-to-md": "^3.1.1"
+  }
+}
