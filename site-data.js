@@ -160,6 +160,11 @@
       var line = raw.replace(/\s+$/, "");
       if (/^###\s+/.test(line)) { flushPara(); flushList(); out.push("<h3>" + mdInline(esc(line.replace(/^###\s+/, ""))) + "</h3>"); }
       else if (/^##\s+/.test(line)) { flushPara(); flushList(); out.push("<h2>" + mdInline(esc(line.replace(/^##\s+/, ""))) + "</h2>"); }
+      else if (/^!\[([^\]]*)\]\(([^)]+)\)\s*$/.test(line)) {
+        flushPara(); flushList();
+        var img = line.match(/^!\[([^\]]*)\]\(([^)]+)\)\s*$/);
+        out.push('<img src="' + esc(img[2]) + '" alt="' + esc(img[1]) + '" loading="lazy">');
+      }
       else if (/^[-*]\s+/.test(line)) { flushPara(); list = list || []; list.push("<li>" + mdInline(esc(line.replace(/^[-*]\s+/, ""))) + "</li>"); }
       else if (!line.trim()) { flushPara(); flushList(); }
       else { flushList(); para.push(line); }
