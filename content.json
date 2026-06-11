@@ -1,7 +1,23 @@
 {
   "version": 2,
-  "savedAt": "2026-06-11T07:25:08.673Z",
-  "projects": [],
+  "savedAt": "2026-06-11T07:29:16.654Z",
+  "projects": [
+    {
+      "id": "1",
+      "title": "멜리아호텔 ‘The Soul of Ocean’ 행사",
+      "category": "파티",
+      "date": "",
+      "writtenDate": "",
+      "location": "서울특별시 중구 소공로 119 플라자호텔, 그랜드볼룸",
+      "client": "",
+      "cover": "projects_images/1/cover.jpg",
+      "images": [],
+      "summary": "인플루언서 초청 파티",
+      "body": "이 행사는 어쩌구 저쩌구\n\n![](projects_images/1/body-1.jpg)\n\n![](projects_images/1/body-2.jpg)\n\n![](projects_images/1/body-3.jpg)\n\n![](projects_images/1/body-4.jpg)\n\n![](projects_images/1/body-5.jpg)\n\n![](projects_images/1/body-6.jpg)\n\n![](projects_images/1/body-7.jpg)\n\n![](projects_images/1/body-8.jpg)\n\n![](projects_images/1/body-9.jpg)\n\n![](projects_images/1/body-10.jpg)\n\n![](projects_images/1/body-11.jpg)\n\n![](projects_images/1/body-12.jpg)\n\n![](projects_images/1/body-13.jpg)\n\n![](projects_images/1/body-14.jpg)\n\n![](projects_images/1/body-15.jpg)\n\n![](projects_images/1/body-16.jpg)\n\n![](projects_images/1/body-17.jpg)\n\n![](projects_images/1/body-18.jpg)\n\n![](projects_images/1/body-19.jpg)\n\n![](projects_images/1/body-20.jpg)\n\n![](projects_images/1/body-21.jpg)\n\n![](projects_images/1/body-22.jpg)\n\n![](projects_images/1/body-23.jpg)\n\n![](projects_images/1/body-24.jpg)\n\n![](projects_images/1/body-25.jpg)\n\n![](projects_images/1/body-26.jpg)\n\n![](projects_images/1/body-27.jpg)\n\n![](projects_images/1/body-28.jpg)\n\n![](projects_images/1/body-29.jpg)\n\n이미지 중간에 글도 어쩌구저쩌구\n\n![](projects_images/1/body-30.jpg)\n\n이미지 중간에 글도 어쩌구저쩌구\n\n![](projects_images/1/body-31.jpg)",
+      "featured": true,
+      "status": "draft"
+    }
+  ],
   "insights": [
     {
       "id": "i1",
