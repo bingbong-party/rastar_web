@@ -32,6 +32,53 @@
     return typeof x === "string" ? x : (x.src || x.image || "");
   }
 
+  // 비동기로 채워진 콘텐츠가 갑자기 "팝인"되지 않도록 살짝 페이드인 시킨다.
+  function fadeIn(host) {
+    host.style.opacity = "0";
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        host.style.transition = "opacity .25s ease";
+        host.style.opacity = "1";
+      });
+    });
+  }
+
+  // 상세 페이지(프로젝트/블로그)의 title, description, OG/Twitter 메타를
+  // 실제 콘텐츠에 맞춰 갱신한다.
+  function applyMeta(opts) {
+    document.title = opts.title + " | 라별";
+    var desc = opts.description || "";
+    var url = location.origin + location.pathname + (opts.id ? "?id=" + encodeURIComponent(opts.id) : "");
+    var image = opts.image ? (location.origin + "/" + opts.image.replace(/^\/+/, "")) : "";
+
+    var descEl = document.querySelector('meta[name="description"]');
+    if (descEl && desc) descEl.setAttribute("content", desc);
+
+    var canonicalEl = document.querySelector('link[rel="canonical"]');
+    if (canonicalEl) canonicalEl.setAttribute("href", url);
+
+    [
+      ["meta[property=\"og:title\"]", "content", opts.title + " | 라별"],
+      ["meta[property=\"og:description\"]", "content", desc],
+      ["meta[property=\"og:url\"]", "content", url],
+      ["meta[name=\"twitter:title\"]", "content", opts.title + " | 라별"],
+      ["meta[name=\"twitter:description\"]", "content", desc]
+    ].forEach(function (entry) {
+      var el = document.querySelector(entry[0]);
+      if (el && entry[2]) el.setAttribute(entry[1], entry[2]);
+    });
+
+    if (image) {
+      [
+        'meta[property="og:image"]',
+        'meta[name="twitter:image"]'
+      ].forEach(function (sel) {
+        var el = document.querySelector(sel);
+        if (el) el.setAttribute("content", image);
+      });
+    }
+  }
+
   function coverImg(p, cls) {
     var url = esc(p.cover || "");
     if (!url) return '<div class="' + cls + ' g-img-ph"></div>';
@@ -59,6 +106,7 @@
       if (opts.limit) list = list.slice(0, opts.limit);
       host.innerHTML = list.map(galleryItem).join("") ||
         '<p class="data-empty">표시할 프로젝트가 없습니다.</p>';
+      fadeIn(host);
     });
   }
 
@@ -86,6 +134,7 @@
           location.href = "Blog Post.html?id=" + encodeURIComponent(card.getAttribute("data-id"));
         });
       });
+      fadeIn(host);
     });
   }
 
@@ -125,7 +174,7 @@
     getData().then(function (d) {
       var list = pub(d.insights);
       var post = list.filter(function (x) { return x.id === id; })[0] || list[0];
-      if (!post) { host.innerHTML = '<p class="data-empty">글을 찾을 수 없습니다.</p>'; return; }
+      if (!post) { host.innerHTML = '<p class="data-empty">글을 찾을 수 없습니다.</p>'; fadeIn(host); return; }
       var hero = post.cover
         ? '<div class="a-hero"><img class="g-img" src="' + esc(post.cover) + '" alt="' + esc(post.title) + '"></div>'
         : "";
@@ -135,7 +184,8 @@
         '<h1>' + esc(post.title || "") + '</h1>' +
         '<div class="a-meta">' + esc(post.date || "") + (post.author ? " · " + esc(post.author) : "") + '</div>' +
         hero + mdToHtml(post.body);
-      document.title = (post.title || "Blog") + " — Rabyeol Comms";
+      applyMeta({ title: post.title || "블로그", description: post.summary, image: post.cover, id: post.id });
+      fadeIn(host);
     });
   }
 
@@ -146,7 +196,7 @@
     getData().then(function (d) {
       var list = pub(d.projects);
       var proj = list.filter(function (x) { return x.id === id; })[0] || list[0];
-      if (!proj) { host.innerHTML = '<p class="data-empty">프로젝트를 찾을 수 없습니다.</p>'; return; }
+      if (!proj) { host.innerHTML = '<p class="data-empty">프로젝트를 찾을 수 없습니다.</p>'; fadeIn(host); return; }
       var hero = proj.cover
         ? '<div class="a-hero"><img class="g-img" src="' + esc(proj.cover) + '" alt="' + esc(proj.title) + '"></div>'
         : "";
@@ -167,7 +217,8 @@
         hero +
         '<div class="a-body">' + mdToHtml(proj.body) + '</div>' +
         extraImgs;
-      document.title = (proj.title || "Project") + " — Rabyeol Comms";
+      applyMeta({ title: proj.title || "프로젝트", description: proj.summary, image: proj.cover, id: proj.id });
+      fadeIn(host);
     });
   }
 

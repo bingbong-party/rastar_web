@@ -44,7 +44,7 @@
   --radius-lg: 22px;
   --radius-pill: 50px;
 
-  --nav-h: 76px;
+  --nav-h: 64px;
 
   --shadow-1: 0 2px 10px rgba(24, 19, 17, 0.05);
   --shadow-2: 0 18px 50px rgba(24, 19, 17, 0.12);
@@ -246,10 +246,10 @@ ul { margin: 0; padding: 0; list-style: none; }
   gap: 24px;
 }
 .nav.scrolled {
-  background: rgba(255,255,255,.86);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 1px 0 var(--line);
+  background: transparent;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.08);
   color: var(--ink);
 }
 .brand {
@@ -358,7 +358,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   position: relative;
   background: var(--red);
   color: #fff;
-  min-height: clamp(600px, 94svh, 920px);
+  min-height: 100svh;
   display: flex;
   align-items: center;
   padding-top: calc(var(--nav-h) + clamp(40px, 6vw, 80px));
@@ -366,7 +366,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   overflow: hidden;
   text-align: center;
 }
-/* full-bleed single background image */
+/* full-bleed background image slideshow — 3 images cross-fading */
 .hero-bg {
   position: absolute;
   inset: 0;
@@ -375,6 +375,20 @@ ul { margin: 0; padding: 0; list-style: none; }
   object-fit: cover;
   object-position: center 38%;
   z-index: 0;
+  opacity: 0;
+  animation: hero-slide 18s infinite;
+}
+.hero-bg:nth-of-type(1) { animation-delay: 0s; }
+.hero-bg:nth-of-type(2) { animation-delay: -6s; }
+.hero-bg:nth-of-type(3) { animation-delay: -12s; }
+@keyframes hero-slide {
+  0%, 27.78% { opacity: 1; }
+  33.33%, 94.44% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg { animation: none; opacity: 0; }
+  .hero-bg:nth-of-type(1) { opacity: 1; }
 }
 /* legibility scrim over the image */
 .hero-scrim {
@@ -943,7 +957,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .cta-inner { position: relative; z-index: 2; text-align: center; padding-block: clamp(64px, 9vw, 120px); }
 .cta-inner .display {
-  font-size: clamp(38px, 8vw, 104px);
+  font-size: clamp(32px, 6vw, 80px);
   margin: 0 auto 28px;
   max-width: 14ch;
 }
@@ -1360,17 +1374,17 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 /* Body content: gentle cross-fade with a small upward lift. */
 ::view-transition-old(root) {
-  animation: vt-page-out .20s ease both;
+  animation: vt-page-out .25s ease both;
 }
 ::view-transition-new(root) {
-  animation: vt-page-in .34s cubic-bezier(.2, .8, .2, 1) both;
+  animation: vt-page-in .25s ease both;
 }
 @keyframes vt-page-out {
   to { opacity: 0; }
 }
 @keyframes vt-page-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* Nav just cross-fades quickly between its transparent / scrolled states. */
