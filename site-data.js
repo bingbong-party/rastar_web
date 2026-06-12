@@ -88,13 +88,14 @@
   /* ---------------- 프로젝트 갤러리 (랜딩 + Projects) ---------------- */
   function galleryItem(p) {
     return '<article class="gallery-item"><a href="Project.html?id=' + encodeURIComponent(p.id) + '" class="gallery-link" aria-label="' + esc(p.title || "") + ' 상세 보기">' +
-      coverImg(p, "g-img") +
-      '<div class="gallery-overlay"><div class="g-inner">' +
-        '<span class="g-cat">' + esc(p.category || "") + '</span>' +
+      '<div class="g-thumb">' + coverImg(p, "g-img") +
+        (p.category ? '<span class="g-tag">' + esc(p.category) + '</span>' : '') +
+      '</div>' +
+      '<div class="g-meta">' +
         '<div class="g-ttl">' + esc(p.title || "") + '</div>' +
-        '<p class="g-desc">' + esc(p.summary || "") + '</p>' +
-        '<div class="g-date">' + esc(p.date || "") + (p.location ? " · " + esc(p.location) : "") + '</div>' +
-      '</div></div></a></article>';
+        '<div class="g-client">' + esc(p.client || "") + '</div>' +
+      '</div>' +
+    '</a></article>';
   }
   function renderGallery(sel, opts) {
     opts = opts || {};
