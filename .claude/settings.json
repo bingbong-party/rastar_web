@@ -9,7 +9,8 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8123/index.html)",
       "Bash(echo \"exit:$?\")",
       "Bash(node check11.mjs)",
-      "Bash(node check12.mjs)"
+      "Bash(node check12.mjs)",
+      "Bash(grep -n \"mdInline\\\\|mdToHtml\\\\|##\\\\|###\\\\|\\\\\\\\*\\\\\\\\*\\\\|^\\\\s*s = s.replace\" site-data.js)"
     ],
     "additionalDirectories": [
       "\\tmp",

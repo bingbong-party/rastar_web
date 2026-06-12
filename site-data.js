@@ -103,7 +103,16 @@
     if (!host) return;
     getData().then(function (d) {
       var list = pub(d.projects);
-      if (opts.featuredOnly) list = list.filter(function (p) { return p.featured; });
+      if (opts.featuredOnly) {
+        list = list.filter(function (p) { return p.featured; });
+        list.sort(function (a, b) {
+          var aHas = a.mainOrder != null, bHas = b.mainOrder != null;
+          if (aHas && bHas) return a.mainOrder - b.mainOrder;
+          if (aHas) return -1;
+          if (bHas) return 1;
+          return (a.title || "").localeCompare(b.title || "", "ko");
+        });
+      }
       if (opts.limit) list = list.slice(0, opts.limit);
       host.innerHTML = list.map(galleryItem).join("") ||
         '<p class="data-empty">표시할 프로젝트가 없습니다.</p>';

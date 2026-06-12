@@ -11,7 +11,7 @@
 
    사용하는 Notion 속성:
      ID, Name, Category, Date, Location, Client, Cover, Images,
-     Summary, Status, Written Date(date), Main_Visible(checkbox)
+     Summary, Status, Written Date(date), Main_Visible(checkbox), Main_Order(number)
 
    필요 환경변수:
      NOTION_API_KEY        - Notion Internal Integration 토큰
@@ -77,6 +77,11 @@ function selectVal(page, name) {
 }
 function checkboxVal(page, name) {
   return !!page.properties[name]?.checkbox;
+}
+function numberVal(page, name) {
+  const prop = page.properties[name];
+  if (!prop || prop.type !== "number") return null;
+  return prop.number;
 }
 function dateVal(page, name) {
   const prop = page.properties[name];
@@ -189,6 +194,7 @@ async function mapProject(page) {
     summary: richText(page, "Summary"),
     body,
     featured: checkboxVal(page, "Main_Visible"),
+    mainOrder: numberVal(page, "Main_Order"),
     status,
   };
 }
