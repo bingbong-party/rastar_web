@@ -2,7 +2,18 @@
   "permissions": {
     "allow": [
       "Bash(npm ls *)",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(pkill -f \"http.server 8123\")",
+      "Bash(\"/c/Users/user/AppData/Local/Programs/Python/Python312/python\" -m http.server 8123)",
+      "Bash(node check5.mjs)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8123/index.html)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(node check11.mjs)",
+      "Bash(node check12.mjs)"
+    ],
+    "additionalDirectories": [
+      "\\tmp",
+      "c:\\tmp"
     ]
   }
 }

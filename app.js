@@ -38,7 +38,7 @@
     var prev = document.querySelector("[data-carousel-prev]");
     var next = document.querySelector("[data-carousel-next]");
     function cardStep() {
-      var card = carousel.querySelector(".project-card");
+      var card = carousel.querySelector(".project-card, .gallery-item");
       if (!card) return 360;
       var gap = parseFloat(getComputedStyle(carousel).columnGap || "20") || 20;
       return card.getBoundingClientRect().width + gap;
