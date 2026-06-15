@@ -37,17 +37,15 @@
 
   /* ---- edit your menu items here ---- */
   var LINKS = [
-    { href: "Projects.html", label: "projects", kr: "프로젝트" },
-    { href: "Blog.html",     label: "insights", kr: "인사이트" }
+    { href: "/Projects.html", label: "projects", kr: "프로젝트" }
   ];
 
-  var HOME = "index.html";
-  var current = (location.pathname.split("/").pop() || HOME);
-  current = decodeURIComponent(current);
-  if (current === "") current = HOME;
+  var HOME = "/";
+  var current = decodeURIComponent(location.pathname);
+  if (current === "" || current === "/index.html") current = "/";
 
   function isActive(href) {
-    return decodeURIComponent(href) === current;
+    return href === current;
   }
 
   var arrowSm = '<span class="arrow" aria-hidden="true"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>';
@@ -69,11 +67,11 @@
     '<header class="nav' + (solid ? ' scrolled' : '') + '">\n' +
     '  <div class="container">\n' +
     '    <a class="brand" href="' + HOME + '" aria-label="Rabyeol Comms 홈">\n' +
-    '      <img class="logo logo-white" src="images/logo-white.png" alt="Rabyeol Comms"><img class="logo logo-red" src="images/logo-red.png" alt="Rabyeol Comms">\n' +
+    '      <img class="logo logo-white" src="/images/logo-white.png" alt="Rabyeol Comms"><img class="logo logo-red" src="/images/logo-red.png" alt="Rabyeol Comms">\n' +
     '    </a>\n' +
     '    <nav class="nav-links">\n      ' + deskLinks + '\n    </nav>\n' +
     '    <div class="nav-actions">\n' +
-    '      <a class="btn btn-nav-cta" href="Contact.html">문의하기 ' + arrowSm + '</a>\n' +
+    '      <a class="btn btn-nav-cta" href="/Contact.html">문의하기 ' + arrowSm + '</a>\n' +
     '      <button class="nav-toggle" aria-label="메뉴 열기">\n' +
     '        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>\n' +
     '      </button>\n' +
@@ -81,7 +79,7 @@
     '  </div>\n' +
     '</header>\n' +
     '<div class="mobile-menu">\n  ' + drawerLinks + '\n' +
-    '  <a class="btn btn-light" href="Contact.html">문의하기 ' + arrowMd + '</a>\n' +
+    '  <a class="btn btn-light" href="/Contact.html">문의하기 ' + arrowMd + '</a>\n' +
     '</div>';
 
   /* inject at the very top of <body> (nav is position:fixed, so DOM
