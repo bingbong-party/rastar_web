@@ -37,8 +37,7 @@
 
   /* ---- edit your menu items here ---- */
   var LINKS = [
-    { href: "/Projects.html", label: "projects", kr: "프로젝트" },
-    { href: "/Blog.html",     label: "insights", kr: "인사이트" }
+    { href: "/Projects.html", label: "projects", kr: "프로젝트" }
   ];
 
   var HOME = "/";
