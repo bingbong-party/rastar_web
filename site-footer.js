@@ -17,7 +17,7 @@
     '  <div class="container">\n' +
     '    <div class="footer-top">\n' +
     '      <div class="footer-brand-col">\n' +
-    '        <span class="brand"><img class="logo logo-white" src="images/logo-white.png" alt="Rabyeol Comms"></span>\n' +
+    '        <span class="brand"><img class="logo logo-white" src="/images/logo-white.png" alt="Rabyeol Comms"></span>\n' +
     '        <p class="footer-about">행사의 모든 순간을 한 단계 위로.<br>기획부터 현장 운영까지, 라별이 처음부터 끝까지 함께합니다.</p>\n' +
     '      </div>\n' +
     '      <div class="footer-legal">\n' +

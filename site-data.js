@@ -48,7 +48,7 @@
   function applyMeta(opts) {
     document.title = opts.title + " | 라별";
     var desc = opts.description || "";
-    var url = location.origin + location.pathname + (opts.id ? "?id=" + encodeURIComponent(opts.id) : "");
+    var url = location.origin + "/" + opts.kind + "/" + encodeURIComponent(opts.id) + ".html";
     var image = opts.image ? (location.origin + "/" + opts.image.replace(/^\/+/, "")) : "";
 
     var descEl = document.querySelector('meta[name="description"]');
@@ -87,7 +87,7 @@
 
   /* ---------------- 프로젝트 갤러리 (랜딩 + Projects) ---------------- */
   function galleryItem(p) {
-    return '<article class="gallery-item"><a href="Project.html?id=' + encodeURIComponent(p.id) + '" class="gallery-link" aria-label="' + esc(p.title || "") + ' 상세 보기">' +
+    return '<article class="gallery-item"><a href="/projects/' + encodeURIComponent(p.id) + '.html" class="gallery-link" aria-label="' + esc(p.title || "") + ' 상세 보기">' +
       '<div class="g-thumb">' + coverImg(p, "g-img") +
         (p.category ? '<span class="g-tag">' + esc(p.category) + '</span>' : '') +
       '</div>' +
@@ -141,7 +141,7 @@
         '<p class="data-empty">아직 게시된 글이 없습니다.</p>';
       Array.prototype.forEach.call(host.querySelectorAll(".post-card"), function (card) {
         card.addEventListener("click", function () {
-          location.href = "Blog Post.html?id=" + encodeURIComponent(card.getAttribute("data-id"));
+          location.href = "/insights/" + encodeURIComponent(card.getAttribute("data-id")) + ".html";
         });
       });
       fadeIn(host);
@@ -199,7 +199,7 @@
         '<h1>' + esc(post.title || "") + '</h1>' +
         '<div class="a-meta">' + esc(post.date || "") + (post.author ? " · " + esc(post.author) : "") + '</div>' +
         hero + mdToHtml(post.body);
-      applyMeta({ title: post.title || "블로그", description: post.summary, image: post.cover, id: post.id });
+      applyMeta({ title: post.title || "블로그", description: post.summary, image: post.cover, id: post.id, kind: "insights" });
       fadeIn(host);
     });
   }
@@ -232,7 +232,7 @@
         hero +
         '<div class="a-body">' + mdToHtml(proj.body) + '</div>' +
         extraImgs;
-      applyMeta({ title: proj.title || "프로젝트", description: proj.summary, image: proj.cover, id: proj.id });
+      applyMeta({ title: proj.title || "프로젝트", description: proj.summary, image: proj.cover, id: proj.id, kind: "projects" });
       fadeIn(host);
     });
   }

@@ -10,7 +10,8 @@
       "Bash(echo \"exit:$?\")",
       "Bash(node check11.mjs)",
       "Bash(node check12.mjs)",
-      "Bash(grep -n \"mdInline\\\\|mdToHtml\\\\|##\\\\|###\\\\|\\\\\\\\*\\\\\\\\*\\\\|^\\\\s*s = s.replace\" site-data.js)"
+      "Bash(grep -n \"mdInline\\\\|mdToHtml\\\\|##\\\\|###\\\\|\\\\\\\\*\\\\\\\\*\\\\|^\\\\s*s = s.replace\" site-data.js)",
+      "Bash(node -e \"const d=require\\('./content.json'\\); console.log\\('projects:', d.projects?.length\\); console.log\\(JSON.stringify\\(d.projects?.[0],null,2\\)\\); console.log\\('insights:', d.insights?.length\\); console.log\\(JSON.stringify\\(d.insights?.[0],null,2\\)\\)\")"
     ],
     "additionalDirectories": [
       "\\tmp",

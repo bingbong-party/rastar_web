@@ -4,8 +4,11 @@
   <url><loc>https://rastarcomms.com/Projects.html</loc></url>
   <url><loc>https://rastarcomms.com/Blog.html</loc></url>
   <url><loc>https://rastarcomms.com/Contact.html</loc></url>
-  <url><loc>https://rastarcomms.com/Project.html?id=1</loc></url>
-  <url><loc>https://rastarcomms.com/Blog%20Post.html?id=i1</loc></url>
-  <url><loc>https://rastarcomms.com/Blog%20Post.html?id=i2</loc></url>
-  <url><loc>https://rastarcomms.com/Blog%20Post.html?id=i3</loc></url>
+  <url><loc>https://rastarcomms.com/projects/1.html</loc></url>
+  <url><loc>https://rastarcomms.com/projects/2.html</loc></url>
+  <url><loc>https://rastarcomms.com/projects/3.html</loc></url>
+  <url><loc>https://rastarcomms.com/projects/4.html</loc></url>
+  <url><loc>https://rastarcomms.com/insights/i1.html</loc></url>
+  <url><loc>https://rastarcomms.com/insights/i2.html</loc></url>
+  <url><loc>https://rastarcomms.com/insights/i3.html</loc></url>
 </urlset>
