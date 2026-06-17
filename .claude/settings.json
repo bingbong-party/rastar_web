@@ -11,7 +11,18 @@
       "Bash(node check11.mjs)",
       "Bash(node check12.mjs)",
       "Bash(grep -n \"mdInline\\\\|mdToHtml\\\\|##\\\\|###\\\\|\\\\\\\\*\\\\\\\\*\\\\|^\\\\s*s = s.replace\" site-data.js)",
-      "Bash(node -e \"const d=require\\('./content.json'\\); console.log\\('projects:', d.projects?.length\\); console.log\\(JSON.stringify\\(d.projects?.[0],null,2\\)\\); console.log\\('insights:', d.insights?.length\\); console.log\\(JSON.stringify\\(d.insights?.[0],null,2\\)\\)\")"
+      "Bash(node -e \"const d=require\\('./content.json'\\); console.log\\('projects:', d.projects?.length\\); console.log\\(JSON.stringify\\(d.projects?.[0],null,2\\)\\); console.log\\('insights:', d.insights?.length\\); console.log\\(JSON.stringify\\(d.insights?.[0],null,2\\)\\)\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8080/index.html)",
+      "Bash(which chromium-cli *)",
+      "Read(//c//**)",
+      "Bash(node -e \"console.log\\(require.resolve\\('playwright'\\)\\)\")",
+      "Bash(find / -maxdepth 6 -iname \"playwright*\" -not -path \"*/node_modules/*/node_modules/*\" 2>/dev/null | head -20)",
+      "Bash(npm root *)",
+      "Bash(NODE_PATH=\"/c/Users/user/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/node_modules\" node /c/tmp/mobile-check.mjs)",
+      "Bash(cp /c/tmp/mobile-check.mjs \"/c/Users/user/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/mobile-check.mjs\")",
+      "Bash(node mobile-check.mjs)",
+      "Bash(cp /c/tmp/mobile-check2.mjs \"/c/Users/user/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/mobile-check2.mjs\")",
+      "Bash(node mobile-check2.mjs)"
     ],
     "additionalDirectories": [
       "\\tmp",

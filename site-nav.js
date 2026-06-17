@@ -80,7 +80,8 @@
     '</header>\n' +
     '<div class="mobile-menu">\n  ' + drawerLinks + '\n' +
     '  <a class="btn btn-light" href="/Contact.html">문의하기 ' + arrowMd + '</a>\n' +
-    '</div>';
+    '</div>\n' +
+    '<div class="mobile-backdrop"></div>';
 
   /* inject at the very top of <body> (nav is position:fixed, so DOM
      order doesn't affect layout — it always sits at the top visually) */

@@ -322,23 +322,39 @@ ul { margin: 0; padding: 0; list-style: none; }
 .nav-toggle { display: none; width: 44px; height: 44px; place-items: center; color: inherit; }
 .nav-toggle svg { width: 26px; height: 26px; }
 
-/* mobile drawer */
+/* mobile drawer — compact dropdown panel under the nav (not a full-screen
+   overlay), so it doesn't leave a large empty area when there are few links */
 .mobile-menu {
   position: fixed;
-  inset: 0;
+  top: var(--nav-h);
+  left: 0; right: 0;
   z-index: 99;
   background: var(--red);
   color: #fff;
-  padding: calc(var(--nav-h) + 20px) var(--gutter) 40px;
+  padding: 8px var(--gutter) 32px;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  transform: translateY(-100%);
+  border-radius: 0 0 28px 28px;
+  box-shadow: 0 24px 48px -16px rgba(0,0,0,.35);
+  transform: translateY(-16px);
   opacity: 0;
   pointer-events: none;
   transition: transform .35s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
 }
 .mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
+/* dims the page behind the dropdown; tapping it closes the menu */
+.mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 98;
+  background: rgba(15, 12, 11, .45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+.mobile-backdrop.open { opacity: 1; pointer-events: auto; }
 .mobile-menu a {
   font-family: var(--font-display);
   font-weight: 800;
@@ -1254,7 +1270,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .post-body .p-more .go { transition: transform .2s ease; }
 
 /* blog post detail */
-.article { max-width: 760px; margin: 0 auto; padding-block: clamp(48px, 6vw, 80px); }
+.article { max-width: 760px; margin: 0 auto; padding-block: clamp(48px, 6vw, 80px); padding-inline: var(--gutter); }
 .article .a-cat { color: var(--red); font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
 .article h1 { font-weight: 800; font-size: clamp(30px, 4.5vw, 52px); letter-spacing: -0.035em; line-height: 1.12; margin: 16px 0 18px; }
 .article .a-meta { font-family: var(--font-mono); font-size: 13px; color: var(--muted-2); letter-spacing: .3px; padding-bottom: 28px; border-bottom: 1px solid var(--line); }
@@ -1345,11 +1361,11 @@ ul { margin: 0; padding: 0; list-style: none; }
 .g-desc, .g-cat, .g-date { display: none; }
 
 @media (max-width: 980px) {
-  .gallery { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .gallery, .gallery.gallery-4 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .gallery-item.wide { grid-column: span 2; }
 }
 @media (max-width: 600px) {
-  .gallery { grid-template-columns: 1fr; }
+  .gallery, .gallery.gallery-4 { grid-template-columns: 1fr; }
   .gallery-item, .gallery-item.tall, .gallery-item.wide { grid-column: auto; }
   .gallery-item.tall .g-thumb, .gallery-item.wide .g-thumb { aspect-ratio: 4 / 3; }
 }
@@ -1372,15 +1388,25 @@ ul { margin: 0; padding: 0; list-style: none; }
   .nav-links, .nav-actions .btn-nav-cta { display: none; }
   .nav-toggle { display: grid; }
   .area-grid { grid-template-columns: 1fr; }
-  .pkg-grid { grid-template-columns: 1fr; }
-  .pkg-card, .pkg-card:nth-child(odd) { border-right: none; }
+  .pkg-grid { grid-template-columns: repeat(2, 1fr); }
+  .pkg-card:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.14); }
+  .pkg-card:nth-child(even) { border-right: none; }
+  .pkg-card { border-bottom: 1px solid rgba(255,255,255,.14); }
+  .pkg-card:last-child { grid-column: 1 / -1; border-bottom: none; }
   .footer-top { align-items: flex-start; }
   .footer-legal { text-align: left; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
   .field-row { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: 1fr; }
   .hero-headline .outline { -webkit-text-stroke: 1.5px rgba(255,255,255,.85); }
+  .cap-head { gap: 12px; }
+  .cap-head .cap-no { width: auto; }
   .cap-body-content { padding-left: clamp(20px, 6vw, 34px); }
+
+  /* FAQ: always expanded, no collapse/expand on touch (no hover state) */
+  .faq-a, .faq-item:hover .faq-a, .faq-item.open .faq-a { grid-template-rows: 1fr; }
+  .faq-q { cursor: default; }
+  .faq-q .q-ico { display: none; }
 }
 
 /* =====================================================================

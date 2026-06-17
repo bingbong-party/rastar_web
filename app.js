@@ -20,9 +20,11 @@
   /* ---- mobile menu ---- */
   var toggle = document.querySelector(".nav-toggle");
   var menu = document.querySelector(".mobile-menu");
+  var backdrop = document.querySelector(".mobile-backdrop");
   function setMenu(open) {
     if (!menu) return;
     menu.classList.toggle("open", open);
+    if (backdrop) backdrop.classList.toggle("open", open);
     document.body.style.overflow = open ? "hidden" : "";
   }
   if (toggle) toggle.addEventListener("click", function () {
@@ -31,6 +33,7 @@
   if (menu) menu.querySelectorAll("a").forEach(function (a) {
     a.addEventListener("click", function () { setMenu(false); });
   });
+  if (backdrop) backdrop.addEventListener("click", function () { setMenu(false); });
 
   /* ---- project carousel ---- */
   var carousel = document.querySelector("[data-carousel]");
