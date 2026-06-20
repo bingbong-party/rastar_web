@@ -322,29 +322,27 @@ ul { margin: 0; padding: 0; list-style: none; }
 .nav-toggle { display: none; width: 44px; height: 44px; place-items: center; color: inherit; }
 .nav-toggle svg { width: 26px; height: 26px; }
 
-/* mobile drawer — compact dropdown panel under the nav (not a full-screen
-   overlay), so it doesn't leave a large empty area when there are few links */
+/* mobile drawer — slides in from the right, white background */
 .mobile-menu {
   position: fixed;
-  top: var(--nav-h);
-  left: 0; right: 0;
+  top: 0; right: 0; bottom: 0;
+  width: min(62vw, 230px);
   z-index: 99;
-  background: var(--red);
-  color: #fff;
-  padding: 8px var(--gutter) 32px;
+  background: #fff;
+  color: var(--ink);
+  padding: calc(var(--nav-h) + 36px) 28px 40px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  border-radius: 0 0 28px 28px;
-  box-shadow: 0 24px 48px -16px rgba(0,0,0,.35);
-  transform: translateY(-16px);
+  gap: 0;
+  box-shadow: -16px 0 48px rgba(0,0,0,.18);
+  transform: translateX(100%);
   opacity: 0;
   pointer-events: none;
-  transition: transform .35s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
+  transition: transform .38s cubic-bezier(.25,.8,.2,1), opacity .25s ease;
 }
-.mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+.mobile-menu.open { transform: translateX(0); opacity: 1; pointer-events: auto; }
 
-/* dims the page behind the dropdown; tapping it closes the menu */
+/* dims the rest of the page; tapping it closes the menu */
 .mobile-backdrop {
   position: fixed;
   inset: 0;
@@ -355,17 +353,53 @@ ul { margin: 0; padding: 0; list-style: none; }
   transition: opacity .3s ease;
 }
 .mobile-backdrop.open { opacity: 1; pointer-events: auto; }
-.mobile-menu a {
+
+/* nav header turns solid white while menu is open so logo/X are visible */
+.nav.menu-open {
+  background: #fff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+  color: var(--ink);
+}
+.nav.menu-open .logo-white { display: none; }
+.nav.menu-open .logo-red { display: block; }
+.nav.menu-open .nav-toggle { color: var(--ink); }
+
+/* nav links */
+.mobile-menu > a:not(.btn) {
   font-family: var(--font-display);
   font-weight: 800;
-  text-transform: uppercase;
-  font-size: clamp(34px, 11vw, 56px);
-  letter-spacing: -0.02em;
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(255,255,255,.2);
+  text-transform: none;
+  font-size: clamp(26px, 7vw, 32px);
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  transition: color .2s ease;
 }
-.mobile-menu .mm-kr { font-family: var(--font-sans); font-size: 16px; opacity: .7; display: block; letter-spacing: 0; text-transform: none; font-weight: 500; margin-top: 2px; }
-.mobile-menu .btn { margin-top: 28px; align-self: flex-start; }
+.mobile-menu > a:not(.btn):hover { color: var(--red); }
+.mobile-menu .mm-kr { display: none; }
+
+/* 문의하기 — red brand button on white panel */
+.mobile-menu .btn {
+  margin-top: 32px;
+  align-self: flex-end;
+  background: var(--red);
+  color: #fff;
+  font-size: 14px;
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: none;
+}
+.mobile-menu .btn .arrow { background: transparent; color: #fff; width: 15px; height: 15px; }
+.mobile-menu .btn:hover { background: var(--red-deep); }
+
+/* hamburger → X when menu open */
+.nav-toggle .icon-close { display: none; }
+.nav-toggle.open .icon-menu { display: none; }
+.nav-toggle.open .icon-close { display: block; }
 
 /* =====================================================================
    HERO
@@ -454,6 +488,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .hero-headline .row { display: block; }
 .hero-headline .tint { color: rgba(255,255,255,.82); }
 
+.m-br { display: none; }
 .hero-sub {
   margin-top: clamp(20px, 2.6vw, 32px);
   max-width: 620px;
@@ -1299,9 +1334,13 @@ ul { margin: 0; padding: 0; list-style: none; }
   cursor: pointer;
   background: #fff;
   border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
 }
 .gallery-link {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   color: inherit;
   text-decoration: none;
 }
@@ -1329,6 +1368,9 @@ ul { margin: 0; padding: 0; list-style: none; }
 .g-meta {
   padding: 16px 18px;
   text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .g-ttl {
   font-weight: 700;
@@ -1338,7 +1380,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   color: var(--ink);
 }
 .g-client {
-  margin-top: 6px;
+  margin-top: auto;
+  padding-top: 6px;
   color: #6b6360;
   font-size: 12.5px;
   letter-spacing: -0.01em;
@@ -1365,9 +1408,12 @@ ul { margin: 0; padding: 0; list-style: none; }
   .gallery-item.wide { grid-column: span 2; }
 }
 @media (max-width: 600px) {
-  .gallery, .gallery.gallery-4 { grid-template-columns: 1fr; }
+  .gallery, .gallery.gallery-4 { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .gallery-item, .gallery-item.tall, .gallery-item.wide { grid-column: auto; }
   .gallery-item.tall .g-thumb, .gallery-item.wide .g-thumb { aspect-ratio: 4 / 3; }
+  .g-meta { padding: 10px 12px 12px; }
+  .g-ttl { font-size: 12.5px; }
+  .g-client { font-size: 11px; margin-top: 3px; }
 }
 
 /* =====================================================================
@@ -1387,26 +1433,67 @@ ul { margin: 0; padding: 0; list-style: none; }
 @media (max-width: 720px) {
   .nav-links, .nav-actions .btn-nav-cta { display: none; }
   .nav-toggle { display: grid; }
-  .area-grid { grid-template-columns: 1fr; }
+
+  /* --- Projects gallery: 2-col compact cards --- */
+  /* (handled in 600px block) */
+
+  /* --- What We Cover: 2×2 compact icon-tile cards, desc hidden on mobile --- */
+  .area-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .area-card { min-height: 0; padding: 20px 16px 22px; }
+  .area-ico { width: 36px; height: 36px; margin: 14px 0 0; }
+  .area-card .a-ttl { font-size: 15px; margin-top: 14px; line-height: 1.3; }
+  .area-card .a-en { font-size: 10px; margin-top: 5px; }
+  .area-card .a-desc { display: none; }
+
+  /* --- Packages: 2×2 with 5th full-width using interior 2-col split --- */
   .pkg-grid { grid-template-columns: repeat(2, 1fr); }
+  .pkg-card { padding: 18px 14px; border-bottom: 1px solid rgba(255,255,255,.14); }
+  .pkg-card .pkg-en { margin-top: 16px; font-size: 13px; }
+  .pkg-card .pkg-ttl { font-size: clamp(18px, 4.5vw, 22px); }
   .pkg-card:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.14); }
   .pkg-card:nth-child(even) { border-right: none; }
-  .pkg-card { border-bottom: 1px solid rgba(255,255,255,.14); }
-  .pkg-card:last-child { grid-column: 1 / -1; border-bottom: none; }
+  .pkg-card:last-child {
+    grid-column: 1 / -1;
+    border-bottom: none;
+    padding-right: calc(50% + 6px);
+    min-height: 175px;
+  }
+  .pkg-card:last-child .pkg-bar { display: none; }
+  .pkg-card:last-child .pkg-feat {
+    position: absolute;
+    right: 14px;
+    top: 62px;
+    width: calc(50% - 20px);
+    margin-top: 0;
+  }
+  .pkg-card:last-child .pkg-scale { display: none; }
+  .pkg-scale { display: none; }
+
+  /* --- FAQ: always expanded, no toggle on mobile --- */
+  .faq-a, .faq-item:hover .faq-a, .faq-item.open .faq-a { grid-template-rows: 1fr; }
+  .faq-q { cursor: default; gap: 12px; padding: 18px 0; }
+  .faq-q .q-txt { font-size: 15px; }
+  .faq-q .q-ico { display: none; }
+  .faq-a p { padding: 0 0 20px 0; }
+
+  /* --- Cap tags: smaller so 3 fit on one line --- */
+  .cap-tags { gap: 6px; }
+  .cap-tag { font-size: 9.5px; padding: 5px 10px; }
+
+  /* --- Misc --- */
   .footer-top { align-items: flex-start; }
   .footer-legal { text-align: left; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
   .field-row { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: 1fr; }
+  .hero-headline { line-height: 1.08; }
   .hero-headline .outline { -webkit-text-stroke: 1.5px rgba(255,255,255,.85); }
+  .hero-sub-lead { display: none; }
+  .m-br { display: inline; }
   .cap-head { gap: 12px; }
   .cap-head .cap-no { width: auto; }
-  .cap-body-content { padding-left: clamp(20px, 6vw, 34px); }
-
-  /* FAQ: always expanded, no collapse/expand on touch (no hover state) */
-  .faq-a, .faq-item:hover .faq-a, .faq-item.open .faq-a { grid-template-rows: 1fr; }
-  .faq-q { cursor: default; }
-  .faq-q .q-ico { display: none; }
+  .cap-body-content { padding-left: clamp(20px, 6vw, 34px); padding-right: 16px; }
+  .hero-stats { flex-direction: column; gap: 10px; }
 }
 
 /* =====================================================================
