@@ -22,11 +22,28 @@
       "Bash(cp /c/tmp/mobile-check.mjs \"/c/Users/user/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/mobile-check.mjs\")",
       "Bash(node mobile-check.mjs)",
       "Bash(cp /c/tmp/mobile-check2.mjs \"/c/Users/user/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/mobile-check2.mjs\")",
-      "Bash(node mobile-check2.mjs)"
+      "Bash(node mobile-check2.mjs)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/index.html)",
+      "Bash(npx http-server *)",
+      "Bash(npx ngrok *)",
+      "Bash(npx localtunnel *)",
+      "Bash(jobs -l)",
+      "Bash(node c:/tmp/hero-check2.mjs)",
+      "Bash(node hero2.mjs)",
+      "Bash(node hero3.mjs)",
+      "Bash(node hero5.mjs)",
+      "Bash(node sections.mjs)",
+      "Bash(node verify.mjs)",
+      "Bash(node desk-check.mjs)",
+      "Bash(node pkg5.mjs)",
+      "Bash(node captags.mjs)",
+      "Bash(node pkgcap.mjs)",
+      "Bash(node pkg5b.mjs)"
     ],
     "additionalDirectories": [
       "\\tmp",
-      "c:\\tmp"
+      "c:\\tmp",
+      "c:\\Users\\user\\AppData\\Local\\npm-cache\\_npx\\e41f203b7505f1fb"
     ]
   }
 }

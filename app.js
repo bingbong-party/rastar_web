@@ -25,6 +25,8 @@
     if (!menu) return;
     menu.classList.toggle("open", open);
     if (backdrop) backdrop.classList.toggle("open", open);
+    if (toggle) toggle.classList.toggle("open", open);
+    if (nav) nav.classList.toggle("menu-open", open);
     document.body.style.overflow = open ? "hidden" : "";
   }
   if (toggle) toggle.addEventListener("click", function () {
