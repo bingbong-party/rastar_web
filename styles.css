@@ -1403,6 +1403,30 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .g-desc, .g-cat, .g-date { display: none; }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 32px;
+}
+.page-btn {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: #fff;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.page-btn:hover:not(:disabled) { border-color: var(--ink); }
+.page-btn.active { background: var(--red); border-color: var(--red); color: #fff; }
+.page-btn:disabled { opacity: .35; cursor: default; }
+
 @media (max-width: 980px) {
   .gallery, .gallery.gallery-4 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .gallery-item.wide { grid-column: span 2; }

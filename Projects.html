@@ -36,6 +36,7 @@
 <section class="section" style="padding-top:clamp(40px,5vw,64px)">
   <div class="container">
     <div class="gallery" id="gallery"><!-- content.json 에서 렌더링 --></div>
+    <div class="pagination" id="gallery-pagination"></div>
   </div>
 </section>
 
@@ -56,6 +57,6 @@
 <script src="site-data.js"></script>
 <script src="app.js"></script>
 <script src="consult-modal.js"></script>
-<script>RabyeolData.renderGallery("#gallery");</script>
+<script>RabyeolData.renderGallery("#gallery", { pageSize: 6, paginationSel: "#gallery-pagination" });</script>
 </body>
 </html>

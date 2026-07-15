@@ -10,7 +10,7 @@
    해당 로컬 경로를 가리키도록 변환된다.
 
    사용하는 Notion 속성:
-     ID, Name, Category, Date, Location, Client, Cover, Images,
+     ID, Name, Category, Date(date, 행사날짜), Location, Client, Cover, Images,
      Summary, Status, Written Date(date), Main_Visible(checkbox), Main_Order(number)
 
    필요 환경변수:
@@ -25,6 +25,10 @@ import { NotionToMarkdown } from "notion-to-md";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+
+const execFileAsync = promisify(execFile);
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CONTENT_PATH = path.join(ROOT, "content.json");
@@ -56,8 +60,8 @@ n2m.setCustomTransformer("image", async (block) => {
   if (!url) return "";
   bodyImageIndex += 1;
   const dest = path.join(currentImageDir, `body-${bodyImageIndex}${extFromUrl(url)}`);
-  await downloadFile(url, dest);
-  const rel = path.relative(ROOT, dest).split(path.sep).join("/");
+  const finalPath = await downloadFile(url, dest);
+  const rel = path.relative(ROOT, finalPath).split(path.sep).join("/");
   const caption = (img.caption || []).map((t) => t.plain_text).join("");
   return `![${caption}](${rel})`;
 });
@@ -88,6 +92,13 @@ function dateVal(page, name) {
   if (!prop || prop.type !== "date" || !prop.date) return "";
   return prop.date.start || "";
 }
+function dateRangeVal(page, name) {
+  const prop = page.properties[name];
+  if (!prop || prop.type !== "date" || !prop.date) return "";
+  const start = prop.date.start || "";
+  const end = prop.date.end || "";
+  return end && end !== start ? `${start} ~ ${end}` : start;
+}
 function fileUrls(page, name) {
   const prop = page.properties[name];
   if (!prop || prop.type !== "files") return [];
@@ -102,12 +113,29 @@ function extFromUrl(url) {
   const ext = path.extname(clean);
   return ext || ".jpg";
 }
+// 브라우저가 <img> 로 렌더링하지 못하는 HEIC/HEIF(아이폰 기본 사진 포맷)를
+// jpg로 변환한다. 변환 실패 시(도구 미설치 등) 원본 경로를 그대로 반환한다.
+async function convertIfHeic(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  if (ext !== ".heic" && ext !== ".heif") return filePath;
+  const jpgPath = filePath.slice(0, -ext.length) + ".jpg";
+  try {
+    await execFileAsync("heif-convert", [filePath, jpgPath]);
+    await fs.unlink(filePath);
+    return jpgPath;
+  } catch (err) {
+    console.warn(`[warn] HEIC 변환 실패, 원본 유지: ${filePath} (${err.message})`);
+    return filePath;
+  }
+}
+// 다운로드한 파일의 최종 경로를 반환한다(HEIC는 변환 후 .jpg 경로로 바뀔 수 있음).
 async function downloadFile(url, destPath) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`이미지 다운로드 실패 (${res.status}): ${url}`);
   const buf = Buffer.from(await res.arrayBuffer());
   await fs.mkdir(path.dirname(destPath), { recursive: true });
   await fs.writeFile(destPath, buf);
+  return convertIfHeic(destPath);
 }
 
 /* ---------------- 본문(Markdown) 정리 ----------------
@@ -161,16 +189,16 @@ async function mapProject(page) {
   const coverUrls = fileUrls(page, "Cover");
   if (coverUrls[0]) {
     const dest = path.join(dir, `cover${extFromUrl(coverUrls[0])}`);
-    await downloadFile(coverUrls[0], dest);
-    cover = path.relative(ROOT, dest).split(path.sep).join("/");
+    const finalPath = await downloadFile(coverUrls[0], dest);
+    cover = path.relative(ROOT, finalPath).split(path.sep).join("/");
   }
 
   const images = [];
   const imageUrls = fileUrls(page, "Images");
   for (let i = 0; i < imageUrls.length; i++) {
     const dest = path.join(dir, `img-${i + 1}${extFromUrl(imageUrls[i])}`);
-    await downloadFile(imageUrls[i], dest);
-    images.push(path.relative(ROOT, dest).split(path.sep).join("/"));
+    const finalPath = await downloadFile(imageUrls[i], dest);
+    images.push(path.relative(ROOT, finalPath).split(path.sep).join("/"));
   }
 
   currentImageDir = dir;
@@ -185,7 +213,7 @@ async function mapProject(page) {
     id,
     title: richText(page, "Name"),
     category: selectVal(page, "Category"),
-    date: richText(page, "Date"),
+    date: dateRangeVal(page, "Date"),
     writtenDate: dateVal(page, "Written Date"),
     location: richText(page, "Location"),
     client: richText(page, "Client"),

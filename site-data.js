@@ -123,9 +123,50 @@
         });
       }
       if (opts.limit) list = list.slice(0, opts.limit);
-      host.innerHTML = list.map(galleryItem).join("") ||
-        '<p class="data-empty">표시할 프로젝트가 없습니다.</p>';
-      fadeIn(host);
+
+      var pageHost = opts.paginationSel ? document.querySelector(opts.paginationSel) : null;
+      var pageSize = opts.pageSize;
+      var page = 1;
+
+      function renderPage() {
+        var pageList = list;
+        var totalPages = 1;
+        if (pageSize) {
+          totalPages = Math.max(1, Math.ceil(list.length / pageSize));
+          page = Math.min(Math.max(page, 1), totalPages);
+          pageList = list.slice((page - 1) * pageSize, page * pageSize);
+        }
+        host.innerHTML = pageList.map(galleryItem).join("") ||
+          '<p class="data-empty">표시할 프로젝트가 없습니다.</p>';
+        fadeIn(host);
+        if (pageHost) renderPagination(totalPages);
+      }
+
+      function renderPagination(totalPages) {
+        if (totalPages <= 1) { pageHost.innerHTML = ""; return; }
+        var btns = [
+          '<button type="button" class="page-btn page-nav" data-page="' + (page - 1) + '"' +
+            (page === 1 ? " disabled" : "") + ' aria-label="이전 페이지">‹</button>'
+        ];
+        for (var i = 1; i <= totalPages; i++) {
+          btns.push('<button type="button" class="page-btn' + (i === page ? " active" : "") +
+            '" data-page="' + i + '"' + (i === page ? ' aria-current="page"' : "") + '>' + i + '</button>');
+        }
+        btns.push('<button type="button" class="page-btn page-nav" data-page="' + (page + 1) + '"' +
+          (page === totalPages ? " disabled" : "") + ' aria-label="다음 페이지">›</button>');
+        pageHost.innerHTML = btns.join("");
+        Array.prototype.forEach.call(pageHost.querySelectorAll(".page-btn"), function (btn) {
+          btn.addEventListener("click", function () {
+            var p = parseInt(btn.getAttribute("data-page"), 10);
+            if (!p || p === page || p < 1 || p > totalPages) return;
+            page = p;
+            renderPage();
+            host.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+        });
+      }
+
+      renderPage();
     });
   }
 
