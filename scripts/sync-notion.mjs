@@ -25,10 +25,7 @@ import { NotionToMarkdown } from "notion-to-md";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { execFile } from "node:child_process";
-import { promisify } from "node:util";
-
-const execFileAsync = promisify(execFile);
+import heicConvert from "heic-convert";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CONTENT_PATH = path.join(ROOT, "content.json");
@@ -114,13 +111,17 @@ function extFromUrl(url) {
   return ext || ".jpg";
 }
 // 브라우저가 <img> 로 렌더링하지 못하는 HEIC/HEIF(아이폰 기본 사진 포맷)를
-// jpg로 변환한다. 변환 실패 시(도구 미설치 등) 원본 경로를 그대로 반환한다.
+// jpg로 변환한다. libheif를 WASM으로 내장한 순수 JS 디코더를 쓰므로
+// 러너에 시스템 코덱(HEVC 등)이 없어도 안정적으로 동작한다.
+// 변환 실패 시 원본 경로를 그대로 반환한다.
 async function convertIfHeic(filePath) {
   const ext = path.extname(filePath).toLowerCase();
   if (ext !== ".heic" && ext !== ".heif") return filePath;
   const jpgPath = filePath.slice(0, -ext.length) + ".jpg";
   try {
-    await execFileAsync("heif-convert", [filePath, jpgPath]);
+    const input = await fs.readFile(filePath);
+    const output = await heicConvert({ buffer: input, format: "JPEG", quality: 0.9 });
+    await fs.writeFile(jpgPath, output);
     await fs.unlink(filePath);
     return jpgPath;
   } catch (err) {

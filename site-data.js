@@ -161,7 +161,10 @@
             if (!p || p === page || p < 1 || p > totalPages) return;
             page = p;
             renderPage();
-            host.scrollIntoView({ behavior: "smooth", block: "start" });
+            // 고정 헤더(--nav-h)에 첫 줄이 가리지 않도록 여유를 두고 스크롤한다.
+            var navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 64;
+            var top = host.getBoundingClientRect().top + window.pageYOffset - navH - 16;
+            window.scrollTo({ top: top, behavior: "smooth" });
           });
         });
       }
