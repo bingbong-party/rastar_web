@@ -38,7 +38,9 @@
       "Bash(node pkg5.mjs)",
       "Bash(node captags.mjs)",
       "Bash(node pkgcap.mjs)",
-      "Bash(node pkg5b.mjs)"
+      "Bash(node pkg5b.mjs)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
     ],
     "additionalDirectories": [
       "\\tmp",

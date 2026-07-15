@@ -112,6 +112,15 @@
           if (bHas) return 1;
           return (a.title || "").localeCompare(b.title || "", "ko");
         });
+      } else {
+        // 최신순(내림차순): 행사 날짜(date)가 있는 항목을 우선하고, 없는 항목은 뒤로 보낸다.
+        list = list.slice().sort(function (a, b) {
+          var ad = a.date || "", bd = b.date || "";
+          if (ad === bd) return 0;
+          if (!ad) return 1;
+          if (!bd) return -1;
+          return ad < bd ? 1 : -1;
+        });
       }
       if (opts.limit) list = list.slice(0, opts.limit);
       host.innerHTML = list.map(galleryItem).join("") ||
