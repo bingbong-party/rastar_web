@@ -26,6 +26,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import heicConvert from "heic-convert";
+import sharp from "sharp";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CONTENT_PATH = path.join(ROOT, "content.json");
@@ -129,6 +130,30 @@ async function convertIfHeic(filePath) {
     return filePath;
   }
 }
+const MAX_IMAGE_WIDTH = 1600;
+
+// Notion에 올라오는 원본 사진(폰 카메라 6000px대, 수 MB)을 그대로 쓰면
+// 갤러리 썸네일 하나 보려고 원본 전체를 내려받게 되어 로딩이 느려진다.
+// 표시에 필요한 폭 이상은 리사이즈하고 재압축한다. 실패 시 원본을 유지한다.
+async function optimizeImage(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  if (![".jpg", ".jpeg", ".png", ".webp"].includes(ext)) return filePath;
+  try {
+    const original = await fs.readFile(filePath);
+    const img = sharp(original);
+    const meta = await img.metadata();
+    const pipeline = meta.width > MAX_IMAGE_WIDTH ? img.resize({ width: MAX_IMAGE_WIDTH }) : img;
+    let output;
+    if (ext === ".png") output = await pipeline.png({ compressionLevel: 9 }).toBuffer();
+    else if (ext === ".webp") output = await pipeline.webp({ quality: 82 }).toBuffer();
+    else output = await pipeline.jpeg({ quality: 82, mozjpeg: true }).toBuffer();
+    if (output.length < original.length) await fs.writeFile(filePath, output);
+    return filePath;
+  } catch (err) {
+    console.warn(`[warn] 이미지 최적화 실패, 원본 유지: ${filePath} (${err.message})`);
+    return filePath;
+  }
+}
 // 다운로드한 파일의 최종 경로를 반환한다(HEIC는 변환 후 .jpg 경로로 바뀔 수 있음).
 async function downloadFile(url, destPath) {
   const res = await fetch(url);
@@ -136,7 +161,8 @@ async function downloadFile(url, destPath) {
   const buf = Buffer.from(await res.arrayBuffer());
   await fs.mkdir(path.dirname(destPath), { recursive: true });
   await fs.writeFile(destPath, buf);
-  return convertIfHeic(destPath);
+  const resolvedPath = await convertIfHeic(destPath);
+  return optimizeImage(resolvedPath);
 }
 
 /* ---------------- 본문(Markdown) 정리 ----------------
