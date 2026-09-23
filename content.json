@@ -1,7 +1,23 @@
 {
   "version": 2,
-  "savedAt": "2026-08-21T03:26:08.068Z",
+  "savedAt": "2026-09-23T03:11:35.517Z",
   "projects": [
+    {
+      "id": "27",
+      "title": "2026 가톨릭대학교 다맛제",
+      "category": "축제",
+      "date": "2026-09-17",
+      "writtenDate": "",
+      "location": "경기도 부천시 원미구 지봉로 43",
+      "client": "가톨릭대학교",
+      "cover": "projects_images/27/cover.jpg",
+      "images": [],
+      "summary": "",
+      "body": "",
+      "featured": false,
+      "mainOrder": null,
+      "status": "published"
+    },
     {
       "id": "26",
       "title": "2026 가을 가톨릭대학교 학위수여식",
