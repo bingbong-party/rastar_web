@@ -88,8 +88,8 @@ ${projects.map((p) => `      <article class="featured-card">
 </section>`;
 }
 
-// 테스트: btl 페이지만 상단 타이틀·elements 섹션·푸터를 블루로, CTA 는 밝은 띠로
-const BLUE_HERO_TEST = new Set(["btl"]);
+// 서비스 페이지: 상단 타이틀·elements 섹션·푸터를 블루로, CTA 는 밝은 띠로
+const BLUE_HERO_TEST = new Set(["btl", "festival", "mice"]);
 
 export default PAGES.map((pg) => ({
   file: `${pg.key}.html`,
