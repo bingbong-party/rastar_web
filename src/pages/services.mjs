@@ -129,7 +129,7 @@ ${BLUE_HERO_TEST.has(pg.key)
     </div>
   </div>
 </section>
-<section class="wrap" style="padding-top:clamp(28px,2.6vw,40px);padding-bottom:clamp(80px,10vw,170px)">
+<section class="wrap elements-list">
   <div class="split">
     <div></div>
     <div class="elements">
@@ -142,5 +142,5 @@ ${pg.elements.map(([no, title, tags, desc]) => `      <div class="element">
   </div>
 </section>${BLUE_HERO_TEST.has(pg.key) ? "</div>" : ""}
 
-${cta({ ...pg.cta, divided: BLUE_HERO_TEST.has(pg.key) })}`,
+${cta({ ...pg.cta, continued: BLUE_HERO_TEST.has(pg.key) })}`,
 }));
