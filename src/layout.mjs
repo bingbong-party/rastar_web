@@ -9,7 +9,7 @@ export const SITE_NAME = "라별";
 export const DEFAULT_DESCRIPTION =
   "라별은 브랜드 액티베이션·페스티벌·MICE 행사를 기획부터 공간 연출, 현장 운영까지 하나의 흐름으로 설계하는 전문 행사 솔루션 에이전시입니다.";
 export const DEFAULT_IMAGE = `${SITE_ORIGIN}/assets/img/og.jpg`;
-export const ASSET_VERSION = "20261001-28";
+export const ASSET_VERSION = "20261001-29";
 
 export const STATS = [
   { label: "누적 행사 운영", value: "1,200+", note: "" },
@@ -101,29 +101,25 @@ export function menu() {
 </div>`;
 }
 
-export function cta({ title, text, button = "프로젝트 문의하기", light = false, continued = false, card = false }) {
-  const cls = ["cta", light && "cta-light", continued && "cta-continued", card && "cta-card"].filter(Boolean).join(" ");
-  const inner = `<h2>${esc(title)}</h2>
+export function cta({ title, text, button = "프로젝트 문의하기", light = false }) {
+  return `<section class="cta${light ? " cta-light" : ""}"${light ? "" : " data-dark-head"}>
+  <div class="wrap">
+    <h2>${esc(title)}</h2>
     <p>${esc(text)}</p>
     <div class="actions">
       <button type="button" class="btn-cta" data-contact>${esc(button)}</button>
       <a class="btn-line" href="/brochure.html">서비스소개서 다운로드</a>
-    </div>`;
-  return `<section class="${cls}"${light ? "" : " data-dark-head"}>
-  <div class="wrap">
-    ${card ? `<div class="cta-box">
-    ${inner}
-    </div>` : inner}
+    </div>
   </div>
 </section>`;
 }
 
-export function footer({ bordered = false, dark = false } = {}) {
-  return `<footer class="site-footer${bordered ? " bordered" : ""}${dark ? " dark" : ""}"${dark ? " data-dark-head" : ""}>
+export function footer({ bordered = false } = {}) {
+  return `<footer class="site-footer${bordered ? " bordered" : ""}">
   <div class="wrap">
     <div class="grid">
       <div>
-        <img class="footer-logo logo-dark" src="/assets/img/rastar-blue.png" alt="rastar"><img class="footer-logo logo-light" src="/assets/img/rastar-light.png" alt="rastar">
+        <img class="footer-logo" src="/assets/img/rastar-blue.png" alt="rastar">
         <p class="tagline">행사의 모든 순간을 한 단계 위로.<br>기획부터 현장 운영까지, 라별이 처음부터 끝까지 함께합니다.</p>
       </div>
       <address class="info">
@@ -150,7 +146,6 @@ export function layout({
   htmlClass = "",
   extraHead = "",
   footerBordered = false,
-  footerDark = false,
 }) {
   const canonical = `${SITE_ORIGIN}${path}`;
   const inner = bareBody
@@ -159,7 +154,7 @@ export function layout({
 <main>
 ${body}
 </main>
-${footer({ bordered: footerBordered, dark: footerDark })}
+${footer({ bordered: footerBordered })}
 ${menu()}`;
   return `<!DOCTYPE html>
 <html lang="ko"${htmlClass ? ` class="${htmlClass}"` : ""}>

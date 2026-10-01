@@ -88,13 +88,13 @@ ${projects.map((p) => `      <article class="featured-card">
 </section>`;
 }
 
-// 서비스 페이지: 상단 타이틀·elements 섹션·푸터를 블루로, CTA 는 밝은 띠로
+// 서비스 페이지: 상단 타이틀·elements 섹션을 블루로, CTA 는 밝은 띠로
 const BLUE_HERO_TEST = new Set(["btl", "festival", "mice"]);
 
 export default PAGES.map((pg) => ({
   file: `${pg.key}.html`,
   path: `/${pg.key}.html`,
-  footerDark: BLUE_HERO_TEST.has(pg.key),
+  footerBordered: BLUE_HERO_TEST.has(pg.key),
   title: pg.title,
   description: pg.description,
   body: (ctx) => `${BLUE_HERO_TEST.has(pg.key) ? '<div class="svc-hero" data-dark-head>' : ""}<section class="wrap svc-head">

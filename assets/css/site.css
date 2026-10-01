@@ -121,17 +121,6 @@ body.no-scroll{overflow:hidden}
 .cta .actions{margin-top:clamp(40px,4.6vw,72px);display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
 .cta-light{background:var(--bg)}
 /* 바로 위 섹션도 블루일 때: 이어지는 한 덩어리로 보이게 위 여백을 줄인다 */
-/* 블루 배경 위 밝은 카드형 CTA (위·아래 블루 섹션과 이어짐) */
-.cta-card{margin-top:-1px}
-.cta-card .wrap{padding-top:clamp(8px,1.5vw,24px);padding-bottom:clamp(56px,6vw,100px)}
-.cta-box{background:var(--bg);border-radius:clamp(20px,2vw,32px);padding:clamp(64px,7vw,120px) clamp(24px,4vw,64px)}
-.cta-card h2{color:var(--blue)}
-.cta-card p{color:rgba(24,51,168,.82)}
-.cta-card .btn-line{color:var(--blue);border-color:rgba(24,51,168,.4)}
-.cta-card .btn-line:hover{color:var(--blue);border-color:var(--blue)}
-.site-footer.dark{margin-top:-1px}
-.cta-continued{margin-top:-1px}
-.cta-continued .wrap{padding-top:clamp(24px,3vw,48px)}
 .cta-light h2{color:var(--blue)}
 .cta-light p{color:rgba(24,51,168,.82)}
 .cta-light .btn-line{color:var(--blue);border-color:rgba(24,51,168,.4)}
@@ -145,13 +134,6 @@ body.no-scroll{overflow:hidden}
 .site-footer .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,4vw,56px);align-items:end}
 .site-footer .footer-logo{display:block;height:clamp(20px,1.7vw,26px);width:auto}
 .site-footer address{font-style:normal}
-.site-footer .logo-light{display:none}
-.site-footer.dark{background:var(--blue);color:var(--bg)}
-.site-footer.dark a{color:var(--bg)}
-.site-footer.dark .logo-dark{display:none}
-.site-footer.dark .logo-light{display:block}
-.site-footer.dark .info .sep{color:rgba(238,238,238,.35)}
-.site-footer.dark .copy{border-top-color:rgba(238,238,238,.2)}
 .site-footer .tagline{margin:clamp(22px,2.4vw,34px) 0 0;font-size:clamp(15px,1.25vw,18px);font-weight:500;line-height:1.6;letter-spacing:-.3px}
 .site-footer .info{display:flex;flex-direction:column;gap:10px;font-size:clamp(14px,1.15vw,16.5px);font-weight:500;text-align:right;line-height:1.7}
 .site-footer .info .line{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
