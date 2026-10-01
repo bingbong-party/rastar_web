@@ -348,11 +348,13 @@ body.no-scroll{overflow:hidden}
 .viewer-bar .title a:hover{opacity:1}
 .viewer-bar .dl{flex-shrink:0;display:flex;align-items:center;height:30px;padding:0 12px;border:1px solid rgba(255,255,255,.35);border-radius:6px;font-size:13px;font-weight:600;color:#fff}
 .viewer-bar .dl:hover{background:rgba(255,255,255,.1)}
-.viewer-scroll{flex:1;overflow-y:auto}
-.viewer-status{padding:60px 20px;text-align:center;font-size:14px;color:rgba(255,255,255,.55)}
+.viewer-actions{display:flex;gap:8px;flex-shrink:0}
+.viewer-frame{flex:1;min-height:0}
+.viewer-frame[hidden]{display:none}
+.viewer-frame iframe{display:block;width:100%;height:100%;border:0;background:#1F1F1F}
+.viewer-status[hidden]{display:none}
+.viewer-status{padding:60px 20px;text-align:center;font-size:15px;line-height:1.8;color:rgba(255,255,255,.75)}
 .viewer-status a{color:#fff;text-decoration:underline}
-.viewer-pages{display:flex;flex-direction:column;align-items:center;gap:12px;padding:16px 16px 40px}
-.viewer-pages canvas{display:block;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.35)}
 
 /* ---------------- contact modal ---------------- */
 /* 우하단 고정 패널: 화면을 막지 않고, 접으면 런처로. 모바일은 하단 시트 */
@@ -455,3 +457,4 @@ body.no-scroll{overflow:hidden}
 @media (prefers-reduced-motion:reduce){
   .js [data-reveal],.js .process[data-reveal] .step>*,.js .process[data-reveal] .step::before{opacity:1!important;transform:none!important}
 }
+@media (max-width:520px){.viewer-bar .title span{display:none}}

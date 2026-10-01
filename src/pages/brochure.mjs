@@ -1,4 +1,5 @@
-/* 서비스 소개서 뷰어: PDF.js 로 페이지를 캔버스에 그린다. 실패 시 다운로드 링크를 안내한다. */
+/* 서비스 소개서 뷰어: 브라우저 기본 PDF 뷰어(크롬·엣지·파이어폭스·사파리 내장)로 띄운다.
+   페이지 안에서 PDF 를 열 수 없는 브라우저(일부 모바일)는 열기/다운로드 안내를 보여준다. */
 const PDF = "/assets/docs/rastar-service-introduction.pdf";
 
 export default {
@@ -11,51 +12,24 @@ export default {
   body: () => `<div class="viewer">
   <div class="viewer-bar">
     <div class="title"><a href="/" aria-label="라별 홈">← rastar</a><span>라별커뮤니케이션즈 서비스소개서</span></div>
-    <a class="dl" href="${PDF}" download="라별커뮤니케이션즈 서비스소개서.pdf">PDF 다운로드</a>
+    <div class="viewer-actions">
+      <a class="dl" href="${PDF}" target="_blank" rel="noopener">새 창에서 열기</a>
+      <a class="dl" href="${PDF}" download="라별커뮤니케이션즈 서비스소개서.pdf">PDF 다운로드</a>
+    </div>
   </div>
-  <div class="viewer-scroll">
-    <div class="viewer-status" data-status>소개서를 불러오는 중…</div>
-    <div class="viewer-pages" data-pages></div>
+  <div class="viewer-frame" data-frame>
+    <iframe src="${PDF}#view=FitH" title="라별커뮤니케이션즈 서비스소개서"></iframe>
+  </div>
+  <div class="viewer-status" data-fallback hidden>
+    이 브라우저에서는 소개서를 페이지 안에서 바로 열 수 없어요.<br>
+    <a href="${PDF}" target="_blank" rel="noopener">PDF 열기</a> 또는 <a href="${PDF}" download="라별커뮤니케이션즈 서비스소개서.pdf">다운로드</a>로 확인해 주세요.
   </div>
 </div>
-<script type="module">
-const host = document.querySelector("[data-pages]");
-const status = document.querySelector("[data-status]");
-let doc, token = 0;
-async function renderAll() {
-  const my = ++token;
-  const maxW = Math.min(host.clientWidth - 32, 1600);
-  const dpr = window.devicePixelRatio || 1;
-  for (let i = 1; i <= doc.numPages; i++) {
-    const page = await doc.getPage(i);
-    if (my !== token) return;
-    const base = page.getViewport({ scale: 1 });
-    const scale = maxW / base.width;
-    const vp = page.getViewport({ scale: scale * dpr });
-    const c = document.createElement("canvas");
-    c.width = vp.width; c.height = vp.height;
-    c.style.width = base.width * scale + "px";
-    c.style.height = base.height * scale + "px";
-    if (i === 1) host.replaceChildren();
-    host.appendChild(c);
-    await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
-    if (i === 1) status.hidden = true;
+<script>
+  // 내장 PDF 뷰어가 없다고 알려주는 브라우저(navigator.pdfViewerEnabled === false)는 안내로 대체
+  if (navigator.pdfViewerEnabled === false) {
+    document.querySelector("[data-frame]").hidden = true;
+    document.querySelector("[data-fallback]").hidden = false;
   }
-}
-try {
-  const pdfjs = await import("https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.min.mjs");
-  pdfjs.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.worker.min.mjs";
-  doc = await pdfjs.getDocument("${PDF}").promise;
-  await renderAll();
-  let t;
-  let lastW = host.clientWidth;
-  window.addEventListener("resize", () => {
-    clearTimeout(t);
-    t = setTimeout(() => { if (host.clientWidth !== lastW) { lastW = host.clientWidth; renderAll(); } }, 200);
-  });
-} catch (e) {
-  console.error(e);
-  status.innerHTML = '소개서를 불러오지 못했습니다. <a href="${PDF}" download>PDF 다운로드</a>를 이용해 주세요.';
-}
 </script>`,
 };
