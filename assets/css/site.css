@@ -237,9 +237,9 @@ body.no-scroll{overflow:hidden}
 @media (max-width:1000px){.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:620px){.project-grid{grid-template-columns:1fr}}
 .project-card .text{margin-top:clamp(14px,1.4vw,20px);font-family:var(--pre)}
-.project-card .title{font-size:clamp(15px,1.15vw,16.6px);font-weight:500;letter-spacing:-.03em}
-.project-card .desc{margin:9px 0 0;font-size:clamp(13px,.97vw,14px);line-height:1.72;letter-spacing:-.4px;word-break:keep-all}
-.project-card .client{margin-top:12px;font-size:11.5px;color:rgba(24,51,168,.62)}
+.project-card .title{font-size:clamp(17px,1.4vw,20px);font-weight:600;letter-spacing:-.035em;line-height:1.4;word-break:keep-all}
+.project-card .desc{margin:10px 0 0;font-size:clamp(14.5px,1.1vw,16px);line-height:1.65;letter-spacing:-.4px;word-break:keep-all}
+.project-card .client{margin-top:12px;font-size:clamp(13px,.95vw,14px);font-weight:500;color:rgba(24,51,168,.8)}
 .js .project-card[hidden]{display:none}
 .pager{margin-top:clamp(44px,5vw,80px);display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px}
 .pager button{min-width:38px;height:38px;padding:0 12px;border-radius:100px;cursor:pointer;font-family:var(--pre);font-size:14px;font-weight:600;transition:all .2s;border:1px solid rgba(24,51,168,.18);background:transparent;color:var(--blue)}
