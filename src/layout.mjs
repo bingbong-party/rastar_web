@@ -9,7 +9,7 @@ export const SITE_NAME = "라별";
 export const DEFAULT_DESCRIPTION =
   "라별은 브랜드 액티베이션·페스티벌·MICE 행사를 기획부터 공간 연출, 현장 운영까지 하나의 흐름으로 설계하는 전문 행사 솔루션 에이전시입니다.";
 export const DEFAULT_IMAGE = `${SITE_ORIGIN}/assets/img/og.jpg`;
-export const ASSET_VERSION = "20261001-69";
+export const ASSET_VERSION = "20261001-70";
 
 export const KAKAO_CHAT_URL = "https://pf.kakao.com/_CdFxan/chat";
 
@@ -69,8 +69,8 @@ export function menu() {
     </div>
   </div>
   <nav class="menu-body" aria-label="전체 메뉴">
-    <div class="menu-col">
-      <div>
+    <div class="menu-cols">
+      <div class="menu-col">
         <div class="menu-label">what we do</div>
         <div class="menu-links main">
           <a href="/btl.html">btl</a>
@@ -78,15 +78,20 @@ export function menu() {
           <a href="/mice.html">mice</a>
         </div>
       </div>
-      <a class="menu-brochure" href="/brochure.html">서비스 소개서 다운로드</a>
-    </div>
-    <div class="menu-col right">
-      <div class="menu-links sub">
-        <a href="/about.html">about</a>
-        <a href="/Projects.html">projects</a>
-        <a href="/faq.html">faq</a>
+      <div class="menu-col right">
+        <div class="menu-links sub">
+          <a href="/about.html">about</a>
+          <a href="/Projects.html">projects</a>
+          <a href="/faq.html">faq</a>
+        </div>
       </div>
-      <a class="menu-kakao" href="${KAKAO_CHAT_URL}" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.48 3 2 6.53 2 10.88c0 2.8 1.86 5.26 4.66 6.65l-.95 3.48c-.08.3.26.54.52.37l4.12-2.73c.54.07 1.09.11 1.65.11 5.52 0 10-3.53 10-7.88S17.52 3 12 3z"/></svg>카카오톡 상담하기</a>
+    </div>
+    <div class="menu-foot">
+      <img class="menu-symbol" src="/assets/img/rastar-symbol-light.png" alt="" aria-hidden="true" width="180" height="180">
+      <div class="menu-actions">
+        <a class="menu-brochure" href="/brochure.html">서비스 소개서 다운로드</a>
+        <a class="menu-kakao" href="${KAKAO_CHAT_URL}" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.48 3 2 6.53 2 10.88c0 2.8 1.86 5.26 4.66 6.65l-.95 3.48c-.08.3.26.54.52.37l4.12-2.73c.54.07 1.09.11 1.65.11 5.52 0 10-3.53 10-7.88S17.52 3 12 3z"/></svg>카카오톡 상담하기</a>
+      </div>
     </div>
   </nav>
 </div>`;
