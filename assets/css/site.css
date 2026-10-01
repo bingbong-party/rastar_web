@@ -224,6 +224,7 @@ body.no-scroll{overflow:hidden}
 
 .featured-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(18px,2.4vw,42px)}
 .featured-card{display:flex;flex-direction:column}
+.featured-card .thumb:hover{border-color:transparent}
 .featured-card .meta{display:block;margin-top:14px;font-family:var(--pre);font-size:clamp(15px,1.2vw,17px);line-height:1.7;letter-spacing:-.03em;word-break:keep-all}
 .featured-card .meta .t{display:block;font-weight:600}
 .featured-card .meta .sub{display:block;margin-top:2px;font-size:.88em;font-weight:500;color:rgba(24,51,168,.78)}
