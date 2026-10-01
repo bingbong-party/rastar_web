@@ -80,7 +80,7 @@ function featuredSection(projects, ctx) {
     <div class="featured-grid">
 ${projects.map((p) => `      <article class="featured-card">
         <a class="thumb" href="${p.url}" aria-label="${esc(p.title)}">${ctx.thumbImg(p)}</a>
-        <a class="meta" href="${p.url}"><span class="t">${esc(p.title)}</span>${p.client || p.venue ? `<span class="sub">${esc([p.client, p.venue].filter(Boolean).join(", "))}</span>` : ""}</a>
+        <a class="meta" href="${p.url}"><span class="t">${esc(p.title)}</span>${p.client || p.venue ? `<span class="sub">${esc([p.client, p.venue].filter(Boolean).join(" · "))}</span>` : ""}</a>
         <div class="more"><a href="${p.url}"><span>view project</span><span aria-hidden="true">↗</span></a></div>
       </article>`).join("\n")}
     </div>
