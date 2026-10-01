@@ -401,6 +401,21 @@
     show(page, false);
   }
 
+  /* ---------------- 상세 → 목록 돌아가기 ----------------
+     목록(?page=N)에서 들어왔다면 브라우저 뒤로가기로 돌아가 보던 페이지·스크롤을 유지한다.
+     직접 들어온 경우엔 링크(href) 그대로 목록 1페이지로 간다. */
+  var backLink = $(".back");
+  if (backLink) {
+    var ref = null;
+    try { ref = document.referrer ? new URL(document.referrer) : null; } catch (e) {}
+    if (ref && ref.origin === location.origin && /\/Projects\.html$/i.test(ref.pathname)) {
+      backLink.href = ref.pathname + ref.search;
+      backLink.addEventListener("click", function (e) {
+        if (history.length > 1) { e.preventDefault(); history.back(); }
+      });
+    }
+  }
+
   /* ---------------- 프로젝트 상세 갤러리 ---------------- */
   var stage = $("[data-stage]");
   if (stage) {
