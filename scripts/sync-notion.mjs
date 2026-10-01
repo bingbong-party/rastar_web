@@ -3,15 +3,20 @@
 
    Notion의 "Projects" 데이터베이스를 읽어 content.json 의 projects 배열을
    교체하고, 커버/이미지/본문 이미지 파일을 projects_images/<id>/ 로
-   다운로드한 뒤, sitemap.xml 을 재생성한다. insights 는 건드리지 않는다.
+   다운로드한다. insights 는 건드리지 않는다. (sitemap.xml 과 정적 페이지는
+   이어서 실행하는 build-pages 가 만든다.)
 
    본문(페이지 콘텐츠) 안의 이미지 블록도 다운로드하여
    projects_images/<id>/body-N.<ext> 로 저장하고, body 의 markdown은
    해당 로컬 경로를 가리키도록 변환된다.
 
-   사용하는 Notion 속성:
-     ID, Name, Category, Date(date, 행사날짜), Location, Client, Cover, Images,
-     Summary, Status, Written Date(date), Main_Visible(checkbox), Main_Order(number)
+   사용하는 Notion 속성 (2026 리뉴얼 기준):
+     ID(auto id), Name, Category(select), Featured_Category(select: btl/festival/mice),
+     Date(date, 행사날짜), Location, Venue, Client, Cover(file),
+     Summary(목록·상세 요약 한 줄), Desc(상세 설명), Status(Published/Hidden),
+     Written_Date(created time)
+   Images(file) 속성은 더 이상 없지만, 있으면 그대로 갤러리에 포함한다.
+   상세 페이지 갤러리는 Cover + Images + 본문 이미지 순으로 구성된다.
 
    필요 환경변수:
      NOTION_API_KEY        - Notion Internal Integration 토큰
@@ -30,8 +35,6 @@ import sharp from "sharp";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CONTENT_PATH = path.join(ROOT, "content.json");
-const SITEMAP_PATH = path.join(ROOT, "sitemap.xml");
-const SITE_ORIGIN = "https://rastarcomms.com";
 
 const NOTION_API_KEY = process.env.NOTION_API_KEY;
 const NOTION_PROJECTS_DB_ID = process.env.NOTION_PROJECTS_DB_ID;
@@ -77,18 +80,12 @@ function richText(page, name) {
 function selectVal(page, name) {
   return page.properties[name]?.select?.name || "";
 }
-function checkboxVal(page, name) {
-  return !!page.properties[name]?.checkbox;
-}
-function numberVal(page, name) {
-  const prop = page.properties[name];
-  if (!prop || prop.type !== "number") return null;
-  return prop.number;
-}
 function dateVal(page, name) {
   const prop = page.properties[name];
-  if (!prop || prop.type !== "date" || !prop.date) return "";
-  return prop.date.start || "";
+  if (!prop) return "";
+  if (prop.type === "created_time") return prop.created_time || "";
+  if (prop.type === "date" && prop.date) return prop.date.start || "";
+  return "";
 }
 function dateRangeVal(page, name) {
   const prop = page.properties[name];
@@ -240,46 +237,19 @@ async function mapProject(page) {
     id,
     title: richText(page, "Name"),
     category: selectVal(page, "Category"),
+    featuredCategory: selectVal(page, "Featured_Category").toLowerCase(),
     date: dateRangeVal(page, "Date"),
-    writtenDate: dateVal(page, "Written Date"),
+    writtenDate: dateVal(page, "Written_Date"),
     location: richText(page, "Location"),
+    venue: richText(page, "Venue"),
     client: richText(page, "Client"),
     cover,
     images,
     summary: richText(page, "Summary"),
+    desc: richText(page, "Desc"),
     body,
-    featured: checkboxVal(page, "Main_Visible"),
-    mainOrder: numberVal(page, "Main_Order"),
     status,
   };
-}
-
-/* ---------------- sitemap.xml 재생성 ---------------- */
-async function writeSitemap(content) {
-  const urls = [
-    `${SITE_ORIGIN}/`,
-    `${SITE_ORIGIN}/Projects.html`,
-    `${SITE_ORIGIN}/Blog.html`,
-    `${SITE_ORIGIN}/Contact.html`,
-  ];
-  for (const p of content.projects) {
-    if (p.status === "published") {
-      urls.push(`${SITE_ORIGIN}/Project.html?id=${encodeURIComponent(p.id)}`);
-    }
-  }
-  for (const i of content.insights || []) {
-    if (i.status === "published") {
-      urls.push(`${SITE_ORIGIN}/Blog%20Post.html?id=${encodeURIComponent(i.id)}`);
-    }
-  }
-
-  const xml =
-    `<?xml version="1.0" encoding="UTF-8"?>\n` +
-    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    urls.map((u) => `  <url><loc>${u}</loc></url>`).join("\n") +
-    `\n</urlset>\n`;
-
-  await fs.writeFile(SITEMAP_PATH, xml);
 }
 
 /* ---------------- 메인 ---------------- */
@@ -298,7 +268,6 @@ async function main() {
   content.savedAt = new Date().toISOString();
 
   await fs.writeFile(CONTENT_PATH, JSON.stringify(content, null, 2) + "\n");
-  await writeSitemap(content);
 
   console.log(`완료: projects ${projects.length}개 동기화`);
 }

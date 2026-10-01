@@ -1,30 +1,115 @@
 /* =====================================================================
-   content.json → 프로젝트/인사이트 상세 정적 페이지 생성기
+   content.json → 정적 사이트 생성기 (2026 리뉴얼)
 
-   AI/검색 크롤러가 JS 없이도 본문·제목·구조화 데이터를 볼 수 있도록,
-   site-data.js의 renderProject()/renderArticle()이 브라우저에서 만드는
-   내용을 빌드 타임에 동일하게 생성해 projects/<id>.html, insights/<id>.html
-   로 저장한다. 동시에 sitemap.xml을 이 URL들로 재생성한다.
+   src/pages/*.mjs 의 페이지 본문을 src/layout.mjs 의 공통 레이아웃에 끼워
+   루트에 index.html, about.html, btl.html ... 로 써낸다. 프로젝트 목록,
+   서비스 페이지의 featured projects, 프로젝트 상세(projects/<id>.html)는
+   content.json 의 projects 로부터 빌드 타임에 채운다(JS 없이도 크롤러가
+   내용을 볼 수 있도록).
 
-   Project.html / Blog Post.html (?id= 버전)은 그대로 유지되며,
-   site-data.js의 applyMeta()가 canonical을 이 정적 URL로 지정한다.
+   또한
+     - 프로젝트 이미지의 목록/썸네일용 축소본을 projects_images/<id>/thumbs/ 에 만든다.
+     - 인사이트 상세(insights/<id>.html)는 기존 "Blog Post.html" 템플릿으로 계속 생성한다.
+     - sitemap.xml 을 재생성한다.
 
    실행: npm run build-pages
    ===================================================================== */
 
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import sharp from "sharp";
+
+import { layout, esc, SITE_ORIGIN } from "../src/layout.mjs";
+import projectPage from "../src/project-detail.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const SITE_ORIGIN = "https://rastarcomms.com";
+const PAGES_DIR = path.join(ROOT, "src", "pages");
+const THUMB_WIDTH = 800;
 
-/* ---------------- site-data.js 와 동일한 헬퍼 (포팅) ---------------- */
-function esc(s) {
-  return String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
-    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])
-  );
+/* ---------------- 유틸 ---------------- */
+async function exists(p) {
+  try { await fs.access(p); return true; } catch { return false; }
 }
+function toPosix(p) {
+  return p.split(path.sep).join("/");
+}
+function imgUrl(x) {
+  if (!x) return "";
+  return typeof x === "string" ? x : x.src || x.image || "";
+}
+
+/* 본문 markdown 에서 이미지 경로와 일반 문단을 뽑는다. */
+function bodyImages(md) {
+  const out = [];
+  const re = /!\[[^\]]*\]\(([^)\s]+)\)/g;
+  let m;
+  while ((m = re.exec(md || ""))) out.push(m[1]);
+  return out;
+}
+function bodyParagraphs(md) {
+  return String(md || "")
+    .replace(/\r\n/g, "\n")
+    .split(/\n\s*\n/)
+    .map((b) => b.trim())
+    .filter((b) => b && !/^#{1,6}\s/.test(b) && !/^!\[/.test(b) && !/^[-*]\s/.test(b))
+    .map((b) => b.replace(/\*\*([^*]+)\*\*/g, "$1").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1"));
+}
+
+/* 목록/썸네일용 축소본. 원본보다 새로우면 다시 만들지 않는다. */
+async function ensureThumb(relPath) {
+  const src = path.join(ROOT, relPath);
+  if (!(await exists(src))) return null;
+  const ext = path.extname(relPath).toLowerCase();
+  if (![".jpg", ".jpeg", ".png", ".webp"].includes(ext)) return "/" + relPath;
+  const dir = path.join(path.dirname(src), "thumbs");
+  const dest = path.join(dir, path.basename(relPath, ext) + ".jpg");
+  const [s, d] = await Promise.all([fs.stat(src), fs.stat(dest).catch(() => null)]);
+  if (!d || d.mtimeMs < s.mtimeMs) {
+    await fs.mkdir(dir, { recursive: true });
+    await sharp(src)
+      .rotate()
+      .resize({ width: THUMB_WIDTH, withoutEnlargement: true })
+      .flatten({ background: "#ffffff" })
+      .jpeg({ quality: 78, mozjpeg: true })
+      .toFile(dest);
+  }
+  return "/" + toPosix(path.relative(ROOT, dest));
+}
+
+/* ---------------- 프로젝트 정규화 ---------------- */
+async function prepareProjects(raw) {
+  const list = [];
+  for (const p of raw) {
+    if (p.status !== "published") continue;
+    const sources = [p.cover, ...(p.images || []).map(imgUrl), ...bodyImages(p.body)]
+      .filter(Boolean)
+      .map((s) => s.replace(/^\/+/, ""))
+      .filter((s, i, arr) => arr.indexOf(s) === i);
+    const gallery = [];
+    for (const s of sources) {
+      if (/^https?:/.test(s)) { gallery.push({ full: s, thumb: s }); continue; }
+      const thumb = await ensureThumb(s);
+      if (thumb) gallery.push({ full: "/" + s, thumb });
+    }
+    const start = String(p.date || "").split(" ~ ")[0];
+    list.push({
+      ...p,
+      url: `/projects/${encodeURIComponent(p.id)}.html`,
+      gallery,
+      coverThumb: gallery[0] ? gallery[0].thumb : "",
+      venue: p.venue || "",
+      desc: p.desc || bodyParagraphs(p.body).slice(0, 2).join("\n\n"),
+      year: start ? start.slice(0, 4) : "",
+      sortKey: start || p.writtenDate || "",
+    });
+  }
+  // 최신 행사 순. 날짜가 같으면 ID 내림차순.
+  list.sort((a, b) => (b.sortKey.localeCompare(a.sortKey)) || (Number(b.id) - Number(a.id)));
+  return list;
+}
+
+/* ---------------- 인사이트 (기존 템플릿 유지) ---------------- */
 function mdInline(s) {
   s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   s = s.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
@@ -39,64 +124,32 @@ function mdToHtml(md) {
   const out = [];
   let list = null;
   let para = [];
-  function flushPara() {
-    if (para.length) {
-      out.push("<p>" + mdInline(esc(para.join("\n"))).replace(/\n/g, "<br>") + "</p>");
-      para = [];
-    }
-  }
-  function flushList() {
-    if (list) {
-      out.push("<ul>" + list.join("") + "</ul>");
-      list = null;
-    }
-  }
-  lines.forEach((raw) => {
+  const flushPara = () => {
+    if (para.length) { out.push("<p>" + mdInline(esc(para.join("\n"))).replace(/\n/g, "<br>") + "</p>"); para = []; }
+  };
+  const flushList = () => {
+    if (list) { out.push("<ul>" + list.join("") + "</ul>"); list = null; }
+  };
+  for (const raw of lines) {
     const line = raw.replace(/\s+$/, "");
+    const img = line.match(/^!\[([^\]]*)\]\(([^)]+)\)\s*$/);
     if (/^###\s+/.test(line)) { flushPara(); flushList(); out.push("<h3>" + mdInline(esc(line.replace(/^###\s+/, ""))) + "</h3>"); }
     else if (/^##\s+/.test(line)) { flushPara(); flushList(); out.push("<h2>" + mdInline(esc(line.replace(/^##\s+/, ""))) + "</h2>"); }
-    else if (/^!\[([^\]]*)\]\(([^)]+)\)\s*$/.test(line)) {
-      flushPara(); flushList();
-      const img = line.match(/^!\[([^\]]*)\]\(([^)]+)\)\s*$/);
-      out.push('<img src="' + esc(img[2]) + '" alt="' + esc(img[1]) + '" loading="lazy">');
-    }
+    else if (img) { flushPara(); flushList(); out.push('<img src="' + esc(img[2]) + '" alt="' + esc(img[1]) + '" loading="lazy">'); }
     else if (/^[-*]\s+/.test(line)) { flushPara(); list = list || []; list.push("<li>" + mdInline(esc(line.replace(/^[-*]\s+/, ""))) + "</li>"); }
     else if (!line.trim()) { flushPara(); flushList(); }
     else { flushList(); para.push(line); }
-  });
+  }
   flushPara(); flushList();
   return out.join("");
 }
-function imgUrl(x) {
-  if (!x) return "";
-  return typeof x === "string" ? x : (x.src || x.image || "");
-}
-function absImage(p) {
-  if (!p) return `${SITE_ORIGIN}/images/hero-bg-1.jpg`;
-  return `${SITE_ORIGIN}/${String(p).replace(/^\/+/, "")}`;
-}
-/* projects_images/... 같은 루트 상대경로를 상위 디렉토리(projects/, insights/)에서도
-   동작하도록 루트 절대경로로 바꾼다. */
-function rootRelativeImages(html) {
-  return html.replace(/src="projects_images\//g, 'src="/projects_images/');
-}
-
-/* ---------------- 템플릿의 자산 경로를 루트 절대경로로 치환 ---------------- */
-function absolutizeAssets(html) {
+function absolutizeLegacyAssets(html) {
   return html
     .replace('href="styles.css"', 'href="/styles.css"')
-    .replace('href="images/favicon-32.png"', 'href="/images/favicon-32.png"')
-    .replace('href="images/favicon-16.png"', 'href="/images/favicon-16.png"')
-    .replace('href="images/apple-touch-icon.png"', 'href="/images/apple-touch-icon.png"')
-    .replace('src="site-nav.js"', 'src="/site-nav.js"')
-    .replace('src="site-footer.js"', 'src="/site-footer.js"')
-    .replace('src="site-data.js"', 'src="/site-data.js"')
-    .replace('src="app.js"', 'src="/app.js"')
-    .replace('src="consult-modal.js"', 'src="/consult-modal.js"')
+    .replace(/href="images\//g, 'href="/images/')
+    .replace(/src="(site-nav|site-footer|site-data|app|consult-modal)\.js"/g, 'src="/$1.js"')
     .replace('href="Contact.html"', 'href="/Contact.html"');
 }
-
-/* ---------------- <head> 메타 치환 ---------------- */
 function setHeadMeta(html, { title, description, canonicalUrl, image }) {
   return html
     .replace(/<title>.*?<\/title>/, `<title>${title}</title>`)
@@ -110,109 +163,25 @@ function setHeadMeta(html, { title, description, canonicalUrl, image }) {
     .replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${description}">`)
     .replace(/<meta name="twitter:image" content="[^"]*">/, `<meta name="twitter:image" content="${image}">`);
 }
-function insertJsonLd(html, data) {
-  const script = `<script type="application/ld+json">\n${JSON.stringify(data, null, 2)}\n</script>\n`;
-  return html.replace("</head>", script + "</head>");
-}
-
-/* ---------------- 본문 마크업 (renderProject/renderArticle과 동일) ---------------- */
-function projectArticleHtml(proj) {
-  const hero = proj.cover
-    ? `<div class="a-hero"><img class="g-img" src="${esc(proj.cover)}" alt="${esc(proj.title)}"></div>`
-    : "";
-  const extraImgs = (proj.images || []).length
-    ? '<div class="proj-images">' + proj.images.map((img) => {
-        const url = esc(imgUrl(img));
-        return url ? `<img class="g-img" src="${url}" alt="${esc(proj.title)}" loading="lazy">` : "";
-      }).join("") + '</div>'
-    : "";
-  const html =
-    '<a class="back-link" href="/Projects.html"><span aria-hidden="true">←</span> 전체 프로젝트 보기</a>' +
-    `<div class="a-cat">${esc(proj.category || "")}</div>` +
-    `<h1>${esc(proj.title || "")}</h1>` +
-    `<div class="a-meta">${esc(proj.date || "")}` +
-      (proj.location ? ` · ${esc(proj.location)}` : "") +
-      (proj.client ? ` · ${esc(proj.client)}` : "") +
-    `</div>` +
-    hero +
-    `<div class="a-body">${mdToHtml(proj.body)}</div>` +
-    extraImgs;
-  return rootRelativeImages(html);
-}
-function insightArticleHtml(post) {
-  const hero = post.cover
-    ? `<div class="a-hero"><img class="g-img" src="${esc(post.cover)}" alt="${esc(post.title)}"></div>`
-    : "";
-  const html =
-    '<a class="back-link" href="/Blog.html"><span aria-hidden="true">←</span> 블로그로 돌아가기</a>' +
-    `<div class="a-cat">${esc(post.category || "")}</div>` +
-    `<h1>${esc(post.title || "")}</h1>` +
-    `<div class="a-meta">${esc(post.date || "")}` + (post.author ? ` · ${esc(post.author)}` : "") + `</div>` +
-    hero + mdToHtml(post.body);
-  return rootRelativeImages(html);
-}
-
-/* ---------------- 메인 ---------------- */
-async function main() {
-  const content = JSON.parse(await fs.readFile(path.join(ROOT, "content.json"), "utf8"));
-  const projectTemplate = await fs.readFile(path.join(ROOT, "Project.html"), "utf8");
-  const insightTemplate = await fs.readFile(path.join(ROOT, "Blog Post.html"), "utf8");
-
-  const projectsDir = path.join(ROOT, "projects");
-  const insightsDir = path.join(ROOT, "insights");
-  await fs.mkdir(projectsDir, { recursive: true });
-  await fs.mkdir(insightsDir, { recursive: true });
-
-  const sitemapUrls = [
-    `${SITE_ORIGIN}/`,
-    `${SITE_ORIGIN}/Projects.html`,
-    `${SITE_ORIGIN}/Blog.html`,
-    `${SITE_ORIGIN}/Contact.html`,
-  ];
-
-  let projectCount = 0;
-  for (const proj of content.projects || []) {
-    if (proj.status !== "published") continue;
-    const url = `${SITE_ORIGIN}/projects/${encodeURIComponent(proj.id)}.html`;
-    const image = absImage(proj.cover);
-    let html = absolutizeAssets(projectTemplate);
-    html = setHeadMeta(html, {
-      title: esc(`${proj.title || "프로젝트"} | 라별`),
-      description: esc(proj.summary || ""),
-      canonicalUrl: url,
-      image,
-    });
-    html = insertJsonLd(html, {
-      "@context": "https://schema.org",
-      "@type": "CreativeWork",
-      name: proj.title || "",
-      description: proj.summary || "",
-      image,
-      url,
-    });
-    html = html.replace(
-      /<article class="article" id="project-detail">[\s\S]*?<\/article>/,
-      `<article class="article" id="project-detail">${projectArticleHtml(proj)}</article>`
-    );
-    html = html.replace(/\n?<script>RabyeolData\.renderProject\("#project-detail"\);<\/script>/, "");
-    await fs.writeFile(path.join(projectsDir, `${proj.id}.html`), html);
-    sitemapUrls.push(url);
-    projectCount += 1;
-  }
-
-  let insightCount = 0;
-  for (const post of content.insights || []) {
+async function buildInsights(insights) {
+  const templatePath = path.join(ROOT, "Blog Post.html");
+  if (!(await exists(templatePath))) return [];
+  const template = await fs.readFile(templatePath, "utf8");
+  const dir = path.join(ROOT, "insights");
+  await fs.mkdir(dir, { recursive: true });
+  const urls = [];
+  for (const post of insights || []) {
     if (post.status !== "published") continue;
     const url = `${SITE_ORIGIN}/insights/${encodeURIComponent(post.id)}.html`;
-    const image = absImage(post.cover);
-    let html = absolutizeAssets(insightTemplate);
+    const image = post.cover ? `${SITE_ORIGIN}/${String(post.cover).replace(/^\/+/, "")}` : `${SITE_ORIGIN}/assets/img/og.jpg`;
+    let html = absolutizeLegacyAssets(template);
     html = setHeadMeta(html, {
       title: esc(`${post.title || "인사이트"} | 라별`),
       description: esc(post.summary || ""),
       canonicalUrl: url,
       image,
     });
-    html = insertJsonLd(html, {
+    const ld = {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       headline: post.title || "",
@@ -221,25 +190,80 @@ async function main() {
       author: { "@type": "Organization", name: post.author || "라별" },
       ...(post.date ? { datePublished: post.date } : {}),
       url,
-    });
-    html = html.replace(
-      /<article class="article" id="article">[\s\S]*?<\/article>/,
-      `<article class="article" id="article">${insightArticleHtml(post)}</article>`
-    );
+    };
+    html = html.replace("</head>", `<script type="application/ld+json">\n${JSON.stringify(ld, null, 2)}\n</script>\n</head>`);
+    const hero = post.cover ? `<div class="a-hero"><img class="g-img" src="${esc(post.cover)}" alt="${esc(post.title)}"></div>` : "";
+    const article = (
+      '<a class="back-link" href="/Blog.html"><span aria-hidden="true">←</span> 블로그로 돌아가기</a>' +
+      `<div class="a-cat">${esc(post.category || "")}</div>` +
+      `<h1>${esc(post.title || "")}</h1>` +
+      `<div class="a-meta">${esc(post.date || "")}` + (post.author ? ` · ${esc(post.author)}` : "") + `</div>` +
+      hero + mdToHtml(post.body)
+    ).replace(/src="projects_images\//g, 'src="/projects_images/');
+    html = html.replace(/<article class="article" id="article">[\s\S]*?<\/article>/, `<article class="article" id="article">${article}</article>`);
     html = html.replace(/\n?<script>RabyeolData\.renderArticle\("#article"\);<\/script>/, "");
-    await fs.writeFile(path.join(insightsDir, `${post.id}.html`), html);
-    sitemapUrls.push(url);
-    insightCount += 1;
+    await fs.writeFile(path.join(dir, `${post.id}.html`), html);
+    urls.push(url);
+  }
+  return urls;
+}
+
+/* ---------------- 메인 ---------------- */
+async function main() {
+  const content = JSON.parse(await fs.readFile(path.join(ROOT, "content.json"), "utf8"));
+  const projects = await prepareProjects(content.projects || []);
+
+  const ctx = {
+    projects,
+    featured: (key, n) => projects.filter((p) => p.featuredCategory === key).slice(0, n),
+    thumbImg: (p) =>
+      p.coverThumb
+        ? `<img src="${esc(p.coverThumb)}" alt="" loading="lazy" decoding="async">`
+        : `<span class="ph">IMAGE</span>`,
+  };
+
+  // 1) 정적 페이지
+  const pageFiles = (await fs.readdir(PAGES_DIR)).filter((f) => f.endsWith(".mjs")).sort();
+  const pages = [];
+  for (const f of pageFiles) {
+    const mod = await import(pathToFileURL(path.join(PAGES_DIR, f)).href);
+    pages.push(...[].concat(mod.default));
+  }
+  for (const page of pages) {
+    const html = layout({ ...page, body: page.body(ctx) });
+    await fs.writeFile(path.join(ROOT, page.file), html);
   }
 
+  // 2) 프로젝트 상세. 더 이상 공개되지 않는 프로젝트의 페이지는 지운다.
+  const projectsDir = path.join(ROOT, "projects");
+  await fs.mkdir(projectsDir, { recursive: true });
+  const keep = new Set();
+  for (const p of projects) {
+    const page = projectPage(p, ctx);
+    await fs.writeFile(path.join(ROOT, page.file), layout({ ...page, body: page.body(ctx) }));
+    keep.add(path.basename(page.file));
+  }
+  for (const f of await fs.readdir(projectsDir)) {
+    if (f.endsWith(".html") && !keep.has(f)) await fs.unlink(path.join(projectsDir, f));
+  }
+
+  // 3) 인사이트 (기존 디자인 유지)
+  const insightUrls = await buildInsights(content.insights);
+
+  // 4) sitemap.xml
+  const urls = [
+    ...pages.filter((p) => !p.noindex).map((p) => `${SITE_ORIGIN}${p.path}`),
+    ...projects.map((p) => `${SITE_ORIGIN}${p.url}`),
+    ...(insightUrls.length ? [`${SITE_ORIGIN}/Blog.html`, ...insightUrls] : []),
+  ];
   const xml =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
     `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    sitemapUrls.map((u) => `  <url><loc>${u}</loc></url>`).join("\n") +
+    urls.map((u) => `  <url><loc>${u}</loc></url>`).join("\n") +
     `\n</urlset>\n`;
   await fs.writeFile(path.join(ROOT, "sitemap.xml"), xml);
 
-  console.log(`완료: projects ${projectCount}개, insights ${insightCount}개 정적 페이지 생성, sitemap.xml 갱신`);
+  console.log(`완료: 페이지 ${pages.length}개, 프로젝트 ${projects.length}개, 인사이트 ${insightUrls.length}개 생성, sitemap.xml 갱신`);
 }
 
 main().catch((err) => {

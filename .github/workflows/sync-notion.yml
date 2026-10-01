@@ -27,14 +27,15 @@ jobs:
           NOTION_PROJECTS_DB_ID: ${{ secrets.NOTION_PROJECTS_DB_ID }}
         run: npm run sync-notion
 
-      - name: Build static project/insight pages
+      - name: Build static pages
         run: npm run build-pages
 
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add content.json sitemap.xml projects_images projects insights
+          git add -A content.json sitemap.xml projects_images projects insights \
+            index.html about.html btl.html festival.html mice.html faq.html Projects.html brochure.html
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
