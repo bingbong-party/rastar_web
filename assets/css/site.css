@@ -382,6 +382,7 @@ body.no-scroll{overflow:hidden}
 .cm-input{width:100%;background:rgba(24,51,168,.05);border:1px solid rgba(24,51,168,.22);border-radius:12px;padding:15px 18px;font-family:inherit;font-size:15px;color:var(--blue);outline:none}
 .cm-input:focus{border-color:var(--blue);background:rgba(24,51,168,.03)}
 .cm-input::placeholder{color:rgba(24,51,168,.45)}
+.cm-textarea{display:block;min-height:132px;resize:vertical;line-height:1.6;font-family:inherit}
 .cm-input.accent{margin-top:12px;border-color:var(--blue)}
 .cm-fields{display:flex;flex-direction:column;gap:14px}
 .cm-fields label{display:flex;flex-direction:column;gap:8px}

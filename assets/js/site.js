@@ -135,6 +135,12 @@
     { badge: "STEP 2 / 3 · 예산", title: "예산은 어느 정도로 생각하고 계신가요?" },
     { badge: "STEP 3 / 3 · 문의자 정보", title: "연락받을 정보를 알려주세요." }
   ];
+  var DETAIL_HINT = [
+    "행사 개요와 맡기고 싶은 범위를 자유롭게 적어주세요.",
+    "예) 참여 인원 약 300명 · 서울 OO호텔 연회장",
+    "    희망 일정 11월 중순",
+    "    기획부터 현장 운영까지 전체 대행 / 무대·음향만 필요"
+  ].join("\n");
   var FIELDS = [
     { key: "company", label: "회사명 *", ph: "회사 또는 단체명", type: "text", auto: "organization" },
     { key: "name", label: "담당자명 *", ph: "성함", type: "text", auto: "name" },
@@ -145,7 +151,7 @@
   var st, overlay, lastFocus;
   function reset() {
     st = { step: 1, type: null, budget: null, budgetText: "", undecided: false,
-           form: { company: "", name: "", email: "", phone: "" }, agreed: false, sending: false, error: "" };
+           form: { company: "", name: "", email: "", phone: "", detail: "" }, agreed: false, sending: false, error: "" };
   }
   function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
   function canNext() {
@@ -254,6 +260,14 @@
         lab.appendChild(i);
         fields.appendChild(lab);
       });
+      // 행사 개요·대행 범위 등 자유 입력 (선택)
+      var detailLab = el("label");
+      detailLab.appendChild(el("span", null, "행사 내용 (선택)"));
+      var detail = el("textarea", { class: "cm-input cm-textarea", rows: "5", placeholder: DETAIL_HINT });
+      detail.value = st.form.detail;
+      detail.addEventListener("input", function () { st.form.detail = detail.value; });
+      detailLab.appendChild(detail);
+      fields.appendChild(detailLab);
       fields.appendChild(radio("개인정보 수집 및 이용에 동의합니다. 문의 응대 목적으로만 사용되며 처리 후 파기됩니다.", st.agreed, function (e) {
         st.agreed = !st.agreed;
         e.currentTarget.setAttribute("aria-checked", st.agreed ? "true" : "false");
@@ -318,7 +332,7 @@
       place: "미정",
       budget: budget || "미정",
       scope: st.type,
-      note: "회사명: " + st.form.company.trim() + " / 문의 페이지: " + location.pathname,
+      note: (st.form.detail.trim() ? st.form.detail.trim() + "\n\n" : "") + "회사명: " + st.form.company.trim() + " / 문의 페이지: " + location.pathname,
       contact_name: st.form.name.trim(),
       contact_email: st.form.email.trim(),
       contact_phone: st.form.phone.trim() || "미입력"
