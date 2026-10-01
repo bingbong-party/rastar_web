@@ -126,6 +126,8 @@
   var EMAILJS_SERVICE_ID = "service_qzdcnz4";
   var EMAILJS_TEMPLATE_ID = "template_32zpy6s";
   var PHONE = "032-262-2164";
+  var EMAIL = "ws@rastarcomms.com";
+  var KAKAO_URL = "https://pf.kakao.com/_CdFxan/chat";
 
   var TYPES = ["프로모션", "팝업스토어", "론칭·쇼케이스", "페스티벌", "스포츠 행사", "공공·지역행사", "기업행사", "컨퍼런스", "전시·박람회", "온라인·하이브리드", "기타"];
   var TYPE_UNDECIDED = "아직 고민중이에요";
@@ -150,7 +152,7 @@
   var STORE_KEY = "rastarConsultV2";
   var st, overlay, launcher, lastFocus, collapsed = false;
   function reset() {
-    st = { step: 1, type: null, budget: null, budgetText: "", undecided: false,
+    st = { step: 0, type: null, budget: null, budgetText: "", undecided: false,
            form: { company: "", name: "", email: "", phone: "", detail: "" }, agreed: false, sending: false, error: "" };
   }
   function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
@@ -182,7 +184,7 @@
   }
   function updateLauncher() {
     var sub = launcher && launcher.querySelector(".sub");
-    if (sub) sub.textContent = st.step === 4 ? "작성 완료 · 확인하기" : "작성 중 · " + st.step + " / 3 단계";
+    if (sub) sub.textContent = st.step === 0 ? "여기서 이어서 작성하세요" : st.step === 4 ? "작성 완료 · 확인하기" : "작성 중 · " + st.step + " / 3 단계";
   }
   function openModal() {
     if (overlay && collapsed) { expand(); return; }
@@ -270,6 +272,13 @@
     box.appendChild(head);
 
     var body = el("div", { class: "cm-body" });
+    if (st.step === 0) {
+      body.appendChild(choiceScreen());
+      box.appendChild(body);
+      if (!box.parentNode) overlay.appendChild(box);
+      persist();
+      return;
+    }
     var prog = el("div", { class: "cm-progress" });
     var dots = el("div", { class: "cm-dots", "aria-hidden": "true" });
     [1, 2, 3].forEach(function (i) {
@@ -359,7 +368,7 @@
 
     var foot = el("div", { class: "cm-foot" });
     var left = el("div");
-    if (st.step > 1 && st.step < 4) {
+    if (st.step >= 1 && st.step < 4) {
       left.appendChild(el("button", { type: "button", class: "cm-back", onclick: function () { st.step -= 1; st.error = ""; render(); } }, "‹&nbsp;&nbsp;뒤로"));
     }
     foot.appendChild(left);
@@ -371,6 +380,26 @@
 
     if (!box.parentNode) overlay.appendChild(box);
     persist();
+  }
+
+  // 상담 버튼을 누르면 먼저 보이는 화면: 카카오톡 문의 / 상담 폼 작성 중 선택
+  var ARROW = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>';
+  var FORM_ICON = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M9 13h6M9 17h4"/></svg>';
+  var KAKAO_ICON = '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.48 3 2 6.53 2 10.88c0 2.8 1.86 5.26 4.66 6.65l-.95 3.48c-.08.3.26.54.52.37l4.12-2.73c.54.07 1.09.11 1.65.11 5.52 0 10-3.53 10-7.88S17.52 3 12 3z"/></svg>';
+  function choiceScreen() {
+    var wrap = el("div", { class: "cm-choice" });
+    wrap.appendChild(el("div", { class: "cm-badge" }, "FREE CONSULTING"));
+    wrap.appendChild(el("h3", { class: "cm-title" }, "행사를 구상 중이신가요?"));
+    wrap.appendChild(el("p", { class: "cm-choice-lead" }, "편한 방법으로 문의해 주세요.<br>상담 · 제안 · 견적까지 모두 무료입니다."));
+    var opts = el("div", { class: "cm-opts" });
+    opts.appendChild(el("button", { type: "button", class: "cm-opt is-kakao", onclick: function () { window.open(KAKAO_URL, "_blank", "noopener"); } },
+      '<span class="ico">' + KAKAO_ICON + '</span><span class="txt"><b>카카오톡으로 문의하기</b><span>채널로 연결해 바로 대화를 시작해요</span></span><span class="go">' + ARROW + "</span>"));
+    opts.appendChild(el("button", { type: "button", class: "cm-opt is-form", onclick: function () { st.step = 1; render(); } },
+      '<span class="ico">' + FORM_ICON + '</span><span class="txt"><b>상담 폼 작성하기</b><span>몇 가지 질문에 답하고 맞춤 제안을 받아보세요</span></span><span class="go">' + ARROW + "</span>"));
+    wrap.appendChild(opts);
+    wrap.appendChild(el("div", { class: "cm-choice-contact" },
+      '<a href="tel:' + PHONE + '">' + PHONE + '</a><span class="sep" aria-hidden="true"></span><a href="mailto:' + EMAIL + '">' + EMAIL + "</a>"));
+    return wrap;
   }
 
   function onNext() {
@@ -416,7 +445,7 @@
       .catch(function (err) {
         console.error("EmailJS 전송 오류:", err);
         st.sending = false;
-        st.error = "전송에 실패했습니다. 잠시 후 다시 시도하시거나 " + PHONE + " / ws@rastarcomms.com 으로 연락 주세요.";
+        st.error = "전송에 실패했습니다. 잠시 후 다시 시도하시거나 " + PHONE + " / " + EMAIL + " 으로 연락 주세요.";
         render();
       });
   }
