@@ -301,8 +301,8 @@ body.no-scroll{overflow:hidden}
 .part h3{margin:0;font-size:15px;font-weight:700;letter-spacing:-.03em}
 .part h3+p{margin:6px 0 0;font-size:clamp(14px,1.1vw,16px);line-height:1.7;letter-spacing:-.03em;word-break:keep-all}
 .part .when{margin-top:auto;background:rgba(24,51,168,.06);border-radius:12px;padding:clamp(12px,1.1vw,16px)}
-.part .when strong{display:block;font-size:13px;font-weight:600;letter-spacing:-.02em;color:var(--orange)}
-.part .when p{margin:8px 0 0;font-size:13.5px;font-weight:500;line-height:1.75;letter-spacing:-.03em;color:rgba(24,51,168,.9);word-break:keep-all}
+.part .when strong{display:block;font-size:clamp(13.5px,1vw,14.5px);font-weight:600;letter-spacing:-.02em;color:var(--orange)}
+.part .when p{margin:8px 0 0;font-size:clamp(14px,1.08vw,15.5px);font-weight:500;line-height:1.75;letter-spacing:-.03em;color:rgba(24,51,168,.9);word-break:keep-all}
 .process{margin-top:clamp(28px,2.6vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));column-gap:clamp(24px,2.6vw,44px);row-gap:56px;overflow:hidden;font-family:var(--pre)}
 .step{position:relative;padding-top:clamp(44px,4vw,56px);min-width:0;display:flex;flex-direction:column}
 .step::before{content:"";position:absolute;left:0;right:calc(-1 * clamp(24px,2.6vw,44px));top:13px;height:1.5px;background:var(--blue)}
