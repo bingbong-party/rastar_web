@@ -51,7 +51,7 @@ export default {
 
 <section class="services" id="what" aria-label="what we do">
   <div class="wrap">
-${SERVICES.map((s) => `    <a class="svc" href="${s.href}">
+${SERVICES.map((s) => `    <a class="svc" href="${s.href}" data-reveal>
       <div class="name"><span>${esc(s.name)}</span><span class="arrow" aria-hidden="true">↗</span></div>
       <div>
         <div class="en">${esc(s.en)}</div>
