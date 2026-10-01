@@ -101,11 +101,13 @@ async function prepareProjects(raw) {
       venue: p.venue || "",
       desc: p.desc || bodyParagraphs(p.body).slice(0, 2).join("\n\n"),
       year: start ? start.slice(0, 4) : "",
-      sortKey: start || p.writtenDate || "",
+      sortKey: start,
     });
   }
-  // 최신 행사 순. 날짜가 같으면 ID 내림차순.
-  list.sort((a, b) => (b.sortKey.localeCompare(a.sortKey)) || (Number(b.id) - Number(a.id)));
+  // 행사일(Date) 최신 순, 행사일이 없는 프로젝트는 맨 뒤. 같으면 ID 내림차순.
+  list.sort((a, b) =>
+    (!a.sortKey - !b.sortKey) || b.sortKey.localeCompare(a.sortKey) || (Number(b.id) - Number(a.id))
+  );
   return list;
 }
 
