@@ -152,7 +152,7 @@ body.no-scroll{overflow:hidden}
 .hero .intro{width:100%;padding-top:clamp(40px,5.6vw,96px);padding-bottom:clamp(20px,2.2vw,32px);display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,72px);align-items:flex-end;justify-content:space-between}
 .hero h1{margin:0;font-family:var(--pre);font-weight:600;font-size:clamp(30px,3.9vw,56px);line-height:1.18;letter-spacing:-.03em;word-break:keep-all;animation:fadeUp .9s ease both}
 .hero h1 em{font-style:normal;border-bottom:3px solid var(--orange);padding-bottom:.04em}
-.hero .intro p{margin:0;max-width:46ch;font-family:var(--pre);font-size:clamp(13px,1.05vw,15px);line-height:1.75;letter-spacing:-.2px;word-break:keep-all}
+.hero .intro p{margin:0;max-width:none;font-family:var(--pre);font-size:clamp(15px,1.25vw,18px);line-height:1.75;letter-spacing:-.2px;word-break:keep-all}
 .hero-visual{position:relative;width:100%;flex:1 1 auto;min-height:clamp(280px,40vw,420px);overflow:hidden;background-color:var(--blue);animation:heroClip 1.3s cubic-bezier(.7,0,.2,1) .35s both}
 .hero-visual div{position:absolute;inset:0;background-size:cover;background-position:center;animation:heroZoom 2.2s cubic-bezier(.2,.7,.2,1) .35s both}
 
