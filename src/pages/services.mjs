@@ -87,8 +87,12 @@ ${projects.map((p) => `      <article class="featured-card">
 </section>`;
 }
 
+// 배경 톤 테스트: btl 페이지에만 푸른 회색 배경(.tone-cool)을 적용해 본다.
+const TONE_TEST = { btl: "tone-cool" };
+
 export default PAGES.map((pg) => ({
   file: `${pg.key}.html`,
+  htmlClass: TONE_TEST[pg.key] || "",
   path: `/${pg.key}.html`,
   title: pg.title,
   description: pg.description,

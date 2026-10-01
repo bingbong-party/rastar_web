@@ -21,6 +21,8 @@
   --a2z:'A2Z','Pretendard Variable',system-ui,sans-serif;
 }
 
+/* 배경 톤 테스트 (btl 페이지): 블루와 어울리도록 살짝 푸른 회색 + 밝기 낮춤 */
+html.tone-cool{--bg:#E6E9F1;--panel:#DDE1EB;--modal:#D6DBE7}
 html,body{margin:0;padding:0;background:var(--bg)}
 html{scrollbar-gutter:stable}
 *{box-sizing:border-box;-webkit-font-smoothing:antialiased}
