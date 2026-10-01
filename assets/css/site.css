@@ -381,11 +381,15 @@ body.no-scroll{overflow:hidden}
 .cm-input{width:100%;background:rgba(24,51,168,.05);border:1px solid rgba(24,51,168,.22);border-radius:12px;padding:15px 18px;font-family:inherit;font-size:15px;color:var(--blue);outline:none}
 .cm-input:focus{border-color:var(--blue);background:rgba(24,51,168,.03)}
 .cm-input::placeholder{color:rgba(24,51,168,.45)}
-.cm-textarea{display:block;min-height:132px;resize:vertical;line-height:1.6;font-family:inherit}
+.cm-textarea{display:block;min-height:112px;resize:vertical;line-height:1.6;font-family:inherit}
 .cm-input.accent{margin-top:12px;border-color:var(--blue)}
 .cm-fields{display:flex;flex-direction:column;gap:14px}
 .cm-fields label{display:flex;flex-direction:column;gap:8px}
-.cm-fields label span{font-size:13px;font-weight:600;color:var(--blue)}
+.cm-fields label>span{font-size:15px;font-weight:600;color:var(--blue)}
+.cm-row{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:12px}
+@media (max-width:420px){.cm-row{grid-template-columns:1fr}}
+.cm-help{display:block;margin-top:-2px;font-size:13px;line-height:1.6;color:rgba(24,51,168,.75);word-break:keep-all}
+.cm-help .ex{display:block;margin-top:2px;color:rgba(24,51,168,.6)}
 .cm-done{text-align:center;padding:14px 0 6px}
 .cm-done .ok{width:62px;height:62px;border-radius:50%;background:var(--orange);color:var(--bg);font-size:28px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
 .cm-done h3{margin:0 0 13px;font-size:22px;font-weight:700;letter-spacing:-.02em}

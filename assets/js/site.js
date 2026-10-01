@@ -135,12 +135,10 @@
     { badge: "STEP 2 / 3 · 예산", title: "예산은 어느 정도로 생각하고 계신가요?" },
     { badge: "STEP 3 / 3 · 문의자 정보", title: "연락받을 정보를 알려주세요." }
   ];
-  var DETAIL_HINT = [
-    "행사 개요와 맡기고 싶은 범위를 자유롭게 적어주세요.",
-    "예) 참여 인원 약 300명 · 서울 OO호텔 연회장",
-    "    희망 일정 11월 중순",
-    "    기획부터 현장 운영까지 전체 대행 / 무대·음향만 필요"
-  ].join("\n");
+  // "행사 내용" 칸 아래에 보여주는 부가설명
+  var DETAIL_HINT =
+    "참여 인원, 장소, 희망 일정 등 행사 개요와 맡기고 싶은 대행 범위를 자유롭게 적어주세요." +
+    '<span class="ex">예) 약 300명 · 서울 OO호텔 연회장 · 11월 중순 / 기획부터 현장 운영까지 전체 대행</span>';
   var FIELDS = [
     { key: "company", label: "회사명 *", ph: "회사 또는 단체명", type: "text", auto: "organization" },
     { key: "name", label: "담당자명 *", ph: "성함", type: "text", auto: "name" },
@@ -251,6 +249,7 @@
 
     if (st.step === 3) {
       var fields = el("div", { class: "cm-fields" });
+      var row = el("div", { class: "cm-row" }); // 회사명 + 담당자명 한 줄
       FIELDS.forEach(function (f) {
         var lab = el("label");
         lab.appendChild(el("span", null, esc(f.label)));
@@ -258,12 +257,15 @@
         i.value = st.form[f.key];
         i.addEventListener("input", function () { st.form[f.key] = i.value; updateNext(); });
         lab.appendChild(i);
-        fields.appendChild(lab);
+        if (f.key === "company" || f.key === "name") row.appendChild(lab);
+        else fields.appendChild(lab);
+        if (f.key === "name") fields.appendChild(row);
       });
       // 행사 개요·대행 범위 등 자유 입력 (선택)
       var detailLab = el("label");
       detailLab.appendChild(el("span", null, "행사 내용 (선택)"));
-      var detail = el("textarea", { class: "cm-input cm-textarea", rows: "5", placeholder: DETAIL_HINT });
+      detailLab.appendChild(el("small", { class: "cm-help", id: "cm-detail-help" }, DETAIL_HINT));
+      var detail = el("textarea", { class: "cm-input cm-textarea", rows: "4", "aria-describedby": "cm-detail-help" });
       detail.value = st.form.detail;
       detail.addEventListener("input", function () { st.form.detail = detail.value; });
       detailLab.appendChild(detail);
