@@ -225,6 +225,8 @@ body.no-scroll{overflow:hidden}
 .featured-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(18px,2.4vw,42px)}
 .featured-card{display:flex;flex-direction:column}
 .featured-card .meta{display:block;margin-top:14px;font-family:var(--pre);font-size:clamp(15px,1.2vw,17px);line-height:1.7;letter-spacing:-.03em;word-break:keep-all}
+.featured-card .meta .t{display:block;font-weight:500}
+.featured-card .meta .sub{display:block;margin-top:2px;font-size:.88em;color:rgba(24,51,168,.72)}
 .featured-card .more{margin-top:auto;padding-top:14px;text-align:right}
 .featured-card .more a{display:inline-flex;align-items:center;gap:5px;font-family:var(--a2z);font-size:13.4px}
 .featured-card .more a span:last-child{display:inline-block;transition:transform .25s}
