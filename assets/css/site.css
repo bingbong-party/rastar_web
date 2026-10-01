@@ -136,11 +136,18 @@ body.no-scroll{overflow:hidden}
 .site-footer .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,4vw,56px);align-items:end}
 .site-footer .footer-logo{display:block;height:clamp(20px,1.7vw,26px);width:auto}
 .site-footer address{font-style:normal}
-.site-footer .tagline{margin:clamp(22px,2.4vw,34px) 0 0;font-size:clamp(15px,1.25vw,18px);line-height:1.6;letter-spacing:-.3px}
-.site-footer .info{display:flex;flex-direction:column;gap:10px;font-size:clamp(14px,1.15vw,16.5px);text-align:right;line-height:1.7}
+.site-footer .logo-light{display:none}
+.site-footer.dark{background:var(--blue);color:var(--bg)}
+.site-footer.dark a{color:var(--bg)}
+.site-footer.dark .logo-dark{display:none}
+.site-footer.dark .logo-light{display:block}
+.site-footer.dark .info .sep{color:rgba(238,238,238,.35)}
+.site-footer.dark .copy{border-top-color:rgba(238,238,238,.2)}
+.site-footer .tagline{margin:clamp(22px,2.4vw,34px) 0 0;font-size:clamp(15px,1.25vw,18px);font-weight:500;line-height:1.6;letter-spacing:-.3px}
+.site-footer .info{display:flex;flex-direction:column;gap:10px;font-size:clamp(14px,1.15vw,16.5px);font-weight:500;text-align:right;line-height:1.7}
 .site-footer .info .line{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
 .site-footer .info .sep{color:rgba(24,51,168,.28)}
-.site-footer .copy{margin-top:clamp(36px,4vw,60px);padding-top:clamp(20px,2.2vw,30px);border-top:1px solid rgba(24,51,168,.13);font-size:clamp(13px,1vw,15px);font-weight:500}
+.site-footer .copy{margin-top:clamp(36px,4vw,60px);padding-top:clamp(20px,2.2vw,30px);border-top:1px solid rgba(24,51,168,.13);font-size:clamp(13px,1vw,15px);font-weight:600}
 @media (max-width:720px){
   .site-footer .grid{grid-template-columns:1fr}
   .site-footer .info{text-align:left}
@@ -206,7 +213,7 @@ body.no-scroll{overflow:hidden}
 .element .desc{margin-top:clamp(10px,1.1vw,14px);font-family:var(--pre);font-size:clamp(15px,1.25vw,19px);line-height:1.75;letter-spacing:-.03em;word-break:keep-all}
 .elements-intro{padding-top:clamp(40px,5vw,85px)}
 .elements-list{padding-top:clamp(28px,2.6vw,40px);padding-bottom:clamp(80px,10vw,170px)}
-.svc-dark .elements-list{padding-bottom:clamp(48px,5vw,80px)}
+.svc-dark .elements-list{padding-bottom:clamp(72px,8vw,130px)}
 .svc-dark{margin-top:clamp(64px,7vw,120px);background:var(--blue);color:var(--bg)}
 .svc-dark .elements-intro{padding-top:clamp(72px,8vw,130px)}
 .svc-dark .lead-p{color:rgba(238,238,238,.86)}

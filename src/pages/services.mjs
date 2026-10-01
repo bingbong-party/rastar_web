@@ -88,12 +88,13 @@ ${projects.map((p) => `      <article class="featured-card">
 </section>`;
 }
 
-// 테스트: btl 페이지만 상단 타이틀·elements 섹션을 블루 배경으로 (CTA 블루와 이어짐)
+// 테스트: btl 페이지만 상단 타이틀·elements 섹션·푸터를 블루로, CTA 는 밝은 배경으로
 const BLUE_HERO_TEST = new Set(["btl"]);
 
 export default PAGES.map((pg) => ({
   file: `${pg.key}.html`,
   path: `/${pg.key}.html`,
+  footerDark: BLUE_HERO_TEST.has(pg.key),
   title: pg.title,
   description: pg.description,
   body: (ctx) => `${BLUE_HERO_TEST.has(pg.key) ? '<div class="svc-hero" data-dark-head>' : ""}<section class="wrap svc-head">
@@ -142,5 +143,5 @@ ${pg.elements.map(([no, title, tags, desc]) => `      <div class="element">
   </div>
 </section>${BLUE_HERO_TEST.has(pg.key) ? "</div>" : ""}
 
-${cta({ ...pg.cta, continued: BLUE_HERO_TEST.has(pg.key) })}`,
+${cta({ ...pg.cta, light: BLUE_HERO_TEST.has(pg.key) })}`,
 }));
