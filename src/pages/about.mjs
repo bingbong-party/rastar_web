@@ -29,7 +29,7 @@ export default {
   body: () => `<div class="about-hero">
 <section class="wrap page-head">
   <div class="row solo">
-    <h1><span>about rastar</span></h1>
+    <h1><span>about · meet rastar</span></h1>
   </div>
 </section>
 

@@ -53,7 +53,7 @@ ${gallery.map((g, i) => `          <button type="button" data-full="${g.full}" a
     },
     body: () => `<section class="wrap page-head">
   <div class="row solo">
-    <div class="h1-like" aria-hidden="true"><span>rastar projects</span></div>
+    <div class="h1-like" aria-hidden="true"><span>detail</span></div>
   </div>
 </section>
 
