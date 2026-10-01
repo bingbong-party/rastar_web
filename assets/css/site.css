@@ -21,8 +21,6 @@
   --a2z:'A2Z','Pretendard Variable',system-ui,sans-serif;
 }
 
-/* 배경 톤 테스트 (btl 페이지): 블루와 어울리도록 살짝 푸른 회색 + 밝기 낮춤 */
-html.tone-cool{--bg:#E6E9F1;--panel:#DDE1EB;--modal:#D6DBE7}
 html,body{margin:0;padding:0;background:var(--bg)}
 html{scrollbar-gutter:stable}
 *{box-sizing:border-box;-webkit-font-smoothing:antialiased}
@@ -65,6 +63,13 @@ body.no-scroll{overflow:hidden}
 .header-actions{display:flex;align-items:center;gap:clamp(14px,1.6vw,26px)}
 .burger{background:transparent;border:0;padding:6px;display:flex;flex-direction:column;gap:6px;cursor:pointer}
 .burger span{width:28px;height:2px;background:var(--blue);display:block}
+.logo .logo-light{display:none}
+/* 블루 영역 위에 있을 때의 헤더 (data-dark-head 섹션) */
+.site-header.on-dark,.site-header.on-dark.scrolled{background:var(--blue)}
+.site-header.on-dark .logo-dark{display:none}
+.site-header.on-dark .logo-light{display:block}
+.site-header.on-dark .burger span{background:var(--bg)}
+.site-header.on-dark .btn-pill:hover{background:var(--bg);color:var(--blue)}
 
 /* ---------------- full-screen menu ---------------- */
 .menu{position:fixed;inset:0;z-index:150;background:var(--blue);color:var(--bg);display:none;flex-direction:column;overflow-y:auto;text-align:left}
@@ -168,6 +173,9 @@ body.no-scroll{overflow:hidden}
 .svc-head .sub .en{font-family:var(--a2z);font-size:clamp(14px,1.25vw,18px);font-weight:500}
 .svc-head .sub .kr{margin-top:10px;font-family:var(--pre);font-size:clamp(15px,1.25vw,19px);letter-spacing:-.03em;word-break:keep-all}
 @media (max-width:720px){.svc-head .sub{text-align:left}}
+.svc-hero{background:var(--blue);color:var(--bg)}
+.svc-hero .svc-head{padding-bottom:clamp(56px,6vw,96px)}
+.svc-hero .svc-head .sub .kr{color:rgba(238,238,238,.82)}
 
 .split{display:grid;grid-template-columns:clamp(110px,17vw,250px) 1fr;gap:clamp(16px,2.4vw,40px);align-items:start}
 .split>.label{font-family:var(--a2z);font-size:clamp(14px,1.25vw,18px);font-weight:500}

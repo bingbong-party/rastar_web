@@ -87,16 +87,15 @@ ${projects.map((p) => `      <article class="featured-card">
 </section>`;
 }
 
-// 배경 톤 테스트: btl 페이지에만 푸른 회색 배경(.tone-cool)을 적용해 본다.
-const TONE_TEST = { btl: "tone-cool" };
+// 테스트: btl 페이지만 상단 타이틀 영역을 블루 배경으로 (.svc-hero)
+const BLUE_HERO_TEST = new Set(["btl"]);
 
 export default PAGES.map((pg) => ({
   file: `${pg.key}.html`,
-  htmlClass: TONE_TEST[pg.key] || "",
   path: `/${pg.key}.html`,
   title: pg.title,
   description: pg.description,
-  body: (ctx) => `<section class="wrap svc-head">
+  body: (ctx) => `${BLUE_HERO_TEST.has(pg.key) ? '<div class="svc-hero" data-dark-head>' : ""}<section class="wrap svc-head">
   <div class="row">
     <h1><span>${esc(pg.key)}</span></h1>
     <div class="sub">
@@ -104,7 +103,7 @@ export default PAGES.map((pg) => ({
       <div class="kr">${esc(pg.kr)}</div>
     </div>
   </div>
-</section>
+</section>${BLUE_HERO_TEST.has(pg.key) ? "</div>" : ""}
 
 <section class="wrap block">
   <div class="split">

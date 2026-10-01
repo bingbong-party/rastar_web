@@ -9,7 +9,7 @@ export const SITE_NAME = "라별";
 export const DEFAULT_DESCRIPTION =
   "라별은 브랜드 액티베이션·페스티벌·MICE 행사를 기획부터 공간 연출, 현장 운영까지 하나의 흐름으로 설계하는 전문 행사 솔루션 에이전시입니다.";
 export const DEFAULT_IMAGE = `${SITE_ORIGIN}/assets/img/og.jpg`;
-export const ASSET_VERSION = "20261001-11";
+export const ASSET_VERSION = "20261001-12";
 
 export const STATS = [
   { label: "누적 행사 운영", value: "1,200+", note: "" },
@@ -54,7 +54,7 @@ ${extraHead}${ld}`;
 export function header({ home = false } = {}) {
   return `<header class="site-header${home ? " is-home" : ""}">
   <div class="bar">
-    <a class="logo" href="/" aria-label="라별 홈"><img src="/assets/img/rastar-blue.png" alt="rastar" width="120" height="24"></a>
+    <a class="logo" href="/" aria-label="라별 홈"><img class="logo-dark" src="/assets/img/rastar-blue.png" alt="rastar" width="120" height="24"><img class="logo-light" src="/assets/img/rastar-light.png" alt="" width="120" height="24"></a>
     <div class="header-actions">
       <button type="button" class="btn-pill" data-contact>contact<span class="arr" aria-hidden="true">↗</span></button>
       <button type="button" class="burger" data-menu-open aria-label="메뉴 열기" aria-controls="site-menu"><span></span><span></span><span></span></button>

@@ -27,7 +27,15 @@
   /* ---------------- 헤더: 최상단에선 투명, 스크롤하면 흰 배경 ---------------- */
   var siteHeader = $(".site-header");
   if (siteHeader) {
-    var syncHeader = function () { siteHeader.classList.toggle("scrolled", window.scrollY > 0); };
+    // data-dark-head 영역(블루 배경)이 헤더 아래에 있는 동안은 밝은 헤더로 바꾼다.
+    var darkHead = $("[data-dark-head]");
+    var syncHeader = function () {
+      siteHeader.classList.toggle("scrolled", window.scrollY > 0);
+      if (darkHead) {
+        var h = siteHeader.offsetHeight;
+        siteHeader.classList.toggle("on-dark", darkHead.getBoundingClientRect().bottom > h / 2);
+      }
+    };
     window.addEventListener("scroll", syncHeader, { passive: true });
     syncHeader();
   }
