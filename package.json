@@ -5,7 +5,8 @@
   "description": "Build/sync tooling for the rastar_web static site (not used by the site itself).",
   "scripts": {
     "sync-notion": "node scripts/sync-notion.mjs",
-    "build-pages": "node scripts/build-pages.mjs"
+    "build-pages": "node scripts/build-pages.mjs",
+    "sync-local": "node --env-file=.env scripts/sync-notion.mjs && node scripts/build-pages.mjs"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",

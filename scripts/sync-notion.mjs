@@ -23,6 +23,8 @@
      NOTION_PROJECTS_DB_ID - Projects 데이터베이스 ID
 
    실행: npm run sync-notion
+   로컬: .env.example 을 .env 로 복사해 값을 채운 뒤 npm run sync-local
+         (동기화 후 build-pages 까지 실행한다)
    ===================================================================== */
 
 import { Client } from "@notionhq/client";
@@ -40,7 +42,7 @@ const NOTION_API_KEY = process.env.NOTION_API_KEY;
 const NOTION_PROJECTS_DB_ID = process.env.NOTION_PROJECTS_DB_ID;
 
 if (!NOTION_API_KEY || !NOTION_PROJECTS_DB_ID) {
-  console.error("NOTION_API_KEY / NOTION_PROJECTS_DB_ID 환경변수가 필요합니다.");
+  console.error("NOTION_API_KEY / NOTION_PROJECTS_DB_ID 환경변수가 필요합니다. (로컬에서는 .env 에 넣고 npm run sync-local)");
   process.exit(1);
 }
 
