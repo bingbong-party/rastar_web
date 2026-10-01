@@ -126,7 +126,7 @@
   var EMAILJS_SERVICE_ID = "service_qzdcnz4";
   var EMAILJS_TEMPLATE_ID = "template_32zpy6s";
   var PHONE = "032-262-2164";
-  var EMAIL = "ws@rastarcomms.com";
+  var EMAIL = "ejkoon@rastarcomms.com"; // 상담 패널 안에서 안내하는 이메일
   var KAKAO_URL = "https://pf.kakao.com/_CdFxan/chat";
 
   var TYPES = ["프로모션", "팝업스토어", "론칭·쇼케이스", "페스티벌", "스포츠 행사", "공공·지역행사", "기업행사", "컨퍼런스", "전시·박람회", "온라인·하이브리드", "기타"];
