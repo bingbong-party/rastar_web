@@ -51,10 +51,11 @@ body.no-scroll{overflow:hidden}
 .btn-line:hover{border-color:var(--bg);color:var(--bg)}
 
 /* ---------------- header ---------------- */
-.site-header{position:fixed;top:0;left:0;right:0;z-index:70;background:#fff}
+.site-header{position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;transition:background-color .25s ease}
+.site-header.scrolled{background:#fff}
 .site-header .bar{position:relative;max-width:1440px;margin:0 auto;padding:clamp(10px,1vw,14px) var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{display:block}
-.logo img{display:block;height:clamp(20px,1.7vw,26px);width:auto}
+.logo img{display:block;height:clamp(16px,1.3vw,20px);width:auto}
 .header-actions{display:flex;align-items:center;gap:clamp(14px,1.6vw,26px)}
 .burger{background:transparent;border:0;padding:6px;display:flex;flex-direction:column;gap:6px;cursor:pointer}
 .burger span{width:30px;height:3px;background:var(--blue);display:block}
@@ -64,7 +65,7 @@ body.no-scroll{overflow:hidden}
 .menu.open{display:flex;animation:fadeUp .35s ease both}
 .menu a{color:var(--bg)}
 .menu-top{max-width:1440px;width:100%;margin:0 auto;padding:clamp(20px,2.6vw,34px) var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-shrink:0}
-.menu-top .logo img{height:24px}
+.menu-top .logo img{height:clamp(16px,1.3vw,20px)}
 .menu-close{background:transparent;border:0;width:38px;height:38px;position:relative;cursor:pointer;padding:0}
 .menu-close span{position:absolute;top:50%;left:2px;right:2px;height:3px;background:var(--bg);transform:rotate(45deg)}
 .menu-close span+span{transform:rotate(-45deg)}
@@ -90,7 +91,7 @@ body.no-scroll{overflow:hidden}
 }
 
 /* ---------------- page heading (sub pages) ---------------- */
-.page-head{padding-top:clamp(120px,13vw,200px)}
+.page-head{padding-top:clamp(90px,9vw,140px)}
 .page-head .row{position:relative;display:flex;flex-wrap:wrap;gap:16px;align-items:baseline}
 .page-head .label{font-family:var(--a2z);font-size:clamp(14px,1.35vw,19.4px);font-weight:500;animation:subFade .7s ease .45s both}
 .page-head h1,.page-head .h1-like{margin:0;position:absolute;left:50%;bottom:0;transform:translateX(-50%);white-space:nowrap;overflow:hidden;padding-bottom:.1em;font-family:var(--a2z);font-size:clamp(27px,2.98vw,42.9px);font-weight:600;letter-spacing:0;line-height:1}
@@ -114,7 +115,7 @@ body.no-scroll{overflow:hidden}
 .site-footer .wrap{padding-top:clamp(52px,6vw,86px);padding-bottom:clamp(28px,3vw,40px);font-family:var(--pre)}
 .site-footer,.site-footer *{-webkit-font-smoothing:auto}
 .site-footer .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,4vw,56px);align-items:end}
-.site-footer .footer-logo{display:block;height:clamp(20px,1.7vw,26px);width:auto}
+.site-footer .footer-logo{display:block;height:clamp(16px,1.3vw,20px);width:auto}
 .site-footer address{font-style:normal}
 .site-footer .tagline{margin:clamp(22px,2.4vw,34px) 0 0;font-size:15px;line-height:1.55;letter-spacing:-.2px}
 .site-footer .info{display:flex;flex-direction:column;gap:9px;font-size:14px;text-align:right;line-height:1.7}
@@ -128,7 +129,7 @@ body.no-scroll{overflow:hidden}
 }
 
 /* ---------------- landing ---------------- */
-.hero{padding-top:clamp(120px,12vw,190px)}
+.hero{padding-top:clamp(56px,5vw,80px)}
 .hero .intro{padding-top:clamp(40px,5.6vw,96px);padding-bottom:clamp(20px,2.2vw,32px);display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,72px);align-items:flex-end;justify-content:space-between}
 .hero h1{margin:0;font-family:var(--pre);font-weight:600;font-size:clamp(30px,3.9vw,56px);line-height:1.18;letter-spacing:-.03em;word-break:keep-all;animation:fadeUp .9s ease both}
 .hero h1 em{font-style:normal;border-bottom:3px solid var(--orange);padding-bottom:.04em}
@@ -153,7 +154,7 @@ body.no-scroll{overflow:hidden}
 }
 
 /* ---------------- service pages (btl / festival / mice) ---------------- */
-.svc-head{padding-top:clamp(140px,14vw,220px)}
+.svc-head{padding-top:clamp(100px,10vw,160px)}
 .svc-head .row{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-end;justify-content:space-between}
 .svc-head h1{margin:0;overflow:hidden;padding-bottom:.08em;font-family:var(--a2z);font-size:clamp(40px,5.6vw,88px);font-weight:700;line-height:.95}
 .svc-head h1 span{display:block;animation:titleRise .9s cubic-bezier(.2,.7,.2,1) both}

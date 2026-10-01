@@ -24,6 +24,14 @@
     });
   }
 
+  /* ---------------- 헤더: 최상단에선 투명, 스크롤하면 흰 배경 ---------------- */
+  var siteHeader = $(".site-header");
+  if (siteHeader) {
+    var syncHeader = function () { siteHeader.classList.toggle("scrolled", window.scrollY > 0); };
+    window.addEventListener("scroll", syncHeader, { passive: true });
+    syncHeader();
+  }
+
   /* ---------------- 전체 메뉴 ---------------- */
   var menu = $("#site-menu");
   function openMenu() {
