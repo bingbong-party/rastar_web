@@ -339,23 +339,6 @@ body.no-scroll{overflow:hidden}
 .faq-item p{margin:0;font-family:var(--pre);font-size:clamp(14px,1.08vw,17px);line-height:1.9;letter-spacing:-.03em;color:rgba(24,51,168,.82);word-break:keep-all;text-wrap:pretty}
 @media (max-width:720px){.faq-item{grid-template-columns:1fr}}
 
-/* ---------------- brochure viewer ---------------- */
-.brochure-page,.brochure-page body{background:#1F1F1F;height:100%;overflow:hidden}
-.viewer{height:100vh;height:100dvh;display:flex;flex-direction:column;font-family:var(--pre)}
-.viewer-bar{flex-shrink:0;height:48px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 16px;background:#000;color:#fff}
-.viewer-bar .title{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:700;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.viewer-bar .title a{color:#fff;opacity:.7;font-weight:500}
-.viewer-bar .title a:hover{opacity:1}
-.viewer-bar .dl{flex-shrink:0;display:flex;align-items:center;height:30px;padding:0 12px;border:1px solid rgba(255,255,255,.35);border-radius:6px;font-size:13px;font-weight:600;color:#fff}
-.viewer-bar .dl:hover{background:rgba(255,255,255,.1)}
-.viewer-actions{display:flex;gap:8px;flex-shrink:0}
-.viewer-frame{flex:1;min-height:0}
-.viewer-frame[hidden]{display:none}
-.viewer-frame iframe{display:block;width:100%;height:100%;border:0;background:#1F1F1F}
-.viewer-status[hidden]{display:none}
-.viewer-status{padding:60px 20px;text-align:center;font-size:15px;line-height:1.8;color:rgba(255,255,255,.75)}
-.viewer-status a{color:#fff;text-decoration:underline}
-
 /* ---------------- contact modal ---------------- */
 /* 우하단 고정 패널: 화면을 막지 않고, 접으면 런처로. 모바일은 하단 시트 */
 .cm-panel{position:fixed;z-index:200;right:18px;bottom:18px;width:480px;max-width:calc(100vw - 36px);display:flex;flex-direction:column;text-align:left;transform:translateX(calc(100% + 28px));opacity:0;pointer-events:none;visibility:hidden;transition:transform .42s cubic-bezier(.2,.85,.25,1),opacity .3s ease,visibility 0s linear .42s}
@@ -457,4 +440,3 @@ body.no-scroll{overflow:hidden}
 @media (prefers-reduced-motion:reduce){
   .js [data-reveal],.js .process[data-reveal] .step>*,.js .process[data-reveal] .step::before{opacity:1!important;transform:none!important}
 }
-@media (max-width:520px){.viewer-bar .title span{display:none}}

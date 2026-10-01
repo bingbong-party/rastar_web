@@ -9,7 +9,7 @@ export const SITE_NAME = "라별";
 export const DEFAULT_DESCRIPTION =
   "라별은 브랜드 액티베이션·페스티벌·MICE 행사를 기획부터 공간 연출, 현장 운영까지 하나의 흐름으로 설계하는 전문 행사 솔루션 에이전시입니다.";
 export const DEFAULT_IMAGE = `${SITE_ORIGIN}/assets/img/og.jpg`;
-export const ASSET_VERSION = "20261001-83";
+export const ASSET_VERSION = "20261001-84";
 
 export function esc(s) {
   return String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
@@ -87,7 +87,7 @@ export function menu() {
     <div class="menu-foot">
       <img class="menu-symbol" src="/assets/img/rastar-symbol-light.png" alt="" aria-hidden="true" width="180" height="180">
       <div class="menu-actions">
-        <a class="menu-brochure" href="/brochure.html">서비스 소개서 다운로드</a>
+        <a class="menu-brochure" href="/assets/docs/rastar-service-introduction.pdf" target="_blank" rel="noopener">서비스 소개서 다운로드</a>
       </div>
     </div>
   </nav>
@@ -101,7 +101,7 @@ export function cta({ title, text, button = "프로젝트 문의하기", light =
     <p>${esc(text)}</p>
     <div class="actions">
       <button type="button" class="btn-cta" data-contact>${esc(button)}</button>
-      <a class="btn-line" href="/brochure.html">서비스소개서 다운로드</a>
+      <a class="btn-line" href="/assets/docs/rastar-service-introduction.pdf" target="_blank" rel="noopener">서비스소개서 다운로드</a>
     </div>
   </div>
 </section>`;
