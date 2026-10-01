@@ -104,6 +104,8 @@ body.no-scroll{overflow:hidden}
 /* ---------------- page heading (sub pages) ---------------- */
 .page-head{padding-top:clamp(90px,9vw,140px)}
 .page-head .row{position:relative;display:flex;flex-wrap:wrap;gap:16px;align-items:baseline}
+.page-head .row.solo{justify-content:center}
+.page-head .row.solo h1{position:static;transform:none}
 .page-head .label{font-family:var(--a2z);font-size:clamp(14px,1.35vw,19.4px);font-weight:500;animation:subFade .7s ease .45s both}
 .page-head h1,.page-head .h1-like{margin:0;position:absolute;left:50%;bottom:0;transform:translateX(-50%);white-space:nowrap;overflow:hidden;padding-bottom:.1em;font-family:var(--a2z);font-size:clamp(27px,2.98vw,42.9px);font-weight:600;letter-spacing:0;line-height:1}
 .page-head h1 span{display:block;animation:titleRise .9s cubic-bezier(.2,.7,.2,1) both}
@@ -397,7 +399,7 @@ body.no-scroll{overflow:hidden}
 }
 
 /* ---------------- 스크롤 등장 애니메이션 (site.js 가 화면에 들어오면 .in 을 붙임) ---------------- */
-.js [data-reveal]:not(.process){opacity:0;transform:translateY(28px);transition:opacity 1.1s ease var(--d,0s),transform 1.2s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.js [data-reveal]:not(.process){opacity:0;transform:translateY(56px);transition:opacity 1.6s ease var(--d,0s),transform 1.8s cubic-bezier(.16,.84,.3,1) var(--d,0s)}
 .js [data-reveal].in:not(.process){opacity:1;transform:none}
 /* 4단계: 왼쪽에서 오른쪽으로 선이 그어지며 1→4 순서로 등장 */
 .js .process[data-reveal] .step::before{transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.4,0,.2,1) calc(var(--i) * .8s)}

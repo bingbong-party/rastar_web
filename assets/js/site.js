@@ -95,7 +95,7 @@
         if (en.target.hasAttribute("data-count")) countUp(en.target);
         else en.target.classList.add("in");
       });
-    }, { threshold: 0.2, rootMargin: "0px 0px -8% 0px" });
+    }, { threshold: 0.2, rootMargin: "0px 0px -15% 0px" });
     revealEls.concat(countEls).forEach(function (el) { io.observe(el); });
   } else {
     revealEls.forEach(function (el) { el.classList.add("in"); });

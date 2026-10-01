@@ -28,9 +28,8 @@ export default {
   description: "라별커뮤니케이션즈는 기획부터 디자인, 무대 시스템 운영, 전시부스, 섭외까지 행사에 필요한 모든 과정을 다루는 전문 행사 솔루션 에이전시입니다. 전체를 맡기셔도, 필요한 파트만 맡기셔도 됩니다.",
   body: () => `<div class="about-hero">
 <section class="wrap page-head">
-  <div class="row">
-    <div class="label">about</div>
-    <h1><span>meet rastar</span></h1>
+  <div class="row solo">
+    <h1><span>about rastar</span></h1>
   </div>
 </section>
 
@@ -48,7 +47,7 @@ export default {
   <h2 class="lead-h2">필요한 만큼만, 정확하게</h2>
   <p class="lead-p">라별에게는 <strong>행사 전체</strong>를 맡기셔도, <strong>필요한 파트</strong>만 맡기셔도 됩니다.</p>
   <div class="parts">
-${PARTS.map((p, i) => `    <div class="part" data-reveal style="--d:${i * 0.22}s">
+${PARTS.map((p, i) => `    <div class="part" data-reveal style="--d:${i * 0.35}s">
       <span class="badge">${esc(p.badge)}</span>
       <div><h3>세부 업무</h3><p>${esc(p.work)}</p></div>
       <div><h3>커버 범위</h3><p>${esc(p.scope)}</p></div>
