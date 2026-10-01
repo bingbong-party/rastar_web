@@ -63,7 +63,7 @@ ${gallery.map((g, i) => `          <button type="button" data-full="${g.full}" a
       ${stage}
   </div>
   <div class="info-col">
-    <article class="info">
+    <article class="detail-info">
       <h1>${esc(p.title)}</h1>
       ${p.summary ? `<p class="lead">${esc(p.summary)}</p>` : ""}
       <div class="body">${paragraphs(p.desc).map((t) => `<p>${esc(t)}</p>`).join("")}</div>

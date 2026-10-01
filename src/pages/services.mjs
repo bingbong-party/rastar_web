@@ -87,12 +87,13 @@ ${projects.map((p) => `      <article class="featured-card">
 </section>`;
 }
 
-// 테스트: btl 페이지만 상단 타이틀 영역을 블루 배경으로 (.svc-hero)
+// 테스트: btl 페이지만 상단 타이틀·elements 섹션을 블루 배경으로, 하단 CTA 는 밝은 배경으로
 const BLUE_HERO_TEST = new Set(["btl"]);
 
 export default PAGES.map((pg) => ({
   file: `${pg.key}.html`,
   path: `/${pg.key}.html`,
+  footerBordered: BLUE_HERO_TEST.has(pg.key),
   title: pg.title,
   description: pg.description,
   body: (ctx) => `${BLUE_HERO_TEST.has(pg.key) ? '<div class="svc-hero" data-dark-head>' : ""}<section class="wrap svc-head">
@@ -116,8 +117,10 @@ ${pg.create.map((c) => `      <div>${c.map(esc).join("<br>")}</div>`).join("\n")
 
 ${featuredSection(ctx.featured(pg.key, 3), ctx)}
 
-<div class="wrap" style="margin-top:clamp(40px,5vw,85px)"><div class="divider" aria-hidden="true"></div></div>
-<section class="wrap" style="padding-top:clamp(40px,5vw,85px)">
+${BLUE_HERO_TEST.has(pg.key)
+  ? '<div class="svc-dark" data-dark-head>'
+  : '<div class="wrap" style="margin-top:clamp(40px,5vw,85px)"><div class="divider" aria-hidden="true"></div></div>'}
+<section class="wrap elements-intro">
   <div class="split">
     <div class="label">${esc(pg.elementsLabel)}</div>
     <div>
@@ -137,7 +140,7 @@ ${pg.elements.map(([no, title, tags, desc]) => `      <div class="element">
       </div>`).join("\n")}
     </div>
   </div>
-</section>
+</section>${BLUE_HERO_TEST.has(pg.key) ? "</div>" : ""}
 
-${cta(pg.cta)}`,
+${cta({ ...pg.cta, light: BLUE_HERO_TEST.has(pg.key) })}`,
 }));

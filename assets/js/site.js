@@ -28,13 +28,14 @@
   var siteHeader = $(".site-header");
   if (siteHeader) {
     // data-dark-head 영역(블루 배경)이 헤더 아래에 있는 동안은 밝은 헤더로 바꾼다.
-    var darkHead = $("[data-dark-head]");
+    var darkAreas = $$("[data-dark-head]");
     var syncHeader = function () {
       siteHeader.classList.toggle("scrolled", window.scrollY > 0);
-      if (darkHead) {
-        var h = siteHeader.offsetHeight;
-        siteHeader.classList.toggle("on-dark", darkHead.getBoundingClientRect().bottom > h / 2);
-      }
+      var mid = siteHeader.offsetHeight / 2;
+      siteHeader.classList.toggle("on-dark", darkAreas.some(function (a) {
+        var r = a.getBoundingClientRect();
+        return r.top <= mid && r.bottom > mid;
+      }));
     };
     window.addEventListener("scroll", syncHeader, { passive: true });
     syncHeader();
