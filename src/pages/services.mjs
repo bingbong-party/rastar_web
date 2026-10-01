@@ -9,10 +9,9 @@ const PAGES = [
     description: "팝업스토어, 신제품 론칭, 소비자 참여 이벤트와 샘플링 프로모션까지. 라별은 브랜드를 보는 것에서 직접 경험하는 것으로 바꾸는 BTL 행사를 기획·운영합니다.",
     en: "brand activation",
     kr: "브랜드를 보는 것에서, 직접 경험하는 것으로",
-    // nowrap: 옆 칸 두 번째 줄이 비어 있어 넘쳐도 되는 항목은 줄바꿈하지 않는다.
     create: [
       ["팝업스토어 및 브랜드 공간 체험", "신제품 론칭 및 제품 체험 행사"],
-      ["소비자 참여 및 고객 초청 이벤트", { text: "축제·스포츠·공연 연계 브랜드 프로모션", nowrap: true }],
+      ["소비자 참여 및 고객 초청 이벤트", "축제·스포츠·공연 연계 브랜드 프로모션"],
       ["샘플링 및 온사이트 판촉 프로모션"],
     ],
     elementsLabel: "engagement elements",
@@ -111,7 +110,7 @@ export default PAGES.map((pg) => ({
   <div class="split">
     <h2 class="label" style="margin:0">what we create</h2>
     <div class="create-grid">
-${pg.create.map((c) => `      <div>${c.map((t) => (typeof t === "string" ? esc(t) : `<span class="nowrap">${esc(t.text)}</span>`)).join("<br>")}</div>`).join("\n")}
+${pg.create.map((c) => `      <div>${c.map(esc).join("<br>")}</div>`).join("\n")}
     </div>
   </div>
 </section>

@@ -189,8 +189,8 @@ body.no-scroll{overflow:hidden}
 .split>.label{font-family:var(--a2z);font-size:clamp(14px,1.25vw,18px);font-weight:500}
 @media (max-width:720px){.split{grid-template-columns:1fr}}
 .block{padding-top:clamp(56px,6vw,100px)}
-.create-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:clamp(20px,2.4vw,44px);font-family:var(--pre);font-size:clamp(15px,1.25vw,19px);line-height:1.75;letter-spacing:-.03em;word-break:keep-all}
-@media (min-width:721px){.create-grid .nowrap{white-space:nowrap}}
+/* 각 열이 문구 길이만큼만 차지하고 사이를 균등 배분 → 문구 중간 줄바꿈 없이, 좁으면 열 단위로 다음 줄로 */
+.create-grid{display:flex;flex-wrap:wrap;justify-content:space-between;column-gap:clamp(20px,2.4vw,40px);row-gap:clamp(14px,1.6vw,22px);font-family:var(--pre);font-size:clamp(15px,1.25vw,19px);line-height:1.75;letter-spacing:-.03em;word-break:keep-all}
 .divider{height:1px;background:rgba(24,51,168,.22)}
 .lead-h2{margin:0;font-family:var(--pre);font-size:clamp(24px,2.7vw,40px);font-weight:700;letter-spacing:-.03em;line-height:1.25;word-break:keep-all}
 .lead-p{margin:clamp(18px,1.8vw,26px) 0 0;font-family:var(--pre);font-size:clamp(15px,1.25vw,19px);line-height:1.75;letter-spacing:-.03em;word-break:keep-all;text-wrap:pretty}
