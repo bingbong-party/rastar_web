@@ -9,7 +9,7 @@ export const SITE_NAME = "라별";
 export const DEFAULT_DESCRIPTION =
   "라별은 브랜드 액티베이션·페스티벌·MICE 행사를 기획부터 공간 연출, 현장 운영까지 하나의 흐름으로 설계하는 전문 행사 솔루션 에이전시입니다.";
 export const DEFAULT_IMAGE = `${SITE_ORIGIN}/assets/img/og.jpg`;
-export const ASSET_VERSION = "20261001-67";
+export const ASSET_VERSION = "20261001-68";
 
 export function esc(s) {
   return String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
@@ -76,6 +76,7 @@ export function menu() {
           <a href="/mice.html">mice</a>
         </div>
       </div>
+      <a class="menu-brochure" href="/brochure.html">서비스 소개서 다운로드</a>
     </div>
     <div class="menu-col right">
       <div class="menu-links sub">
@@ -83,7 +84,6 @@ export function menu() {
         <a href="/Projects.html">projects</a>
         <a href="/faq.html">faq</a>
       </div>
-      <a class="menu-brochure" href="/brochure.html">서비스 소개서 다운로드</a>
     </div>
   </nav>
 </div>`;
