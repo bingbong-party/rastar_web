@@ -120,6 +120,7 @@ body.no-scroll{overflow:hidden}
 .cta p{margin:34px 0 0;font-family:var(--pre);font-size:clamp(16px,1.4vw,20px);font-weight:400;color:rgba(238,238,238,.86);line-height:1.4;letter-spacing:-.02em;word-break:keep-all}
 .cta .actions{margin-top:clamp(40px,4.6vw,72px);display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
 .cta-light{background:var(--bg)}
+.cta-divided .wrap{border-top:1px solid rgba(238,238,238,.2)}
 .cta-light h2{color:var(--blue)}
 .cta-light p{color:rgba(24,51,168,.82)}
 .cta-light .btn-line{color:var(--blue);border-color:rgba(24,51,168,.4)}
@@ -187,6 +188,7 @@ body.no-scroll{overflow:hidden}
 @media (max-width:720px){.split{grid-template-columns:1fr}}
 .block{padding-top:clamp(56px,6vw,100px)}
 .create-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:clamp(20px,2.4vw,44px);font-family:var(--pre);font-size:clamp(15px,1.25vw,19px);line-height:1.75;letter-spacing:-.03em;word-break:keep-all}
+@media (min-width:721px){.create-grid .nowrap{white-space:nowrap}}
 .divider{height:1px;background:rgba(24,51,168,.22)}
 .lead-h2{margin:0;font-family:var(--pre);font-size:clamp(24px,2.7vw,40px);font-weight:700;letter-spacing:-.03em;line-height:1.25;word-break:keep-all}
 .lead-p{margin:clamp(18px,1.8vw,26px) 0 0;font-family:var(--pre);font-size:clamp(15px,1.25vw,19px);line-height:1.75;letter-spacing:-.03em;word-break:keep-all;text-wrap:pretty}

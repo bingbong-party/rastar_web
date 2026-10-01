@@ -9,7 +9,7 @@ export const SITE_NAME = "라별";
 export const DEFAULT_DESCRIPTION =
   "라별은 브랜드 액티베이션·페스티벌·MICE 행사를 기획부터 공간 연출, 현장 운영까지 하나의 흐름으로 설계하는 전문 행사 솔루션 에이전시입니다.";
 export const DEFAULT_IMAGE = `${SITE_ORIGIN}/assets/img/og.jpg`;
-export const ASSET_VERSION = "20261001-16";
+export const ASSET_VERSION = "20261001-18";
 
 export const STATS = [
   { label: "누적 행사 운영", value: "1,200+", note: "" },
@@ -101,8 +101,8 @@ export function menu() {
 </div>`;
 }
 
-export function cta({ title, text, button = "프로젝트 문의하기", light = false }) {
-  return `<section class="cta${light ? " cta-light" : ""}">
+export function cta({ title, text, button = "프로젝트 문의하기", light = false, divided = false }) {
+  return `<section class="cta${light ? " cta-light" : ""}${divided ? " cta-divided" : ""}"${light ? "" : " data-dark-head"}>
   <div class="wrap">
     <h2>${esc(title)}</h2>
     <p>${esc(text)}</p>

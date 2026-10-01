@@ -62,7 +62,7 @@ ${SERVICES.map((s) => `    <a class="svc" href="${s.href}">
   </div>
 </section>
 
-<section class="cta">
+<section class="cta" data-dark-head>
   <div class="wrap">
     <h2>ready to upgrade your moment?</h2>
     <p>다음 행사, 라별과 함께 한 단계 끌어올려보세요</p>

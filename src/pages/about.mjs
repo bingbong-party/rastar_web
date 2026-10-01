@@ -67,7 +67,7 @@ ${STEPS.map((s, i) => `    <li class="step">
   </ol>
 </section>
 
-<section class="numbers">
+<section class="numbers" data-dark-head>
   <div class="wrap">
     <h2>숫자로 증명해온 시간</h2>
     <div class="grid">

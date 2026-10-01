@@ -9,9 +9,10 @@ const PAGES = [
     description: "팝업스토어, 신제품 론칭, 소비자 참여 이벤트와 샘플링 프로모션까지. 라별은 브랜드를 보는 것에서 직접 경험하는 것으로 바꾸는 BTL 행사를 기획·운영합니다.",
     en: "brand activation",
     kr: "브랜드를 보는 것에서, 직접 경험하는 것으로",
+    // nowrap: 옆 칸 두 번째 줄이 비어 있어 넘쳐도 되는 항목은 줄바꿈하지 않는다.
     create: [
       ["팝업스토어 및 브랜드 공간 체험", "신제품 론칭 및 제품 체험 행사"],
-      ["소비자 참여 및 고객 초청 이벤트", "축제·스포츠·공연 연계 브랜드 프로모션"],
+      ["소비자 참여 및 고객 초청 이벤트", { text: "축제·스포츠·공연 연계 브랜드 프로모션", nowrap: true }],
       ["샘플링 및 온사이트 판촉 프로모션"],
     ],
     elementsLabel: "engagement elements",
@@ -87,13 +88,12 @@ ${projects.map((p) => `      <article class="featured-card">
 </section>`;
 }
 
-// 테스트: btl 페이지만 상단 타이틀·elements 섹션을 블루 배경으로, 하단 CTA 는 밝은 배경으로
+// 테스트: btl 페이지만 상단 타이틀·elements 섹션을 블루 배경으로 (CTA 블루와 이어짐)
 const BLUE_HERO_TEST = new Set(["btl"]);
 
 export default PAGES.map((pg) => ({
   file: `${pg.key}.html`,
   path: `/${pg.key}.html`,
-  footerBordered: BLUE_HERO_TEST.has(pg.key),
   title: pg.title,
   description: pg.description,
   body: (ctx) => `${BLUE_HERO_TEST.has(pg.key) ? '<div class="svc-hero" data-dark-head>' : ""}<section class="wrap svc-head">
@@ -110,7 +110,7 @@ export default PAGES.map((pg) => ({
   <div class="split">
     <h2 class="label" style="margin:0">what we create</h2>
     <div class="create-grid">
-${pg.create.map((c) => `      <div>${c.map(esc).join("<br>")}</div>`).join("\n")}
+${pg.create.map((c) => `      <div>${c.map((t) => (typeof t === "string" ? esc(t) : `<span class="nowrap">${esc(t.text)}</span>`)).join("<br>")}</div>`).join("\n")}
     </div>
   </div>
 </section>
@@ -142,5 +142,5 @@ ${pg.elements.map(([no, title, tags, desc]) => `      <div class="element">
   </div>
 </section>${BLUE_HERO_TEST.has(pg.key) ? "</div>" : ""}
 
-${cta({ ...pg.cta, light: BLUE_HERO_TEST.has(pg.key) })}`,
+${cta({ ...pg.cta, divided: BLUE_HERO_TEST.has(pg.key) })}`,
 }));
