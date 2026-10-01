@@ -41,6 +41,31 @@
     syncHeader();
   }
 
+  /* ---------------- 스크롤 중에도 즉시 반응하는 호버 ----------------
+     브라우저는 마우스가 멈춘 채 스크롤하면 :hover 갱신을 스크롤이 끝날 때까지 미룬다.
+     마지막 마우스 위치에서 매 프레임 elementFromPoint 로 다시 판정해 .is-hover 를 붙인다. */
+  var hoverItems = $$(".svc");
+  if (hoverItems.length) {
+    var mouse = null, hoverRaf = 0, hovered = null;
+    var syncHover = function () {
+      hoverRaf = 0;
+      var hit = mouse && document.elementFromPoint(mouse.x, mouse.y);
+      var row = hit && hit.closest ? hit.closest(".svc") : null;
+      if (row === hovered) return;
+      if (hovered) hovered.classList.remove("is-hover");
+      if (row) row.classList.add("is-hover");
+      hovered = row;
+    };
+    var queueHover = function () { if (!hoverRaf) hoverRaf = requestAnimationFrame(syncHover); };
+    document.addEventListener("pointermove", function (e) {
+      if (e.pointerType !== "mouse") return;
+      mouse = { x: e.clientX, y: e.clientY };
+      queueHover();
+    }, { passive: true });
+    document.addEventListener("pointerleave", function () { mouse = null; queueHover(); });
+    window.addEventListener("scroll", queueHover, { passive: true });
+  }
+
   /* ---------------- 전체 메뉴 ---------------- */
   var menu = $("#site-menu");
   function openMenu() {

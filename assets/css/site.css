@@ -176,10 +176,10 @@ body.no-scroll{overflow:hidden}
 .services .wrap{padding-top:clamp(64px,6.5vw,94px);padding-bottom:clamp(120px,12vw,180px);display:flex;flex-direction:column;gap:clamp(56px,7vw,101px)}
 .svc{display:grid;grid-template-columns:clamp(120px,23vw,330px) 1fr;gap:clamp(18px,2vw,24px);align-items:start;position:relative;padding-bottom:clamp(20px,2.2vw,30px);color:var(--blue)}
 .svc::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--orange);transition:width .45s cubic-bezier(.22,.61,.36,1)}
-.svc:hover::after,.svc:focus-visible::after{width:100%}
+.svc.is-hover::after,.svc:focus-visible::after{width:100%}
 .svc .name{display:flex;align-items:flex-start;gap:14px;font-family:var(--a2z);font-weight:600;font-size:53px;line-height:1;letter-spacing:-.02em}
 .svc .arrow{font-family:var(--a2z);font-size:26px;line-height:1.35;color:var(--orange);display:inline-block;opacity:0;transform:translate(-8px,8px);transition:opacity .28s,transform .28s}
-.svc:hover .arrow,.svc:focus-visible .arrow{opacity:1;transform:translate(0,0)}
+.svc.is-hover .arrow,.svc:focus-visible .arrow{opacity:1;transform:translate(0,0)}
 .svc .en{font-family:var(--a2z);font-weight:600;font-size:clamp(18px,1.7vw,24px)}
 .svc .tag{font-family:var(--pre);font-size:clamp(15px,1.2vw,17px);font-weight:500;color:rgba(24,51,168,.72);margin-top:10px;letter-spacing:-.03em}
 .svc .body{margin:clamp(18px,1.7vw,24px) 0 0;font-family:var(--pre);font-weight:300;font-size:clamp(16px,1.4vw,20px);line-height:1.66;letter-spacing:-.04em;word-break:keep-all}
