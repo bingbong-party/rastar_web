@@ -57,6 +57,7 @@ ${gallery.map((g, i) => `          <button type="button" data-full="${g.full}" a
   </div>
 </section>
 
+<div class="wrap detail-back"><a class="back" href="/Projects.html"><span aria-hidden="true">‹</span>back to projects</a></div>
 <div class="wrap detail">
   <div class="gallery">
       ${stage}
@@ -68,7 +69,6 @@ ${gallery.map((g, i) => `          <button type="button" data-full="${g.full}" a
       <div class="body">${paragraphs(p.desc).map((t) => `<p>${esc(t)}</p>`).join("")}</div>
       ${specs.length ? `<dl class="specs">${specs.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>` : ""}
     </article>
-    <a class="back" href="/Projects.html"><span aria-hidden="true">‹</span>back to projects</a>
   </div>
 </div>
 
