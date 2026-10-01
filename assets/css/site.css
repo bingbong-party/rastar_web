@@ -134,7 +134,7 @@ body.no-scroll{overflow:hidden}
 .site-footer .wrap{padding-top:clamp(52px,6vw,86px);padding-bottom:clamp(28px,3vw,40px);font-family:var(--pre)}
 .site-footer,.site-footer *{-webkit-font-smoothing:auto}
 .site-footer .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,4vw,56px);align-items:end}
-.site-footer .footer-logo{display:block;height:clamp(19px,1.6vw,24px);width:auto}
+.site-footer .footer-logo{display:block;height:clamp(19px,1.5vw,23px);width:auto}
 .site-footer address{font-style:normal}
 .site-footer .tagline{margin:clamp(22px,2.4vw,34px) 0 0;font-size:clamp(14.5px,1.18vw,17px);font-weight:500;line-height:1.6;letter-spacing:-.3px}
 .site-footer .info{display:flex;flex-direction:column;gap:4px;font-size:clamp(13.5px,1.08vw,15.75px);font-weight:500;text-align:right;line-height:1.55}
