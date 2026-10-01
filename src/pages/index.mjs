@@ -29,7 +29,7 @@ export default {
     name: "라별",
     alternateName: ["라별커뮤니케이션즈", "Rastar Comms"],
     url: `${SITE_ORIGIN}/`,
-    logo: `${SITE_ORIGIN}/images/icon-512.png`,
+    logo: `${SITE_ORIGIN}/assets/img/icon-512.png`,
     image: DEFAULT_IMAGE,
     description: DEFAULT_DESCRIPTION,
     telephone: "+82-32-262-2164",

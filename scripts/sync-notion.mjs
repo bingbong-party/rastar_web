@@ -3,7 +3,7 @@
 
    Notion의 "Projects" 데이터베이스를 읽어 content.json 의 projects 배열을
    교체하고, 커버/이미지/본문 이미지 파일을 projects_images/<id>/ 로
-   다운로드한다. insights 는 건드리지 않는다. (sitemap.xml 과 정적 페이지는
+   다운로드한다. (sitemap.xml 과 정적 페이지는
    이어서 실행하는 build-pages 가 만든다.)
 
    본문(페이지 콘텐츠) 안의 이미지 블록도 다운로드하여

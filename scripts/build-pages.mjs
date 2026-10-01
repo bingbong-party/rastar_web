@@ -9,7 +9,6 @@
 
    또한
      - 프로젝트 이미지의 목록/썸네일용 축소본을 projects_images/<id>/thumbs/ 에 만든다.
-     - 인사이트 상세(insights/<id>.html)는 기존 "Blog Post.html" 템플릿으로 계속 생성한다.
      - sitemap.xml 을 재생성한다.
 
    실행: npm run build-pages
@@ -111,105 +110,6 @@ async function prepareProjects(raw) {
   return list;
 }
 
-/* ---------------- 인사이트 (기존 템플릿 유지) ---------------- */
-function mdInline(s) {
-  s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-  s = s.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
-  s = s.replace(
-    /\[([^\]]+)\]\((https?:\/\/[^\s)]+|mailto:[^\s)]+|\/[^\s)]*|[A-Za-z0-9._%-]+\.html[^\s)]*)\)/g,
-    '<a href="$2">$1</a>'
-  );
-  return s;
-}
-function mdToHtml(md) {
-  const lines = String(md || "").replace(/\r\n/g, "\n").split("\n");
-  const out = [];
-  let list = null;
-  let para = [];
-  const flushPara = () => {
-    if (para.length) { out.push("<p>" + mdInline(esc(para.join("\n"))).replace(/\n/g, "<br>") + "</p>"); para = []; }
-  };
-  const flushList = () => {
-    if (list) { out.push("<ul>" + list.join("") + "</ul>"); list = null; }
-  };
-  for (const raw of lines) {
-    const line = raw.replace(/\s+$/, "");
-    const img = line.match(/^!\[([^\]]*)\]\(([^)]+)\)\s*$/);
-    if (/^###\s+/.test(line)) { flushPara(); flushList(); out.push("<h3>" + mdInline(esc(line.replace(/^###\s+/, ""))) + "</h3>"); }
-    else if (/^##\s+/.test(line)) { flushPara(); flushList(); out.push("<h2>" + mdInline(esc(line.replace(/^##\s+/, ""))) + "</h2>"); }
-    else if (img) { flushPara(); flushList(); out.push('<img src="' + esc(img[2]) + '" alt="' + esc(img[1]) + '" loading="lazy">'); }
-    else if (/^[-*]\s+/.test(line)) { flushPara(); list = list || []; list.push("<li>" + mdInline(esc(line.replace(/^[-*]\s+/, ""))) + "</li>"); }
-    else if (!line.trim()) { flushPara(); flushList(); }
-    else { flushList(); para.push(line); }
-  }
-  flushPara(); flushList();
-  return out.join("");
-}
-function absolutizeLegacyAssets(html) {
-  return html
-    .replace('href="styles.css"', 'href="/styles.css"')
-    .replace(/href="images\//g, 'href="/images/')
-    .replace(/src="(site-nav|site-footer|site-data|app|consult-modal)\.js"/g, 'src="/$1.js"')
-    .replace('href="Contact.html"', 'href="/Contact.html"');
-}
-function setHeadMeta(html, { title, description, canonicalUrl, image }) {
-  return html
-    .replace(/<title>.*?<\/title>/, `<title>${title}</title>`)
-    .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${description}">`)
-    .replace(/<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${canonicalUrl}">`)
-    .replace(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${title}">`)
-    .replace(/<meta property="og:description" content="[^"]*">/, `<meta property="og:description" content="${description}">`)
-    .replace(/<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${canonicalUrl}">`)
-    .replace(/<meta property="og:image" content="[^"]*">/, `<meta property="og:image" content="${image}">`)
-    .replace(/<meta name="twitter:title" content="[^"]*">/, `<meta name="twitter:title" content="${title}">`)
-    .replace(/<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${description}">`)
-    .replace(/<meta name="twitter:image" content="[^"]*">/, `<meta name="twitter:image" content="${image}">`);
-}
-async function buildInsights(insights) {
-  const templatePath = path.join(ROOT, "Blog Post.html");
-  if (!(await exists(templatePath))) return [];
-  const template = await fs.readFile(templatePath, "utf8");
-  const dir = path.join(ROOT, "insights");
-  await fs.mkdir(dir, { recursive: true });
-  const urls = [];
-  for (const post of insights || []) {
-    if (post.status !== "published") continue;
-    const url = `${SITE_ORIGIN}/insights/${encodeURIComponent(post.id)}.html`;
-    const image = post.cover ? `${SITE_ORIGIN}/${String(post.cover).replace(/^\/+/, "")}` : `${SITE_ORIGIN}/assets/img/og.jpg`;
-    let html = absolutizeLegacyAssets(template);
-    html = setHeadMeta(html, {
-      title: esc(`${post.title || "인사이트"} | 라별`),
-      description: esc(post.summary || ""),
-      canonicalUrl: url,
-      image,
-    });
-    const ld = {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      headline: post.title || "",
-      description: post.summary || "",
-      image,
-      author: { "@type": "Organization", name: post.author || "라별" },
-      ...(post.date ? { datePublished: post.date } : {}),
-      url,
-    };
-    html = html.replace("</head>", `<script type="application/ld+json">\n${JSON.stringify(ld, null, 2)}\n</script>\n</head>`);
-    const hero = post.cover ? `<div class="a-hero"><img class="g-img" src="${esc(post.cover)}" alt="${esc(post.title)}"></div>` : "";
-    const article = (
-      '<a class="back-link" href="/Blog.html"><span aria-hidden="true">←</span> 블로그로 돌아가기</a>' +
-      `<div class="a-cat">${esc(post.category || "")}</div>` +
-      `<h1>${esc(post.title || "")}</h1>` +
-      `<div class="a-meta">${esc(post.date || "")}` + (post.author ? ` · ${esc(post.author)}` : "") + `</div>` +
-      hero + mdToHtml(post.body)
-    ).replace(/src="projects_images\//g, 'src="/projects_images/');
-    html = html.replace(/<article class="article" id="article">[\s\S]*?<\/article>/, `<article class="article" id="article">${article}</article>`);
-    html = html.replace(/\n?<script>RabyeolData\.renderArticle\("#article"\);<\/script>/, "");
-    await fs.writeFile(path.join(dir, `${post.id}.html`), html);
-    urls.push(url);
-  }
-  return urls;
-}
-
 /* ---------------- 메인 ---------------- */
 async function main() {
   const content = JSON.parse(await fs.readFile(path.join(ROOT, "content.json"), "utf8"));
@@ -249,14 +149,10 @@ async function main() {
     if (f.endsWith(".html") && !keep.has(f)) await fs.unlink(path.join(projectsDir, f));
   }
 
-  // 3) 인사이트 (기존 디자인 유지)
-  const insightUrls = await buildInsights(content.insights);
-
   // 4) sitemap.xml
   const urls = [
     ...pages.filter((p) => !p.noindex).map((p) => `${SITE_ORIGIN}${p.path}`),
     ...projects.map((p) => `${SITE_ORIGIN}${p.url}`),
-    ...(insightUrls.length ? [`${SITE_ORIGIN}/Blog.html`, ...insightUrls] : []),
   ];
   const xml =
     `<?xml version="1.0" encoding="UTF-8"?>\n` +
@@ -265,7 +161,7 @@ async function main() {
     `\n</urlset>\n`;
   await fs.writeFile(path.join(ROOT, "sitemap.xml"), xml);
 
-  console.log(`완료: 페이지 ${pages.length}개, 프로젝트 ${projects.length}개, 인사이트 ${insightUrls.length}개 생성, sitemap.xml 갱신`);
+  console.log(`완료: 페이지 ${pages.length}개, 프로젝트 ${projects.length}개 생성, sitemap.xml 갱신`);
 }
 
 main().catch((err) => {
