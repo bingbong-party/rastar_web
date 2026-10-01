@@ -26,7 +26,7 @@ export default {
   },
   body: () => `<section class="wrap page-head">
   <div class="row solo">
-    <h1><span>faq · what you may ask</span></h1>
+    <h1><span>q&amp;a before we meet</span></h1>
   </div>
 </section>
 

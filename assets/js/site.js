@@ -249,23 +249,23 @@
 
     if (st.step === 3) {
       var fields = el("div", { class: "cm-fields" });
-      var row = el("div", { class: "cm-row" }); // 회사명 + 담당자명 한 줄
-      FIELDS.forEach(function (f) {
+      // 두 칸씩 한 줄: 회사명(넓게) + 담당자명 / 이메일 + 연락처
+      var rows = [el("div", { class: "cm-row" }), el("div", { class: "cm-row even" })];
+      FIELDS.forEach(function (f, idx) {
         var lab = el("label");
         lab.appendChild(el("span", null, esc(f.label)));
         var i = el("input", { class: "cm-input", type: f.type, placeholder: f.ph, autocomplete: f.auto });
         i.value = st.form[f.key];
         i.addEventListener("input", function () { st.form[f.key] = i.value; updateNext(); });
         lab.appendChild(i);
-        if (f.key === "company" || f.key === "name") row.appendChild(lab);
-        else fields.appendChild(lab);
-        if (f.key === "name") fields.appendChild(row);
+        rows[Math.floor(idx / 2)].appendChild(lab);
       });
+      rows.forEach(function (r) { fields.appendChild(r); });
       // 행사 개요·대행 범위 등 자유 입력 (선택)
       var detailLab = el("label");
       detailLab.appendChild(el("span", null, "행사 내용 (선택)"));
       detailLab.appendChild(el("small", { class: "cm-help", id: "cm-detail-help" }, DETAIL_HINT));
-      var detail = el("textarea", { class: "cm-input cm-textarea", rows: "4", "aria-describedby": "cm-detail-help" });
+      var detail = el("textarea", { class: "cm-input cm-textarea", rows: "3", "aria-describedby": "cm-detail-help" });
       detail.value = st.form.detail;
       detail.addEventListener("input", function () { st.form.detail = detail.value; });
       detailLab.appendChild(detail);
