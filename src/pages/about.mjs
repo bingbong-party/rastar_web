@@ -23,6 +23,7 @@ const NUMBERS = [
 export default {
   file: "about.html",
   path: "/about.html",
+  footerDark: true,
   title: "About · 라별커뮤니케이션즈 | 라별",
   description: "라별커뮤니케이션즈는 기획부터 디자인, 무대 시스템 운영, 전시부스, 섭외까지 행사에 필요한 모든 과정을 다루는 전문 행사 솔루션 에이전시입니다. 전체를 맡기셔도, 필요한 파트만 맡기셔도 됩니다.",
   body: () => `<section class="wrap page-head">
@@ -32,7 +33,7 @@ export default {
   </div>
 </section>
 
-<section class="wrap block">
+<section class="wrap block" style="padding-bottom:clamp(72px,8vw,130px)">
   <div class="about-intro">
     <p>라별커뮤니케이션즈는 전문 행사 솔루션 에이전시입니다.<br>기획부터 디자인, 무대 시스템 운영, 전시부스, 섭외 등 행사에 필요한 모든 과정을 다룹니다.</p>
     <p>문의에는 빠르게 답하고, 판단의 기준은 언제나 고객에 둡니다.<br>절차는 체계적으로 지키되, 조율은 상황에 맞게 유연하게 합니다.<br>그래서 전체를 맡기셔도, 필요한 파트만 맡기셔도 됩니다.</p>
@@ -40,7 +41,8 @@ export default {
   </div>
 </section>
 
-<section class="wrap block">
+<div class="band-dark" data-dark-head>
+<section class="wrap band">
   <h2 class="lead-h2">필요한 만큼만, 정확하게</h2>
   <p class="lead-p">라별에게는 <strong>행사 전체</strong>를 맡기셔도, <strong>필요한 파트</strong>만 맡기셔도 됩니다.</p>
   <div class="parts">
@@ -52,8 +54,9 @@ ${PARTS.map((p) => `    <div class="part">
     </div>`).join("\n")}
   </div>
 </section>
+</div>
 
-<section class="wrap block" style="padding-bottom:clamp(80px,10vw,170px)">
+<section class="wrap band">
   <h2 class="lead-h2">보이는 과정, 확실한 결과</h2>
   <p class="lead-p">라별은 네 단계의 절차로 행사의 완성도를 끌어올립니다. 체계적인 문서 관리를 통해 <strong>지금 무엇이 준비되고 있는지</strong> 언제든 확인하실 수 있습니다.</p>
   <ol class="process" style="list-style:none;padding:0;margin-bottom:0">
@@ -76,5 +79,5 @@ ${NUMBERS.map((n) => `      <div class="item"><div class="value">${esc(n.value)}
   </div>
 </section>
 
-${cta({ title: "ready to make it happen together?", text: "아이디어를 실제 현장으로 완성할 파트너를 찾고 계신가요? 라별과 다음 프로젝트를 시작해보세요." })}`,
+${cta({ title: "ready to make it happen together?", text: "아이디어를 실제 현장으로 완성할 파트너를 찾고 계신가요? 라별과 다음 프로젝트를 시작해보세요.", light: true })}`,
 };

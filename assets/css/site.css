@@ -104,7 +104,7 @@ body.no-scroll{overflow:hidden}
 /* ---------------- page heading (sub pages) ---------------- */
 .page-head{padding-top:clamp(90px,9vw,140px)}
 .page-head .row{position:relative;display:flex;flex-wrap:wrap;gap:16px;align-items:baseline}
-.page-head .label{font-family:var(--a2z);font-size:clamp(14px,1.35vw,19.4px);font-weight:500;animation:subFade .7s ease .45s both}
+.page-head .label{color:var(--orange);font-family:var(--a2z);font-size:clamp(14px,1.35vw,19.4px);font-weight:500;animation:subFade .7s ease .45s both}
 .page-head h1,.page-head .h1-like{margin:0;position:absolute;left:50%;bottom:0;transform:translateX(-50%);white-space:nowrap;overflow:hidden;padding-bottom:.1em;font-family:var(--a2z);font-size:clamp(27px,2.98vw,42.9px);font-weight:600;letter-spacing:0;line-height:1}
 .page-head h1 span{display:block;animation:titleRise .9s cubic-bezier(.2,.7,.2,1) both}
 .page-head .h1-like span{display:block}
@@ -305,7 +305,7 @@ body.no-scroll{overflow:hidden}
 .about-intro .closing{position:relative;max-width:none;font-weight:600;animation-delay:.7s;padding-right:clamp(56px,6vw,90px)}
 .about-intro .closing img{position:absolute;right:0;bottom:.3em;display:block;width:clamp(44px,4.4vw,68px);height:auto}
 .parts{margin-top:clamp(28px,2.6vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(16px,1.8vw,28px);font-family:var(--pre)}
-.part{background:#fff;border:1px solid rgba(24,51,168,.1);border-radius:20px;padding:clamp(20px,1.8vw,26px);display:flex;flex-direction:column;gap:clamp(16px,1.4vw,20px);min-width:0}
+.part{color:var(--blue);background:#fff;border:1px solid rgba(24,51,168,.1);border-radius:20px;padding:clamp(20px,1.8vw,26px);display:flex;flex-direction:column;gap:clamp(16px,1.4vw,20px);min-width:0}
 .part .badge{align-self:flex-start;display:inline-flex;align-items:center;height:34px;padding:0 16px;border-radius:100px;background:var(--orange);color:#fff;font-size:clamp(14px,1.1vw,16px);font-weight:700;letter-spacing:-.03em}
 .part h3{margin:0;font-size:15px;font-weight:700;letter-spacing:-.03em}
 .part h3+p{margin:6px 0 0;font-size:clamp(14px,1.1vw,16px);line-height:1.7;letter-spacing:-.03em;word-break:keep-all}
@@ -330,7 +330,10 @@ body.no-scroll{overflow:hidden}
 .numbers .value{font-size:clamp(38px,4.6vw,70px);font-weight:700;letter-spacing:-.035em;line-height:1}
 .numbers .lbl{margin-top:14px;font-size:clamp(14px,1.08vw,17px);font-weight:600}
 .numbers .note{margin-top:7px;font-size:12px;color:rgba(238,238,238,.45);min-height:1em}
-.about-page .cta{border-top:1px solid rgba(238,238,238,.12)}
+/* 밝은/블루 띠를 번갈아 쌓는 섹션 */
+.band{padding-top:clamp(72px,8vw,130px);padding-bottom:clamp(72px,8vw,130px)}
+.band-dark{background:var(--blue);color:var(--bg)}
+.band-dark .lead-p{color:rgba(238,238,238,.86)}
 
 /* ---------------- faq ---------------- */
 .faq{padding-top:clamp(48px,6vw,96px);padding-bottom:clamp(80px,10vw,160px)}
