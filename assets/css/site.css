@@ -59,7 +59,7 @@ body.no-scroll{overflow:hidden}
 .site-header.scrolled{background:var(--bg)}
 .site-header .bar{position:relative;max-width:1440px;margin:0 auto;padding:12px var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{display:block}
-.logo img{display:block;height:clamp(20px,1.6vw,26px);width:auto}
+.logo img{display:block;height:clamp(17px,1.35vw,21px);width:auto}
 .header-actions{display:flex;align-items:center;gap:clamp(14px,1.6vw,26px)}
 .burger{background:transparent;border:0;padding:6px;display:flex;flex-direction:column;gap:6px;cursor:pointer}
 .burger span{width:28px;height:2px;background:var(--blue);display:block}
@@ -76,7 +76,7 @@ body.no-scroll{overflow:hidden}
 .menu.open{display:flex;animation:fadeUp .35s ease both}
 .menu a{color:var(--bg)}
 .menu-top{max-width:1440px;width:100%;margin:0 auto;padding:12px var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-shrink:0}
-.menu-top .logo img{height:clamp(20px,1.6vw,26px)}
+.menu-top .logo img{height:clamp(17px,1.35vw,21px)}
 .menu-close{background:transparent;border:0;width:40px;height:38px;position:relative;cursor:pointer;padding:0}
 .menu-close span{position:absolute;top:18px;left:6px;right:6px;height:2px;background:var(--bg);transform:rotate(45deg)}
 .menu-close span+span{transform:rotate(-45deg)}
