@@ -92,6 +92,11 @@ body.no-scroll{overflow:hidden}
 .menu-links.sub a{font-size:clamp(32px,2.88vw,41.5px);line-height:1.35}
 .menu-brochure{align-self:flex-start;border:1.3px solid rgba(238,238,238,.85);border-radius:12px;padding:18px clamp(18px,1.6vw,24px);font-family:var(--pre);font-size:clamp(14px,.99vw,14.3px);font-weight:600;letter-spacing:-.01em;display:flex;align-items:center;gap:12px;transition:background-color .3s,border-color .3s}
 .menu-brochure:hover{background:rgba(238,238,238,.12);border-color:var(--bg)}
+/* 카카오톡 채널 상담 (카카오 브랜드 컬러: #FEE500 바탕 + 검정 심볼) */
+.menu-kakao{align-self:flex-end;display:flex;align-items:center;gap:10px;background:#FEE500;color:rgba(0,0,0,.85)!important;border-radius:12px;padding:16px clamp(18px,1.6vw,24px);font-family:var(--pre);font-size:clamp(14px,.99vw,14.3px);font-weight:700;letter-spacing:-.01em;transition:filter .2s,transform .2s}
+.menu-kakao svg{color:#000;flex-shrink:0}
+.menu-kakao:hover{filter:brightness(.96);transform:translateY(-1px)}
+@media (max-width:720px){.menu-kakao{align-self:flex-start}}
 @media (max-width:720px){
   .menu-links.sub{padding-top:0;margin-left:0}
 }
