@@ -399,7 +399,7 @@ body.no-scroll{overflow:hidden}
 }
 
 /* ---------------- 스크롤 등장 애니메이션 (site.js 가 화면에 들어오면 .in 을 붙임) ---------------- */
-.js [data-reveal]:not(.process){opacity:0;transform:translateY(56px);transition:opacity 1.6s ease var(--d,0s),transform 1.8s cubic-bezier(.16,.84,.3,1) var(--d,0s)}
+.js [data-reveal]:not(.process){opacity:0;transform:translateY(72px);transition:opacity 2.4s ease var(--d,0s),transform 2.6s cubic-bezier(.25,.6,.3,1) var(--d,0s)}
 .js [data-reveal].in:not(.process){opacity:1;transform:none}
 /* 4단계: 왼쪽에서 오른쪽으로 선이 그어지며 1→4 순서로 등장 */
 .js .process[data-reveal] .step::before{transform:scaleX(0);transform-origin:left center;transition:transform .9s cubic-bezier(.4,0,.2,1) calc(var(--i) * .8s)}

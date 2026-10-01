@@ -47,7 +47,7 @@ export default {
   <h2 class="lead-h2">필요한 만큼만, 정확하게</h2>
   <p class="lead-p">라별에게는 <strong>행사 전체</strong>를 맡기셔도, <strong>필요한 파트</strong>만 맡기셔도 됩니다.</p>
   <div class="parts">
-${PARTS.map((p, i) => `    <div class="part" data-reveal style="--d:${i * 0.35}s">
+${PARTS.map((p, i) => `    <div class="part" data-reveal style="--d:${i * 0.5}s">
       <span class="badge">${esc(p.badge)}</span>
       <div><h3>세부 업무</h3><p>${esc(p.work)}</p></div>
       <div><h3>커버 범위</h3><p>${esc(p.scope)}</p></div>
