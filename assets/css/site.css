@@ -15,7 +15,7 @@
   --orange:#FE4926;
   --bg:#EEEEEE;
   --panel:#E5E5E5;
-  --modal:#FFFFFF;
+  --modal:#EEEEEE;
   --gutter:clamp(20px,6vw,120px);
   --pre:'Pretendard Variable',Pretendard,system-ui,sans-serif;
   --a2z:'A2Z','Pretendard Variable',system-ui,sans-serif;
@@ -293,11 +293,11 @@ body.no-scroll{overflow:hidden}
 .about-intro .closing{position:relative;max-width:none;font-weight:600;animation-delay:.7s;padding-right:clamp(72px,8vw,130px)}
 .about-intro .closing img{position:absolute;right:0;bottom:.2em;display:block;width:clamp(52px,6vw,96px);height:auto}
 .parts{margin-top:clamp(28px,2.6vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(16px,1.8vw,28px);font-family:var(--pre)}
-.part{color:var(--blue);background:#fff;border:1px solid rgba(24,51,168,.1);border-radius:20px;padding:clamp(20px,1.8vw,26px);display:flex;flex-direction:column;gap:clamp(16px,1.4vw,20px);min-width:0}
+.part{color:var(--blue);background:var(--bg);border:1px solid rgba(24,51,168,.1);border-radius:20px;padding:clamp(20px,1.8vw,26px);display:flex;flex-direction:column;gap:clamp(16px,1.4vw,20px);min-width:0}
 .part .badge{align-self:flex-start;display:inline-flex;align-items:center;height:34px;padding:0 16px;border-radius:100px;background:var(--orange);color:#fff;font-size:clamp(14px,1.1vw,16px);font-weight:700;letter-spacing:-.03em}
 .part h3{margin:0;font-size:15px;font-weight:700;letter-spacing:-.03em}
 .part h3+p{margin:6px 0 0;font-size:clamp(14px,1.1vw,16px);line-height:1.7;letter-spacing:-.03em;word-break:keep-all}
-.part .when{margin-top:auto;background:#F2F3F7;border-radius:12px;padding:clamp(12px,1.1vw,16px)}
+.part .when{margin-top:auto;background:rgba(24,51,168,.06);border-radius:12px;padding:clamp(12px,1.1vw,16px)}
 .part .when strong{display:block;font-size:13px;font-weight:600;letter-spacing:-.02em;color:var(--orange)}
 .part .when p{margin:8px 0 0;font-size:13.5px;line-height:1.75;letter-spacing:-.03em;color:rgba(24,51,168,.86);word-break:keep-all}
 .process{margin-top:clamp(28px,2.6vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));column-gap:clamp(24px,2.6vw,44px);row-gap:56px;overflow:hidden;font-family:var(--pre)}
@@ -368,7 +368,7 @@ body.no-scroll{overflow:hidden}
 .cm-badge{font-size:12px;font-weight:700;letter-spacing:.1em;margin-bottom:12px;color:var(--orange)}
 .cm-title{margin:0 0 clamp(22px,2.4vw,30px);font-size:clamp(20px,1.9vw,26px);font-weight:700;letter-spacing:-.025em;line-height:1.38}
 .cm-chips{display:flex;flex-wrap:wrap;gap:9px}
-.cm-chip{border:1px solid rgba(24,51,168,.3);background:#fff;color:var(--blue);border-radius:100px;padding:12px 18px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.cm-chip{border:1px solid rgba(24,51,168,.3);background:transparent;color:var(--blue);border-radius:100px;padding:12px 18px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
 .cm-chip:hover{border-color:var(--blue);background:rgba(24,51,168,.04)}
 .cm-chip[aria-pressed="true"]{border-color:var(--blue);background:var(--blue);color:#fff}
 .cm-alt{margin-top:22px;padding-top:20px;border-top:1px dashed rgba(24,51,168,.22)}
@@ -376,8 +376,8 @@ body.no-scroll{overflow:hidden}
 .cm-radio::before{content:"";width:19px;height:19px;border-radius:50%;flex-shrink:0;display:block;border:1.6px solid rgba(24,51,168,.45);box-sizing:border-box}
 .cm-radio[aria-checked="true"]::before{border-color:var(--blue);background:var(--blue);box-shadow:inset 0 0 0 4px var(--modal)}
 .cm-radio.small{font-size:13px;color:rgba(24,51,168,.85);margin-top:6px}
-.cm-input{width:100%;background:#F4F5F9;border:1px solid rgba(24,51,168,.22);border-radius:12px;padding:15px 18px;font-family:inherit;font-size:15px;color:var(--blue);outline:none}
-.cm-input:focus{border-color:var(--blue);background:#fff}
+.cm-input{width:100%;background:rgba(24,51,168,.05);border:1px solid rgba(24,51,168,.22);border-radius:12px;padding:15px 18px;font-family:inherit;font-size:15px;color:var(--blue);outline:none}
+.cm-input:focus{border-color:var(--blue);background:rgba(24,51,168,.03)}
 .cm-input::placeholder{color:rgba(24,51,168,.45)}
 .cm-input.accent{margin-top:12px;border-color:var(--blue)}
 .cm-fields{display:flex;flex-direction:column;gap:14px}
