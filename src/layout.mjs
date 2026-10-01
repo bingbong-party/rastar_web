@@ -9,7 +9,7 @@ export const SITE_NAME = "라별";
 export const DEFAULT_DESCRIPTION =
   "라별은 브랜드 액티베이션·페스티벌·MICE 행사를 기획부터 공간 연출, 현장 운영까지 하나의 흐름으로 설계하는 전문 행사 솔루션 에이전시입니다.";
 export const DEFAULT_IMAGE = `${SITE_ORIGIN}/assets/img/og.jpg`;
-export const ASSET_VERSION = "20261001-22";
+export const ASSET_VERSION = "20261001-25";
 
 export const STATS = [
   { label: "누적 행사 운영", value: "1,200+", note: "" },
@@ -101,15 +101,19 @@ export function menu() {
 </div>`;
 }
 
-export function cta({ title, text, button = "프로젝트 문의하기", light = false, continued = false }) {
-  return `<section class="cta${light ? " cta-light" : ""}${continued ? " cta-continued" : ""}"${light ? "" : " data-dark-head"}>
-  <div class="wrap">
-    <h2>${esc(title)}</h2>
+export function cta({ title, text, button = "프로젝트 문의하기", light = false, continued = false, card = false }) {
+  const cls = ["cta", light && "cta-light", continued && "cta-continued", card && "cta-card"].filter(Boolean).join(" ");
+  const inner = `<h2>${esc(title)}</h2>
     <p>${esc(text)}</p>
     <div class="actions">
       <button type="button" class="btn-cta" data-contact>${esc(button)}</button>
       <a class="btn-line" href="/brochure.html">서비스소개서 다운로드</a>
-    </div>
+    </div>`;
+  return `<section class="${cls}"${light ? "" : " data-dark-head"}>
+  <div class="wrap">
+    ${card ? `<div class="cta-box">
+    ${inner}
+    </div>` : inner}
   </div>
 </section>`;
 }

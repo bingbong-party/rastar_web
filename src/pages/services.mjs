@@ -88,7 +88,7 @@ ${projects.map((p) => `      <article class="featured-card">
 </section>`;
 }
 
-// 테스트: btl 페이지만 상단 타이틀·elements 섹션·푸터를 블루로, CTA 는 밝은 배경으로
+// 테스트: btl 페이지만 상단 타이틀·elements 섹션·푸터를 블루로, CTA 는 블루 위 밝은 카드로
 const BLUE_HERO_TEST = new Set(["btl"]);
 
 export default PAGES.map((pg) => ({
@@ -143,5 +143,5 @@ ${pg.elements.map(([no, title, tags, desc]) => `      <div class="element">
   </div>
 </section>${BLUE_HERO_TEST.has(pg.key) ? "</div>" : ""}
 
-${cta({ ...pg.cta, light: BLUE_HERO_TEST.has(pg.key) })}`,
+${cta({ ...pg.cta, card: BLUE_HERO_TEST.has(pg.key) })}`,
 }));
