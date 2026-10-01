@@ -146,7 +146,9 @@
     { key: "phone", label: "연락처 (선택)", ph: "010-0000-0000", type: "tel", auto: "tel" }
   ];
 
-  var st, overlay, lastFocus;
+  // 현재(이전) 사이트와 같은 동작: 화면을 막지 않는 우하단 패널, 접어두기(런처), 페이지를 옮겨도 이어서 작성.
+  var STORE_KEY = "rastarConsultV2";
+  var st, overlay, launcher, lastFocus, collapsed = false;
   function reset() {
     st = { step: 1, type: null, budget: null, budgetText: "", undecided: false,
            form: { company: "", name: "", email: "", phone: "", detail: "" }, agreed: false, sending: false, error: "" };
@@ -159,21 +161,86 @@
     return true;
   }
 
+  var CHAT_ICON = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4C6.9 4 3 7.3 3 11.4c0 2.5 1.6 4.7 4 6-.2 1-.7 2.3-1.3 3.1-.2.3 0 .7.4.6 1.9-.4 3.4-1.2 4.4-1.9.8.1 1.7.2 2.5.2 5.1 0 9-3.3 9-7.4S17.1 4 12 4Z"/></svg>';
+
+  function persist() {
+    if (!overlay || !overlay.isConnected) return;
+    var open = collapsed || overlay.classList.contains("open");
+    if (!open) return;
+    var snap = JSON.parse(JSON.stringify(st));
+    snap.sending = false; snap.error = "";
+    try { sessionStorage.setItem(STORE_KEY, JSON.stringify({ phase: collapsed ? "collapsed" : "open", st: snap })); } catch (e) {}
+  }
+  function clearPersist() { try { sessionStorage.removeItem(STORE_KEY); } catch (e) {} }
+
+  function build() {
+    overlay = el("div", { class: "cm-panel", role: "dialog", "aria-label": "상담 신청" });
+    document.body.appendChild(overlay);
+    launcher = el("button", { type: "button", class: "cm-launcher", onclick: expand },
+      '<span class="ico">' + CHAT_ICON + '</span><span class="txt"><b>상담 이어가기</b><span class="sub"></span></span>');
+    document.body.appendChild(launcher);
+  }
+  function updateLauncher() {
+    var sub = launcher && launcher.querySelector(".sub");
+    if (sub) sub.textContent = st.step === 4 ? "작성 완료 · 확인하기" : "작성 중 · " + st.step + " / 3 단계";
+  }
   function openModal() {
+    if (overlay && collapsed) { expand(); return; }
+    if (overlay && overlay.classList.contains("open")) return;
     reset();
     lastFocus = document.activeElement;
-    overlay = el("div", { class: "cm-overlay", role: "dialog", "aria-modal": "true", "aria-label": "상담 신청" });
-    overlay.addEventListener("click", function (e) { if (e.target === overlay) closeModal(); });
-    document.body.appendChild(overlay);
-    document.body.classList.add("no-scroll");
+    if (!overlay) build();
+    collapsed = false;
     render();
+    void overlay.offsetWidth; // 슬라이드 인 트랜지션
+    overlay.classList.add("open");
+    persist();
+  }
+  function collapse() {
+    if (!overlay) return;
+    collapsed = true;
+    overlay.classList.remove("open");
+    updateLauncher();
+    launcher.classList.add("show");
+    persist();
+  }
+  function expand() {
+    if (!overlay) return;
+    collapsed = false;
+    launcher.classList.remove("show");
+    overlay.classList.add("open");
+    persist();
   }
   function closeModal() {
     if (!overlay) return;
-    overlay.remove();
-    overlay = null;
-    if (!(menu && menu.classList.contains("open"))) document.body.classList.remove("no-scroll");
+    collapsed = false;
+    overlay.classList.remove("open");
+    launcher.classList.remove("show");
+    clearPersist();
     if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  // 다른 페이지에서 작성 중이던 상담을 이어서 연다 (등장 애니메이션 없이)
+  function restore() {
+    var saved;
+    try { saved = JSON.parse(sessionStorage.getItem(STORE_KEY) || "null"); } catch (e) { saved = null; }
+    if (!saved || !saved.st || (saved.phase !== "open" && saved.phase !== "collapsed")) return;
+    reset();
+    Object.keys(saved.st).forEach(function (k) { st[k] = saved.st[k]; });
+    build();
+    render();
+    if (saved.phase === "collapsed") {
+      collapsed = true;
+      updateLauncher();
+      launcher.style.transition = "none";
+      launcher.classList.add("show");
+      void launcher.offsetWidth;
+      launcher.style.transition = "";
+    } else {
+      overlay.style.transition = "none";
+      overlay.classList.add("open");
+      void overlay.offsetWidth;
+      overlay.style.transition = "";
+    }
   }
 
   function chip(label, on, onclick) {
@@ -196,7 +263,10 @@
 
     var head = el("div", { class: "cm-head" });
     head.appendChild(el("span", { class: "t" }, "상담 신청"));
-    head.appendChild(el("button", { type: "button", class: "cm-x", "aria-label": "닫기", onclick: closeModal }, "×"));
+    var acts = el("div", { class: "cm-acts" });
+    acts.appendChild(el("button", { type: "button", class: "cm-x cm-min", "aria-label": "접어두기", title: "접어두기", onclick: collapse }, "−"));
+    acts.appendChild(el("button", { type: "button", class: "cm-x", "aria-label": "닫기", title: "닫기", onclick: closeModal }, "×"));
+    head.appendChild(acts);
     box.appendChild(head);
 
     var body = el("div", { class: "cm-body" });
@@ -300,6 +370,7 @@
     box.appendChild(foot);
 
     if (!box.parentNode) overlay.appendChild(box);
+    persist();
   }
 
   function onNext() {
@@ -352,13 +423,19 @@
 
   document.addEventListener("click", function (e) {
     var t = e.target.closest && e.target.closest("[data-contact]");
-    if (t) { e.preventDefault(); openModal(); }
+    if (t) {
+      e.preventDefault();
+      if (menu && menu.classList.contains("open")) closeMenu();
+      openModal();
+    }
   });
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
-    if (overlay) closeModal();
+    if (overlay && overlay.classList.contains("open")) collapse();
     else if (menu && menu.classList.contains("open")) closeMenu();
   });
+  window.addEventListener("pagehide", persist);
+  restore();
   if (location.hash === "#contact") {
     history.replaceState(null, "", location.pathname + location.search);
     openModal();
@@ -440,7 +517,8 @@
     if (prev) prev.addEventListener("click", function () { go(cur - 1); });
     if (next) next.addEventListener("click", function () { go(cur + 1); });
     document.addEventListener("keydown", function (e) {
-      if (overlay || (menu && menu.classList.contains("open"))) return;
+      if (menu && menu.classList.contains("open")) return;
+      if (e.target.closest && e.target.closest("input, textarea, .cm-panel")) return;
       if (e.key === "ArrowLeft") go(cur - 1);
       if (e.key === "ArrowRight") go(cur + 1);
     });
