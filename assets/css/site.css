@@ -51,9 +51,7 @@ body.no-scroll{overflow:hidden}
 .btn-line:hover{border-color:var(--bg);color:var(--bg)}
 
 /* ---------------- header ---------------- */
-.site-header{position:fixed;top:0;left:0;right:0;z-index:70}
-.site-header::before{content:"";position:absolute;left:0;right:0;top:0;bottom:-36px;pointer-events:none;background:linear-gradient(180deg,var(--bg) 0%,var(--bg) 60%,rgba(238,238,238,0) 100%)}
-.site-header.is-home::before{bottom:-110px;background:linear-gradient(180deg,var(--bg) 0%,var(--bg) 62%,rgba(238,238,238,0) 100%)}
+.site-header{position:fixed;top:0;left:0;right:0;z-index:70;background:#fff}
 .site-header .bar{position:relative;max-width:1440px;margin:0 auto;padding:clamp(18px,2.2vw,28px) var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:16px}
 .site-header.is-home .bar{padding-top:clamp(20px,2.6vw,34px);padding-bottom:clamp(20px,2.6vw,34px)}
 .logo{display:block}
