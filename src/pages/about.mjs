@@ -26,27 +26,29 @@ export default {
   footerBordered: true,
   title: "About · 라별커뮤니케이션즈 | 라별",
   description: "라별커뮤니케이션즈는 기획부터 디자인, 무대 시스템 운영, 전시부스, 섭외까지 행사에 필요한 모든 과정을 다루는 전문 행사 솔루션 에이전시입니다. 전체를 맡기셔도, 필요한 파트만 맡기셔도 됩니다.",
-  body: () => `<section class="wrap page-head">
+  body: () => `<div class="about-hero">
+<section class="wrap page-head">
   <div class="row">
     <div class="label">about</div>
     <h1><span>meet rastar</span></h1>
   </div>
 </section>
 
-<section class="wrap block" style="padding-bottom:clamp(72px,8vw,130px)">
+<section class="wrap about-intro-wrap">
   <div class="about-intro">
     <p>라별커뮤니케이션즈는 전문 행사 솔루션 에이전시입니다.<br>기획부터 디자인, 무대 시스템 운영, 전시부스, 섭외 등 행사에 필요한 모든 과정을 다룹니다.</p>
     <p>문의에는 빠르게 답하고, 판단의 기준은 언제나 고객에 둡니다.<br>절차는 체계적으로 지키되, 조율은 상황에 맞게 유연하게 합니다.<br>그래서 전체를 맡기셔도, 필요한 파트만 맡기셔도 됩니다.</p>
     <p class="closing">이렇게 쌓아온 방식으로, 저희 라별은 고객이 다시 찾는 에이전시로 성장했습니다.<img src="/assets/img/rastar-symbol-blue.png" alt="" aria-hidden="true"></p>
   </div>
 </section>
+</div>
 
 <div class="band-dark" data-dark-head>
 <section class="wrap band">
   <h2 class="lead-h2">필요한 만큼만, 정확하게</h2>
   <p class="lead-p">라별에게는 <strong>행사 전체</strong>를 맡기셔도, <strong>필요한 파트</strong>만 맡기셔도 됩니다.</p>
   <div class="parts">
-${PARTS.map((p) => `    <div class="part">
+${PARTS.map((p, i) => `    <div class="part" data-reveal style="--d:${i * 0.12}s">
       <span class="badge">${esc(p.badge)}</span>
       <div><h3>세부 업무</h3><p>${esc(p.work)}</p></div>
       <div><h3>커버 범위</h3><p>${esc(p.scope)}</p></div>
@@ -59,8 +61,8 @@ ${PARTS.map((p) => `    <div class="part">
 <section class="wrap band">
   <h2 class="lead-h2">보이는 과정, 확실한 결과</h2>
   <p class="lead-p">라별은 네 단계의 절차로 행사의 완성도를 끌어올립니다. 체계적인 문서 관리를 통해 <strong>지금 무엇이 준비되고 있는지</strong> 언제든 확인하실 수 있습니다.</p>
-  <ol class="process" style="list-style:none;padding:0;margin-bottom:0">
-${STEPS.map((s, i) => `    <li class="step">
+  <ol class="process" data-reveal style="list-style:none;padding:0;margin-bottom:0">
+${STEPS.map((s, i) => `    <li class="step" style="--i:${i}">
       <span class="num" aria-hidden="true">${i + 1}</span>
       <h3>${esc(s.title)}</h3>
       <div class="kicker">${esc(s.kicker)}</div>
@@ -74,7 +76,7 @@ ${STEPS.map((s, i) => `    <li class="step">
   <div class="wrap">
     <h2>숫자로 증명해온 시간</h2>
     <div class="grid">
-${NUMBERS.map((n) => `      <div class="item"><div class="value">${esc(n.value)}</div><div class="lbl">${esc(n.label)}</div><div class="note">${esc(n.note)}</div></div>`).join("\n")}
+${NUMBERS.map((n) => `      <div class="item"><div class="value" data-count="${esc(n.value)}">${esc(n.value)}</div><div class="lbl">${esc(n.label)}</div><div class="note">${esc(n.note)}</div></div>`).join("\n")}
     </div>
   </div>
 </section>

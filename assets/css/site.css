@@ -104,7 +104,7 @@ body.no-scroll{overflow:hidden}
 /* ---------------- page heading (sub pages) ---------------- */
 .page-head{padding-top:clamp(90px,9vw,140px)}
 .page-head .row{position:relative;display:flex;flex-wrap:wrap;gap:16px;align-items:baseline}
-.page-head .label{color:var(--orange);font-family:var(--a2z);font-size:clamp(14px,1.35vw,19.4px);font-weight:500;animation:subFade .7s ease .45s both}
+.page-head .label{font-family:var(--a2z);font-size:clamp(14px,1.35vw,19.4px);font-weight:500;animation:subFade .7s ease .45s both}
 .page-head h1,.page-head .h1-like{margin:0;position:absolute;left:50%;bottom:0;transform:translateX(-50%);white-space:nowrap;overflow:hidden;padding-bottom:.1em;font-family:var(--a2z);font-size:clamp(27px,2.98vw,42.9px);font-weight:600;letter-spacing:0;line-height:1}
 .page-head h1 span{display:block;animation:titleRise .9s cubic-bezier(.2,.7,.2,1) both}
 .page-head .h1-like span{display:block}
@@ -193,7 +193,7 @@ body.no-scroll{overflow:hidden}
 .divider{height:1px;background:rgba(24,51,168,.22)}
 .lead-h2{margin:0;font-family:var(--pre);font-size:clamp(24px,2.7vw,40px);font-weight:700;letter-spacing:-.03em;line-height:1.25;word-break:keep-all}
 .lead-p{margin:clamp(18px,1.8vw,26px) 0 0;font-family:var(--pre);font-size:clamp(15px,1.25vw,19px);line-height:1.75;letter-spacing:-.03em;word-break:keep-all;text-wrap:pretty}
-.lead-p strong{color:var(--orange);font-weight:600}
+.lead-p strong{color:var(--blue);font-weight:700;text-decoration:underline;text-decoration-color:var(--orange);text-decoration-thickness:2px;text-underline-offset:.28em}
 .elements{display:flex;flex-direction:column}
 .element{padding:clamp(24px,2.7vw,40px) 0;border-bottom:1px solid rgba(24,51,168,.12)}
 .element:last-child{border-bottom:0}
@@ -280,12 +280,16 @@ body.no-scroll{overflow:hidden}
 .back span{font-size:16px;line-height:1}
 
 /* ---------------- about ---------------- */
-.about-intro{display:flex;flex-direction:column;gap:clamp(22px,2.2vw,34px);font-family:var(--pre);font-size:clamp(15px,1.25vw,19px);line-height:1.75;letter-spacing:-.035em;word-break:keep-all;text-wrap:pretty}
-.about-intro p{margin:0;max-width:900px;animation:subFade .8s ease both}
+/* 스크롤 최상단에서는 소개글만 화면 가득 크게 */
+.about-hero{min-height:100vh;min-height:100svh;display:flex;flex-direction:column}
+.about-hero>.wrap{width:100%}
+.about-intro-wrap{width:100%;flex:1;display:flex;align-items:center;padding-top:clamp(48px,6vw,96px);padding-bottom:clamp(64px,8vw,120px)}
+.about-intro{width:100%;display:flex;flex-direction:column;gap:clamp(26px,2.6vw,42px);font-family:var(--pre);font-size:clamp(18px,1.85vw,28px);line-height:1.65;letter-spacing:-.035em;word-break:keep-all;text-wrap:pretty}
+.about-intro p{margin:0;max-width:none;animation:subFade .8s ease both}
 .about-intro p:nth-child(1){animation-delay:.2s}
 .about-intro p:nth-child(2){animation-delay:.45s}
-.about-intro .closing{position:relative;max-width:none;font-weight:600;animation-delay:.7s;padding-right:clamp(56px,6vw,90px)}
-.about-intro .closing img{position:absolute;right:0;bottom:.3em;display:block;width:clamp(44px,4.4vw,68px);height:auto}
+.about-intro .closing{position:relative;max-width:none;font-weight:600;animation-delay:.7s;padding-right:clamp(72px,8vw,130px)}
+.about-intro .closing img{position:absolute;right:0;bottom:.2em;display:block;width:clamp(52px,6vw,96px);height:auto}
 .parts{margin-top:clamp(28px,2.6vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(16px,1.8vw,28px);font-family:var(--pre)}
 .part{color:var(--blue);background:#fff;border:1px solid rgba(24,51,168,.1);border-radius:20px;padding:clamp(20px,1.8vw,26px);display:flex;flex-direction:column;gap:clamp(16px,1.4vw,20px);min-width:0}
 .part .badge{align-self:flex-start;display:inline-flex;align-items:center;height:34px;padding:0 16px;border-radius:100px;background:var(--orange);color:#fff;font-size:clamp(14px,1.1vw,16px);font-weight:700;letter-spacing:-.03em}
@@ -299,7 +303,7 @@ body.no-scroll{overflow:hidden}
 .step::before{content:"";position:absolute;left:0;right:calc(-1 * clamp(24px,2.6vw,44px));top:13px;height:1.5px;background:var(--blue)}
 .step .num{position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--orange);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
 .step h3{margin:0;font-size:clamp(22px,1.9vw,28px);font-weight:700;letter-spacing:-.04em;line-height:1.2}
-.step .kicker{margin-top:8px;font-size:clamp(14px,1.05vw,16px);font-weight:600;letter-spacing:-.03em;color:var(--orange)}
+.step .kicker{margin-top:8px;font-size:clamp(14px,1.05vw,16px);font-weight:600;letter-spacing:-.03em;color:var(--blue)}
 .step p{margin:clamp(16px,1.6vw,22px) 0 0;font-size:clamp(14px,1.05vw,16px);line-height:1.8;letter-spacing:-.03em;color:rgba(24,51,168,.86);word-break:keep-all;text-wrap:pretty}
 .step .docs{margin-top:auto;padding-top:clamp(20px,2vw,30px);min-height:calc(64px + clamp(20px,2vw,30px));display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px}
 .step .docs span{display:inline-flex;align-items:center;height:28px;padding:0 12px;border:1px solid rgba(24,51,168,.35);border-radius:100px;font-size:12.5px;font-weight:500;letter-spacing:-.02em}
@@ -390,4 +394,16 @@ body.no-scroll{overflow:hidden}
 
 @media (max-width:720px){
   .lead-p br,.svc .body br,.hero .intro p br{display:none}
+}
+
+/* ---------------- 스크롤 등장 애니메이션 (site.js 가 화면에 들어오면 .in 을 붙임) ---------------- */
+.js [data-reveal]:not(.process){opacity:0;transform:translateY(28px);transition:opacity .7s ease var(--d,0s),transform .8s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.js [data-reveal].in:not(.process){opacity:1;transform:none}
+/* 4단계: 왼쪽에서 오른쪽으로 선이 그어지며 1→4 순서로 등장 */
+.js .process[data-reveal] .step::before{transform:scaleX(0);transform-origin:left center;transition:transform .55s cubic-bezier(.4,0,.2,1) calc(var(--i) * .45s)}
+.js .process[data-reveal] .step>*{opacity:0;transform:translateX(-18px);transition:opacity .5s ease calc(var(--i) * .45s + .15s),transform .6s cubic-bezier(.2,.7,.2,1) calc(var(--i) * .45s + .15s)}
+.js .process[data-reveal].in .step::before{transform:scaleX(1)}
+.js .process[data-reveal].in .step>*{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .js [data-reveal],.js .process[data-reveal] .step>*,.js .process[data-reveal] .step::before{opacity:1!important;transform:none!important}
 }

@@ -66,6 +66,41 @@
     window.addEventListener("scroll", queueHover, { passive: true });
   }
 
+  /* ---------------- 스크롤 등장 애니메이션 / 숫자 카운트업 ---------------- */
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function countUp(el) {
+    // "1,200+" → 접두/숫자/접미로 나눠 0 부터 올린다. 최종 텍스트는 HTML 에 그대로 있어 JS 없이도 보인다.
+    var final = el.getAttribute("data-count");
+    var m = final.match(/^(\D*)([\d,]+)(.*)$/);
+    if (!m || reduceMotion) return;
+    var target = Number(m[2].replace(/,/g, "")), useComma = m[2].indexOf(",") >= 0;
+    var start = null, dur = 1600;
+    function fmt(n) { return useComma ? n.toLocaleString("en-US") : String(n); }
+    function step(t) {
+      if (start === null) start = t;
+      var p = Math.min(1, (t - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = m[1] + fmt(Math.round(target * eased)) + m[3];
+      if (p < 1) requestAnimationFrame(step);
+    }
+    el.textContent = m[1] + "0" + m[3];
+    requestAnimationFrame(step);
+  }
+  var revealEls = $$("[data-reveal]"), countEls = $$("[data-count]");
+  if ("IntersectionObserver" in window && (revealEls.length || countEls.length)) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        io.unobserve(en.target);
+        if (en.target.hasAttribute("data-count")) countUp(en.target);
+        else en.target.classList.add("in");
+      });
+    }, { threshold: 0.2, rootMargin: "0px 0px -8% 0px" });
+    revealEls.concat(countEls).forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add("in"); });
+  }
+
   /* ---------------- 전체 메뉴 ---------------- */
   var menu = $("#site-menu");
   function openMenu() {
