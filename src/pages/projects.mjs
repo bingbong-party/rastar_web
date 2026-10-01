@@ -6,9 +6,8 @@ export default {
   title: "Projects · 라별이 만든 현장 | 라별",
   description: "축제, 대학 OT, 컨퍼런스, 기념식, 팝업과 브랜드 이벤트까지. 라별이 기획하고 운영한 프로젝트를 소개합니다.",
   body: (ctx) => `<section class="wrap page-head">
-  <div class="row">
-    <div class="label">projects</div>
-    <h1><span>what we made happen</span></h1>
+  <div class="row solo">
+    <h1><span>rastar projects</span></h1>
   </div>
 </section>
 

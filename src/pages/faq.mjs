@@ -25,9 +25,8 @@ export default {
     })),
   },
   body: () => `<section class="wrap page-head">
-  <div class="row">
-    <div class="label">faq</div>
-    <h1><span>what you may ask</span></h1>
+  <div class="row solo">
+    <h1><span>rastar faq</span></h1>
   </div>
 </section>
 

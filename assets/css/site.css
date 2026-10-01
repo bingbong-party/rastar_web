@@ -105,8 +105,7 @@ body.no-scroll{overflow:hidden}
 .page-head{padding-top:clamp(90px,9vw,140px)}
 .page-head .row{position:relative;display:flex;flex-wrap:wrap;gap:16px;align-items:baseline}
 .page-head .row.solo{justify-content:center}
-.page-head .row.solo h1{position:static;transform:none}
-.page-head .label{font-family:var(--a2z);font-size:clamp(14px,1.35vw,19.4px);font-weight:500;animation:subFade .7s ease .45s both}
+.page-head .row.solo h1,.page-head .row.solo .h1-like{position:static;transform:none}
 .page-head h1,.page-head .h1-like{margin:0;position:absolute;left:50%;bottom:0;transform:translateX(-50%);white-space:nowrap;overflow:hidden;padding-bottom:.1em;font-family:var(--a2z);font-size:clamp(27px,2.98vw,42.9px);font-weight:600;letter-spacing:0;line-height:1}
 .page-head h1 span{display:block;animation:titleRise .9s cubic-bezier(.2,.7,.2,1) both}
 .page-head .h1-like span{display:block}
