@@ -315,7 +315,7 @@ body.no-scroll{overflow:hidden}
 .step .kicker{margin-top:8px;font-size:clamp(14px,1.05vw,16px);font-weight:600;letter-spacing:-.03em;color:var(--blue)}
 .step p{margin:clamp(16px,1.6vw,22px) 0 0;font-size:clamp(14px,1.05vw,16px);line-height:1.8;letter-spacing:-.03em;color:rgba(24,51,168,.86);word-break:keep-all;text-wrap:pretty}
 .step .docs{margin-top:auto;padding-top:clamp(20px,2vw,30px);min-height:calc(64px + clamp(20px,2vw,30px));display:flex;flex-wrap:wrap;align-content:flex-start;gap:8px}
-.step .docs span{display:inline-flex;align-items:center;height:28px;padding:0 12px;border:1px solid rgba(24,51,168,.35);border-radius:100px;font-size:12.5px;font-weight:500;letter-spacing:-.02em}
+.step .docs span{display:inline-flex;align-items:center;height:34px;padding:0 15px;border:1px solid rgba(24,51,168,.4);border-radius:100px;font-size:clamp(14px,1.05vw,15.5px);font-weight:500;letter-spacing:-.02em}
 .step .docs span.solid{background:var(--blue);border-color:var(--blue);color:var(--bg);font-weight:600}
 .numbers{background:var(--blue);color:var(--bg);font-family:var(--pre)}
 .numbers .wrap{padding-top:clamp(72px,9vw,150px);padding-bottom:clamp(72px,9vw,150px)}
