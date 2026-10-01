@@ -186,7 +186,9 @@
   function render() {
     if (!overlay) return;
     var stepNo = Math.min(st.step, 3);
-    var box = el("div", { class: "cm" });
+    // 단계가 바뀔 때는 상자를 유지하고 내용만 바꾼다 (등장 애니메이션은 처음 열 때 한 번만).
+    var box = overlay.querySelector(".cm") || el("div", { class: "cm" });
+    box.replaceChildren();
 
     var head = el("div", { class: "cm-head" });
     head.appendChild(el("span", { class: "t" }, "상담 신청"));
@@ -281,7 +283,7 @@
     foot.appendChild(next);
     box.appendChild(foot);
 
-    overlay.replaceChildren(box);
+    if (!box.parentNode) overlay.appendChild(box);
   }
 
   function onNext() {
