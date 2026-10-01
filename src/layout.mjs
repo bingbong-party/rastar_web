@@ -9,13 +9,7 @@ export const SITE_NAME = "라별";
 export const DEFAULT_DESCRIPTION =
   "라별은 브랜드 액티베이션·페스티벌·MICE 행사를 기획부터 공간 연출, 현장 운영까지 하나의 흐름으로 설계하는 전문 행사 솔루션 에이전시입니다.";
 export const DEFAULT_IMAGE = `${SITE_ORIGIN}/assets/img/og.jpg`;
-export const ASSET_VERSION = "20261001-66";
-
-export const STATS = [
-  { label: "누적 행사 운영", value: "1,200+", note: "" },
-  { label: "고객 재의뢰율", value: "98%", note: "* 최근 3년간" },
-  { label: "업계경력", value: "12년", note: "" },
-];
+export const ASSET_VERSION = "20261001-67";
 
 export function esc(s) {
   return String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
@@ -64,9 +58,6 @@ export function header({ home = false } = {}) {
 }
 
 export function menu() {
-  const stats = STATS.map(
-    (s) => `<div><div class="row"><span>${esc(s.label)}</span><span>${esc(s.value)}</span></div><div class="note">${esc(s.note)}</div></div>`
-  ).join("\n          ");
   return `<div class="menu" id="site-menu" hidden>
   <div class="menu-top">
     <a class="logo" href="/" aria-label="라별 홈"><img src="/assets/img/rastar-logo-light.png" alt="rastar" width="481" height="104"></a>
@@ -84,9 +75,6 @@ export function menu() {
           <a href="/festival.html">festival</a>
           <a href="/mice.html">mice</a>
         </div>
-      </div>
-      <div class="menu-stats">
-          ${stats}
       </div>
     </div>
     <div class="menu-col right">
