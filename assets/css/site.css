@@ -52,7 +52,7 @@ body.no-scroll{overflow:hidden}
 
 /* ---------------- header ---------------- */
 .site-header{position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;transition:background-color .25s ease}
-.site-header.scrolled{background:#fff}
+.site-header.scrolled{background:var(--bg)}
 .site-header .bar{position:relative;max-width:1440px;margin:0 auto;padding:clamp(10px,1vw,14px) var(--gutter);display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{display:block}
 .logo img{display:block;height:clamp(16px,1.3vw,20px);width:auto}
