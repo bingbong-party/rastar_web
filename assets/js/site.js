@@ -471,6 +471,7 @@
   }
 
   /* ---------------- 프로젝트 목록 페이지네이션 ---------------- */
+  var LIST_PAGE_KEY = "rastarProjectsPage"; // 상세에서 돌아갈 목록 페이지
   var grid = $("[data-project-grid]");
   if (grid) {
     var cards = $$(".project-card", grid);
@@ -487,6 +488,7 @@
       var url = new URL(location.href);
       if (p === 1) url.searchParams.delete("page"); else url.searchParams.set("page", p);
       history.replaceState(null, "", url);
+      try { sessionStorage.setItem(LIST_PAGE_KEY, String(p)); } catch (e) {}
       if (scroll) window.scrollTo({ top: 0, behavior: "smooth" });
     }
     function btn(label, opts) {
@@ -509,16 +511,21 @@
 
   /* ---------------- 상세 → 목록 돌아가기 ----------------
      목록(?page=N)에서 들어왔다면 브라우저 뒤로가기로 돌아가 보던 페이지·스크롤을 유지한다.
-     직접 들어온 경우엔 링크(href) 그대로 목록 1페이지로 간다. */
+     배포 서버(Cloudflare)는 .html 을 떼므로 /Projects 와 /Projects.html 을 모두 목록으로 본다.
+     referrer 가 없더라도 목록에서 마지막으로 보던 페이지 번호(sessionStorage)로 돌아간다. */
   var backLink = $(".back");
   if (backLink) {
     var ref = null;
     try { ref = document.referrer ? new URL(document.referrer) : null; } catch (e) {}
-    if (ref && ref.origin === location.origin && /\/Projects\.html$/i.test(ref.pathname)) {
+    if (ref && ref.origin === location.origin && /^\/Projects(\.html)?\/?$/i.test(ref.pathname)) {
       backLink.href = ref.pathname + ref.search;
       backLink.addEventListener("click", function (e) {
         if (history.length > 1) { e.preventDefault(); history.back(); }
       });
+    } else {
+      var lastPage = null;
+      try { lastPage = sessionStorage.getItem(LIST_PAGE_KEY); } catch (e) {}
+      if (lastPage && lastPage !== "1") backLink.href = "/Projects.html?page=" + encodeURIComponent(lastPage);
     }
   }
 

@@ -68,7 +68,6 @@ ${SERVICES.map((s) => `    <a class="svc" href="${s.href}" data-reveal>
     <p>다음 행사, 라별과 함께 한 단계 끌어올려보세요</p>
     <div class="actions">
       <button type="button" class="btn-cta" data-contact>문의하기</button>
-      <a class="btn-line" href="/assets/docs/rastar-service-introduction.pdf" target="_blank" rel="noopener">서비스소개서 다운로드</a>
     </div>
   </div>
 </section>`,

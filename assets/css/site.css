@@ -43,7 +43,7 @@ body.no-scroll{overflow:hidden}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* ---------------- buttons ---------------- */
-.btn-pill,.btn-cta,.btn-line{display:inline-flex;align-items:center;justify-content:center;border-radius:100px;cursor:pointer;white-space:nowrap;font-family:var(--pre);font-weight:600;line-height:normal;text-decoration:none;transition:background-color .2s,border-color .2s,color .2s}
+.btn-pill,.btn-cta{display:inline-flex;align-items:center;justify-content:center;border-radius:100px;cursor:pointer;white-space:nowrap;font-family:var(--pre);font-weight:600;line-height:normal;text-decoration:none;transition:background-color .2s,border-color .2s,color .2s}
 .btn-pill{gap:10px;height:38px;padding:0 clamp(18px,1.6vw,22px) 0 clamp(20px,1.8vw,26px);background:var(--orange);color:#fff;border:0;font-family:var(--a2z);font-size:clamp(14px,1.05vw,15.5px);font-weight:500;letter-spacing:.02em}
 .btn-pill .arr{display:inline-block;font-size:.92em;line-height:1;transition:transform .25s cubic-bezier(.2,.7,.2,1)}
 .btn-pill:hover{background:var(--blue);color:#fff}
@@ -51,8 +51,6 @@ body.no-scroll{overflow:hidden}
 .menu .btn-pill:hover{background:var(--bg);color:var(--blue)}
 .btn-cta{background:var(--orange);color:var(--bg);border:1px solid var(--orange);padding:17px clamp(32px,3.4vw,48px);font-size:clamp(14px,1.24vw,17.9px);letter-spacing:-.06em}
 .btn-cta:hover{background:#E83C1B;color:var(--bg)}
-.btn-line{background:transparent;color:var(--bg);border:1px solid rgba(238,238,238,.4);padding:17px clamp(32px,3.4vw,48px);font-size:clamp(14px,1.24vw,17.9px);letter-spacing:-.06em}
-.btn-line:hover{border-color:var(--bg);color:var(--bg)}
 
 /* ---------------- header ---------------- */
 .site-header{position:fixed;top:0;left:0;right:0;z-index:70;background:transparent;transition:background-color .25s ease}
@@ -123,8 +121,6 @@ body.no-scroll{overflow:hidden}
 /* 바로 위 섹션도 블루일 때: 이어지는 한 덩어리로 보이게 위 여백을 줄인다 */
 .cta-light h2{color:var(--blue)}
 .cta-light p{color:rgba(24,51,168,.82)}
-.cta-light .btn-line{color:var(--blue);border-color:rgba(24,51,168,.4)}
-.cta-light .btn-line:hover{color:var(--blue);border-color:var(--blue)}
 
 /* ---------------- footer ---------------- */
 .site-footer{background:var(--bg)}
