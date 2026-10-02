@@ -131,7 +131,6 @@
 
   var TYPES = ["프로모션", "팝업스토어", "론칭·쇼케이스", "페스티벌", "스포츠 행사", "공공·지역행사", "기업행사", "컨퍼런스", "전시·박람회", "온라인·하이브리드", "기타"];
   var TYPE_UNDECIDED = "아직 고민중이에요";
-  var BUDGETS = ["1천만원 미만", "1~5천만원", "5천만원~1억", "1억 이상", "직접 입력"];
   var STEPS = [
     { badge: "STEP 1 / 3 · 의뢰 유형", title: "어떤 행사를 준비하고 계신가요?" },
     { badge: "STEP 2 / 3 · 예산", title: "예산은 어느 정도로 생각하고 계신가요?" },
@@ -152,13 +151,13 @@
   var STORE_KEY = "rastarConsultV2";
   var st, overlay, launcher, lastFocus, collapsed = false;
   function reset() {
-    st = { step: 0, type: null, budget: null, budgetText: "", undecided: false,
+    st = { step: 0, type: null, budgetText: "", undecided: false,
            form: { company: "", name: "", email: "", phone: "", detail: "" }, agreed: false, sending: false, error: "" };
   }
   function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); }
   function canNext() {
     if (st.step === 1) return !!st.type;
-    if (st.step === 2) return !!(st.undecided || (st.budget && (st.budget !== "직접 입력" || st.budgetText.trim())));
+    if (st.step === 2) return !!(st.undecided || st.budgetText.trim());
     if (st.step === 3) return !!(st.form.company.trim() && st.form.name.trim() && validEmail(st.form.email) && st.agreed && !st.sending);
     return true;
   }
@@ -307,21 +306,19 @@
     }
 
     if (st.step === 2) {
-      var bchips = el("div", { class: "cm-chips" });
-      BUDGETS.forEach(function (b) {
-        bchips.appendChild(chip(b, !st.undecided && st.budget === b, function () { st.budget = b; st.undecided = false; render(); }));
-      });
-      body.appendChild(bchips);
-      if (st.budget === "직접 입력" && !st.undecided) {
-        var inp = el("input", { class: "cm-input accent", placeholder: "예상 예산을 입력해주세요", "aria-label": "예상 예산" });
-        inp.value = st.budgetText;
-        inp.addEventListener("input", function () { st.budgetText = inp.value; updateNext(); });
-        body.appendChild(inp);
-        setTimeout(function () { inp.focus(); }, 0);
-      }
+      // 예산은 직접 입력. 미정이면 입력 없이 다음으로 넘어갈 수 있다.
+      var bwrap = el("label", { class: "cm-budget" });
+      var inp = el("input", { class: "cm-input", placeholder: "예상 예산을 입력해주세요", "aria-label": "예상 예산", "aria-describedby": "cm-budget-help" });
+      inp.value = st.budgetText;
+      inp.disabled = st.undecided;
+      inp.addEventListener("input", function () { st.budgetText = inp.value; updateNext(); });
+      bwrap.appendChild(inp);
+      bwrap.appendChild(el("small", { class: "cm-help", id: "cm-budget-help" }, "대략적인 금액이나 범위로 적어주셔도 괜찮아요."));
+      body.appendChild(bwrap);
+      if (!st.undecided) setTimeout(function () { inp.focus(); }, 0);
       var alt2 = el("div", { class: "cm-alt" });
       alt2.appendChild(radio("아직 예산은 미정이에요", st.undecided, function () {
-        st.undecided = !st.undecided; st.budget = null; render();
+        st.undecided = !st.undecided; render();
       }));
       body.appendChild(alt2);
     }
@@ -426,7 +423,7 @@
     st.sending = true;
     st.error = "";
     render();
-    var budget = st.undecided ? "미정" : st.budget === "직접 입력" ? st.budgetText.trim() : st.budget;
+    var budget = st.undecided ? "미정" : st.budgetText.trim();
     var params = {
       event_name: st.form.company.trim() + " · " + st.type,
       date: "미정",

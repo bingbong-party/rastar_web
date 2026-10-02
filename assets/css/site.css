@@ -388,6 +388,9 @@ body.no-scroll{overflow:hidden}
 .cm-row{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:12px}
 .cm-row.even{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 @media (max-width:420px){.cm-row{grid-template-columns:1fr}}
+.cm-budget{display:flex;flex-direction:column;gap:8px;max-width:300px}
+.cm-budget .cm-help{margin-top:0}
+.cm-input:disabled{opacity:.45;cursor:not-allowed}
 .cm-help{display:block;margin-top:-2px;font-size:clamp(14px,1.05vw,15px);line-height:1.6;color:rgba(24,51,168,.75);word-break:keep-all}
 .cm-help .ex{display:block;margin-top:2px;color:rgba(24,51,168,.6)}
 .cm-done{text-align:center;padding:14px 0 6px}
