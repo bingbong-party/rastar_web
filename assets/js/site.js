@@ -308,12 +308,12 @@
     if (st.step === 2) {
       // 예산은 직접 입력. 미정이면 입력 없이 다음으로 넘어갈 수 있다.
       var bwrap = el("label", { class: "cm-budget" });
-      var inp = el("input", { class: "cm-input", placeholder: "예) 3천만원", "aria-label": "예상 예산", "aria-describedby": "cm-budget-help" });
+      var inp = el("input", { class: "cm-input", placeholder: "예상 예산을 입력해주세요", "aria-label": "예상 예산", "aria-describedby": "cm-budget-help" });
       inp.value = st.budgetText;
       inp.disabled = st.undecided;
       inp.addEventListener("input", function () { st.budgetText = inp.value; updateNext(); });
       bwrap.appendChild(inp);
-      bwrap.appendChild(el("small", { class: "cm-help", id: "cm-budget-help" }, "대략적인 금액이나 범위로 적어주셔도 괜찮아요." + '<span class="ex">예) 3천만원 내외 / 5천만~1억</span>'));
+      bwrap.appendChild(el("small", { class: "cm-help", id: "cm-budget-help" }, "대략적인 금액이나 범위로 적어주셔도 괜찮아요."));
       body.appendChild(bwrap);
       if (!st.undecided) setTimeout(function () { inp.focus(); }, 0);
       var alt2 = el("div", { class: "cm-alt" });
