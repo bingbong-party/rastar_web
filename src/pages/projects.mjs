@@ -18,7 +18,6 @@ ${ctx.projects.map((p) => `    <article class="project-card">
         <div class="pc-img">${ctx.thumbImg(p)}</div>
         <div class="pc-cap">
           <h2 class="pc-title">${esc(p.title)}</h2>
-          <span class="pc-badge" aria-hidden="true">${esc(p.title)}</span>
           <span class="pc-meta">${esc([p.client, p.year].filter(Boolean).join(" · "))}</span>
         </div>
       </a>
