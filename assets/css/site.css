@@ -449,3 +449,10 @@ body.no-scroll{overflow:hidden}
 /* 잘린 제목 툴팁: 브라우저 기본 툴팁처럼 커서 옆에 작게, 밝은 바탕 + 블루 글씨 */
 .pc-tip{position:fixed;z-index:300;max-width:min(560px,calc(100vw - 24px));padding:5px 9px;background:var(--bg);color:var(--blue);border:1px solid rgba(24,51,168,.45);font-family:var(--pre);font-size:13px;font-weight:500;line-height:1.4;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 4px 12px rgba(10,22,80,.14);pointer-events:none;opacity:0;transition:opacity .12s}
 .pc-tip.on{opacity:1}
+
+/* ---------------- 404 ---------------- */
+.notfound{min-height:70vh;padding-bottom:clamp(80px,10vw,140px);text-align:center}
+.notfound-text{margin:clamp(28px,3vw,40px) 0 0;font-family:var(--pre);font-size:clamp(16px,1.3vw,19px);line-height:1.7;word-break:keep-all}
+.notfound-links{margin-top:clamp(32px,3.4vw,48px);display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:center}
+.notfound-sub{font-family:var(--a2z);font-size:16px;font-weight:500}
+.notfound-sub:hover{color:var(--orange)}
