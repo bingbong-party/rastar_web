@@ -503,6 +503,17 @@
       for (var i = 1; i <= total; i++) pager.appendChild(btn(String(i), { aria: i + " 페이지", to: i, current: i === page }));
       pager.appendChild(btn("›", { aria: "다음 페이지", to: page + 1, disabled: page === total }));
     }
+    // 제목이 한 줄에 다 안 들어가 잘린 카드 표시 → 호버 시 전체 제목 띠를 보여준다
+    var markCut = function () {
+      cards.forEach(function (c) {
+        var t = c.querySelector(".pc-title");
+        if (t && !c.hidden) c.classList.toggle("is-cut", t.scrollWidth > t.clientWidth + 1);
+      });
+    };
+    var origShow = show;
+    show = function (p, scroll) { origShow(p, scroll); markCut(); };
+    window.addEventListener("resize", markCut);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(markCut);
     show(page, false);
   }
 

@@ -14,12 +14,13 @@ export default {
 <section class="wrap projects-list">
   <div class="project-grid" data-project-grid data-per-page="6">
 ${ctx.projects.map((p) => `    <article class="project-card">
-      <a class="thumb" href="${p.url}" aria-label="${esc(p.title)}">${ctx.thumbImg(p)}</a>
-      <div class="text">
-        <h2 class="title" style="margin:0"><a href="${p.url}">${esc(p.title)}</a></h2>
-        <p class="desc">${esc(p.summary)}</p>
-        ${p.client ? `<div class="client">client · ${esc(p.client)}</div>` : ""}
-      </div>
+      <a class="pc" href="${p.url}">
+        <div class="pc-img">${ctx.thumbImg(p)}<span class="pc-full" aria-hidden="true">${esc(p.title)}</span></div>
+        <div class="pc-cap">
+          <h2 class="pc-title">${esc(p.title)}</h2>
+          <span class="pc-meta">${esc([p.client, p.year].filter(Boolean).join(" · "))}</span>
+        </div>
+      </a>
     </article>`).join("\n")}
   </div>
   <nav class="pager" data-pager aria-label="페이지"></nav>

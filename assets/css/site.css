@@ -228,13 +228,22 @@ body.no-scroll{overflow:hidden}
 .featured-card:hover .more a span:last-child{transform:translate(4px,-4px)}
 
 .projects-list{padding-top:clamp(48px,6vw,96px);padding-bottom:clamp(80px,10vw,170px)}
-.project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(26px,3.4vw,58px) clamp(20px,2.6vw,44px)}
+.project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(40px,4vw,56px) clamp(20px,2vw,28px)}
+/* 프로젝트 카드: 각진 사진 + 블루 실선 + 제목(한 줄, 넘치면 …) / 클라이언트 · 연도 */
+.pc{display:block;min-width:0}
+.pc-img{position:relative;aspect-ratio:3/2;overflow:hidden;background:#DCDCDC}
+.pc-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.pc-img .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;letter-spacing:.2em;color:rgba(24,51,168,.22)}
+.pc:hover .pc-img img{transform:scale(1.03)}
+/* 제목이 잘린 카드만: 호버 시 사진 하단에 전체 제목 블루 띠 */
+.pc-full{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:14px 16px;background:var(--blue);color:var(--bg);font-family:var(--pre);font-size:clamp(15px,1.15vw,17px);font-weight:600;letter-spacing:-.03em;line-height:1.45;word-break:keep-all;transform:translateY(101%);transition:transform .35s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+.project-card.is-cut .pc:hover .pc-full,.project-card.is-cut .pc:focus-visible .pc-full{transform:none}
+.pc-cap{margin-top:12px;padding-top:12px;border-top:1.5px solid var(--blue);font-family:var(--pre)}
+.pc-title{margin:0;font-size:clamp(17px,1.4vw,20px);font-weight:600;letter-spacing:-.035em;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .2s}
+.pc:hover .pc-title{color:var(--orange)}
+.pc-meta{display:block;margin-top:4px;font-size:clamp(13px,.95vw,14px);font-weight:500;color:rgba(24,51,168,.75)}
 @media (max-width:1000px){.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:620px){.project-grid{grid-template-columns:1fr}}
-.project-card .text{margin-top:12px;font-family:var(--pre)}
-.project-card .title{font-size:clamp(17px,1.4vw,20px);font-weight:600;letter-spacing:-.035em;line-height:1.4;word-break:keep-all}
-.project-card .desc{margin:5px 0 0;font-size:clamp(14.5px,1.1vw,16px);line-height:1.65;letter-spacing:-.4px;word-break:keep-all}
-.project-card .client{margin-top:7px;font-size:clamp(13px,.95vw,14px);font-weight:500;color:rgba(24,51,168,.8)}
 .js .project-card[hidden]{display:none}
 .pager{margin-top:clamp(44px,5vw,80px);display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px}
 .pager button{min-width:38px;height:38px;padding:0 12px;border-radius:100px;cursor:pointer;font-family:var(--pre);font-size:14px;font-weight:600;transition:all .2s;border:1px solid rgba(24,51,168,.18);background:transparent;color:var(--blue)}
