@@ -451,7 +451,9 @@ body.no-scroll{overflow:hidden}
 .pc-tip.on{opacity:1}
 
 /* ---------------- 404 ---------------- */
-.notfound{min-height:70vh;padding-bottom:clamp(80px,10vw,140px);text-align:center}
+/* 첫 화면 높이 안에서 세로·가로 가운데 (헤더 높이만큼 위 여백) */
+.page-head.notfound{min-height:100vh;min-height:100svh;padding-top:62px;padding-bottom:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.notfound .row{width:100%}
 .notfound-text{margin:clamp(28px,3vw,40px) 0 0;font-family:var(--pre);font-size:clamp(16px,1.3vw,19px);line-height:1.7;word-break:keep-all}
 .notfound-links{margin-top:clamp(32px,3.4vw,48px);display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:center}
 .notfound-sub{font-family:var(--a2z);font-size:16px;font-weight:500}
