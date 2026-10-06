@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="robots" content="noindex">
 <title>라별 | 프로젝트</title>
-<link rel="canonical" href="https://rastarcomms.com/Projects.html">
+<link rel="canonical" href="https://rastarcomms.com/Projects">
 <script>
   // 예전 동적 상세 URL(Project.html?id=N)을 정적 상세 페이지로 넘긴다.
   var id = new URLSearchParams(location.search).get("id");
-  location.replace(id ? "/projects/" + encodeURIComponent(id) + ".html" : "/Projects.html");
+  location.replace(id ? "/projects/" + encodeURIComponent(id) : "/Projects");
 </script>
 </head>
-<body><a href="/Projects.html">프로젝트 보기</a></body>
+<body><a href="/Projects">프로젝트 보기</a></body>
 </html>

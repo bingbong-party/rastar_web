@@ -92,7 +92,7 @@ const BLUE_HERO_TEST = new Set(["btl", "festival", "mice"]);
 
 export default PAGES.map((pg) => ({
   file: `${pg.key}.html`,
-  path: `/${pg.key}.html`,
+  path: `/${pg.key}`,
   footerBordered: BLUE_HERO_TEST.has(pg.key),
   title: pg.title,
   description: pg.description,

@@ -2,9 +2,9 @@ import { cta, esc } from "../layout.mjs";
 
 export default {
   file: "Projects.html",
-  path: "/Projects.html",
+  path: "/Projects",
   title: "Projects · 라별이 만든 현장 | 라별",
-  description: "축제, 대학 OT, 컨퍼런스, 기념식, 팝업과 브랜드 이벤트까지. 라별이 기획하고 운영한 프로젝트를 소개합니다.",
+  description: "라별이 진행한 컨퍼런스, 대학 축제·OT, 기업 행사, 송년회, 워크숍, 세미나, 기념식, 팝업스토어 등 다양한 행사 프로젝트 사례를 확인해보세요.",
   body: (ctx) => `<section class="wrap page-head">
   <div class="row solo">
     <h1><span>projects we made</span></h1>

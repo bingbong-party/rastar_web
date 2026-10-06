@@ -4,7 +4,7 @@ export const BROCHURE_PDF = "/assets/docs/rastar-service-introduction.pdf";
 
 export default {
   file: "brochure.html",
-  path: "/brochure.html",
+  path: "/brochure",
   title: "서비스 소개서 | 라별",
   description: "라별커뮤니케이션즈 서비스 소개서",
   bareBody: true,

@@ -10,6 +10,11 @@
    또한
      - 프로젝트 이미지의 목록/썸네일용 축소본을 projects_images/<id>/thumbs/ 에 만든다.
      - sitemap.xml 을 재생성한다.
+     - GEO(AI 검색 최적화): 화면에는 보이지 않는 텍스트 자료를 함께 만든다.
+         · projects/<id>.md  — 프로젝트별 Notion 본문 전체 (상세 페이지 <head> 에서 링크)
+         · llms.txt          — 회사·서비스·페이지·프로젝트 요약 안내 (llmstxt.org 형식)
+         · llms-full.txt     — llms.txt + 모든 프로젝트 본문
+         · 갤러리 사진 alt   — 본문의 소제목을 사진 설명으로 사용
 
    실행: npm run build-pages
    ===================================================================== */
@@ -19,7 +24,7 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import sharp from "sharp";
 
-import { layout, esc, SITE_ORIGIN } from "../src/layout.mjs";
+import { layout, esc, SITE_ORIGIN, DEFAULT_DESCRIPTION } from "../src/layout.mjs";
 import projectPage from "../src/project-detail.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -45,6 +50,28 @@ function bodyImages(md) {
   let m;
   while ((m = re.exec(md || ""))) out.push(m[1]);
   return out;
+}
+/* 본문 이미지 → 바로 위 소제목(## …) 또는 이미지 캡션. 갤러리 사진 alt 로 쓴다. */
+function bodyImageLabels(md) {
+  const labels = new Map();
+  let heading = "";
+  for (const line of String(md || "").replace(/\r\n/g, "\n").split("\n")) {
+    const h = line.match(/^#{2,3}\s+(.+)/);
+    if (h) { heading = h[1].replace(/\*\*/g, "").trim(); continue; }
+    const img = line.match(/^!\[([^\]]*)\]\(([^)\s]+)\)/);
+    if (img) labels.set(img[2].replace(/^\/+/, ""), img[1].trim() || heading);
+  }
+  return labels;
+}
+/* 본문 markdown → 텍스트 버전(이미지 줄 제거) */
+function bodyText(md) {
+  return String(md || "")
+    .replace(/\r\n/g, "\n")
+    .split("\n")
+    .filter((l) => !/^!\[[^\]]*\]\([^)]*\)\s*$/.test(l.trim()))
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 function bodyParagraphs(md) {
   return String(md || "")
@@ -85,16 +112,18 @@ async function prepareProjects(raw) {
       .filter(Boolean)
       .map((s) => s.replace(/^\/+/, ""))
       .filter((s, i, arr) => arr.indexOf(s) === i);
+    const labels = bodyImageLabels(p.body);
+    const altFor = (s) => (labels.get(s) ? `${p.title} – ${labels.get(s)}` : p.title);
     const gallery = [];
     for (const s of sources) {
-      if (/^https?:/.test(s)) { gallery.push({ full: s, thumb: s }); continue; }
+      if (/^https?:/.test(s)) { gallery.push({ full: s, thumb: s, alt: altFor(s) }); continue; }
       const thumb = await ensureThumb(s);
-      if (thumb) gallery.push({ full: "/" + s, thumb });
+      if (thumb) gallery.push({ full: "/" + s, thumb, alt: altFor(s) });
     }
     const start = String(p.date || "").split(" ~ ")[0];
     list.push({
       ...p,
-      url: `/projects/${encodeURIComponent(p.id)}.html`,
+      url: `/projects/${encodeURIComponent(p.id)}`,
       gallery,
       coverThumb: gallery[0] ? gallery[0].thumb : "",
       venue: p.venue || "",
@@ -108,6 +137,52 @@ async function prepareProjects(raw) {
     (!a.sortKey - !b.sortKey) || b.sortKey.localeCompare(a.sortKey) || (Number(b.id) - Number(a.id))
   );
   return list;
+}
+
+/* ---------------- GEO 텍스트 자료 ---------------- */
+const COMPANY = {
+  name: "라별커뮤니케이션즈 (라별, Rastar Comms)",
+  phone: "032-262-2164",
+  email: "ws@rastarcomms.com",
+  address: "인천광역시 서구 중봉대로 490, 893호 (청라더리브티아모)",
+};
+function projectMarkdown(p) {
+  const rows = [
+    ["행사 분류", p.category],
+    ["서비스 분야", p.featuredCategory],
+    ["클라이언트(주최)", p.client],
+    ["일시", p.date],
+    ["장소", [p.venue, p.location].filter(Boolean).join(" · ")],
+    ["대행", "라별커뮤니케이션즈 (기획·운영)"],
+    ["페이지", `${SITE_ORIGIN}${p.url}`],
+  ].filter(([, v]) => v);
+  return [
+    `# ${p.title}`,
+    rows.map(([k, v]) => `- ${k}: ${v}`).join("\n"),
+    p.summary ? `## 요약\n\n${p.summary}` : "",
+    p.desc ? `## 개요\n\n${p.desc}` : "",
+    bodyText(p.body) ? `## 상세\n\n${bodyText(p.body)}` : "",
+  ].filter(Boolean).join("\n\n") + "\n";
+}
+function llmsTxt(pages, projects) {
+  const byPath = (path) => pages.find((p) => p.path === path);
+  const link = (pg) => (pg ? `- [${pg.title.replace(/ \| 라별$/, "")}](${SITE_ORIGIN}${pg.path}): ${pg.description}` : "");
+  return [
+    "# 라별 (Rastar Comms)",
+    `> ${DEFAULT_DESCRIPTION} 브랜드 액티베이션(BTL)·페스티벌·MICE 세 분야에서 대학 축제와 신입생 오리엔테이션, 포럼, 기념식·학위수여식, 브랜드 프로모션 등을 대행합니다.`,
+    `- 회사: ${COMPANY.name}\n- 전화: ${COMPANY.phone}\n- 이메일: ${COMPANY.email}\n- 주소: ${COMPANY.address}\n- 웹사이트: ${SITE_ORIGIN}/`,
+    "## 서비스",
+    ["/btl", "/festival", "/mice"].map((p) => link(byPath(p))).filter(Boolean).join("\n"),
+    "## 회사 소개·문의",
+    ["/about", "/faq", "/Projects"].map((p) => link(byPath(p))).filter(Boolean).join("\n"),
+    "## 프로젝트 (행사 대행 실적)",
+    projects.map((p) => {
+      const meta = [p.client, p.date, p.venue || p.location].filter(Boolean).join(" · ");
+      return `- [${p.title}](${SITE_ORIGIN}${p.url}): ${p.summary || ""}${meta ? ` (${meta})` : ""} — 전체 텍스트: ${SITE_ORIGIN}${p.url}.md`;
+    }).join("\n"),
+    "## Optional",
+    `- [전체 본문 모음](${SITE_ORIGIN}/llms-full.txt): 모든 프로젝트의 상세 텍스트`,
+  ].join("\n\n") + "\n";
 }
 
 /* ---------------- 메인 ---------------- */
@@ -145,9 +220,25 @@ async function main() {
     await fs.writeFile(path.join(ROOT, page.file), layout({ ...page, body: page.body(ctx) }));
     keep.add(path.basename(page.file));
   }
-  for (const f of await fs.readdir(projectsDir)) {
-    if (f.endsWith(".html") && !keep.has(f)) await fs.unlink(path.join(projectsDir, f));
+  // GEO: 프로젝트별 본문 전체 텍스트 (projects/<id>.md)
+  const projectMd = new Map();
+  for (const p of projects) {
+    const md = projectMarkdown(p);
+    projectMd.set(p.id, md);
+    await fs.writeFile(path.join(projectsDir, `${p.id}.md`), md);
+    keep.add(`${p.id}.md`);
   }
+  for (const f of await fs.readdir(projectsDir)) {
+    if ((f.endsWith(".html") || f.endsWith(".md")) && !keep.has(f)) await fs.unlink(path.join(projectsDir, f));
+  }
+
+  // 3) GEO: llms.txt / llms-full.txt
+  const llms = llmsTxt(pages, projects);
+  await fs.writeFile(path.join(ROOT, "llms.txt"), llms);
+  await fs.writeFile(
+    path.join(ROOT, "llms-full.txt"),
+    llms + "\n\n---\n\n# 프로젝트 전체 본문\n\n" + projects.map((p) => projectMd.get(p.id)).join("\n\n---\n\n") + "\n"
+  );
 
   // 4) sitemap.xml
   const urls = [
@@ -161,7 +252,7 @@ async function main() {
     `\n</urlset>\n`;
   await fs.writeFile(path.join(ROOT, "sitemap.xml"), xml);
 
-  console.log(`완료: 페이지 ${pages.length}개, 프로젝트 ${projects.length}개 생성, sitemap.xml 갱신`);
+  console.log(`완료: 페이지 ${pages.length}개, 프로젝트 ${projects.length}개 생성, sitemap.xml·llms.txt 갱신`);
 }
 
 main().catch((err) => {

@@ -558,7 +558,7 @@
     } else {
       var lastPage = null;
       try { lastPage = sessionStorage.getItem(LIST_PAGE_KEY); } catch (e) {}
-      if (lastPage && lastPage !== "1") backLink.href = "/Projects.html?page=" + encodeURIComponent(lastPage);
+      if (lastPage && lastPage !== "1") backLink.href = "/Projects?page=" + encodeURIComponent(lastPage);
     }
   }
 
@@ -576,6 +576,7 @@
       if (!items.length) return;
       cur = (n + items.length) % items.length;
       img.src = items[cur].getAttribute("data-full");
+      img.alt = items[cur].getAttribute("data-alt") || img.alt;
       items.forEach(function (b, i) { b.setAttribute("aria-current", i === cur ? "true" : "false"); });
       if (counter) counter.textContent = pad(cur + 1) + " / " + pad(items.length);
       var it = items[cur];

@@ -7,9 +7,9 @@
 export const SITE_ORIGIN = "https://rastarcomms.com";
 export const SITE_NAME = "라별";
 export const DEFAULT_DESCRIPTION =
-  "라별은 브랜드 액티베이션·페스티벌·MICE 행사를 기획부터 공간 연출, 현장 운영까지 하나의 흐름으로 설계하는 전문 행사 솔루션 에이전시입니다.";
+  "라별은 컨퍼런스, 페스티벌, 기업 행사, 송년회, 워크숍, 세미나, 팝업스토어까지 행사를 기획부터 공간 연출, 현장 운영까지 책임지는 전문 행사 솔루션 에이전시입니다.";
 export const DEFAULT_IMAGE = `${SITE_ORIGIN}/assets/img/og.jpg`;
-export const ASSET_VERSION = "20261006-4";
+export const ASSET_VERSION = "20261006-8";
 
 export function esc(s) {
   return String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
@@ -71,16 +71,16 @@ export function menu() {
       <div class="menu-col">
         <div class="menu-label">what we do</div>
         <div class="menu-links main">
-          <a href="/btl.html">btl</a>
-          <a href="/festival.html">festival</a>
-          <a href="/mice.html">mice</a>
+          <a href="/btl">btl</a>
+          <a href="/festival">festival</a>
+          <a href="/mice">mice</a>
         </div>
       </div>
       <div class="menu-col right">
         <div class="menu-links sub">
-          <a href="/about.html">about</a>
-          <a href="/Projects.html">projects</a>
-          <a href="/faq.html">faq</a>
+          <a href="/about">about</a>
+          <a href="/Projects">projects</a>
+          <a href="/faq">faq</a>
         </div>
       </div>
     </div>
@@ -127,7 +127,7 @@ export function footer({ bordered = false } = {}) {
 
 /* 페이지 전체 HTML */
 export function layout({
-  path, // "/" 또는 "/about.html" 처럼 루트 기준 URL 경로
+  path, // "/" 또는 "/about" 처럼 루트 기준 URL 경로 (배포 서버가 .html 을 떼므로 확장자 없이)
   title,
   description = DEFAULT_DESCRIPTION,
   image = DEFAULT_IMAGE,
