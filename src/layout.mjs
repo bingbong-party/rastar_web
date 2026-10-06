@@ -7,7 +7,7 @@
 export const SITE_ORIGIN = "https://rastarcomms.com";
 export const SITE_NAME = "라별";
 export const DEFAULT_DESCRIPTION =
-  "라별은 브랜드 액티베이션·페스티벌·MICE 행사를 기획부터 공간 연출, 현장 운영까지 하나의 흐름으로 설계하는 전문 행사 솔루션 에이전시입니다.";
+  "라별은 컨퍼런스, 페스티벌, 기업 행사, 송년회, 워크숍, 세미나, 팝업스토어까지 행사를 기획부터 공간 연출, 현장 운영까지 책임지는 전문 행사 솔루션 에이전시입니다.";
 export const DEFAULT_IMAGE = `${SITE_ORIGIN}/assets/img/og.jpg`;
 export const ASSET_VERSION = "20261006-8";
 

@@ -18,7 +18,7 @@ const SERVICES = [
 export default {
   file: "index.html",
   path: "/",
-  title: "라별 | 행사를 넘어, 브랜드의 다음으로",
+  title: "라별 | 행사 기획·운영 전문 에이전시",
   description: DEFAULT_DESCRIPTION,
   home: true,
   footerBordered: true,

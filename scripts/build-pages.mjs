@@ -169,7 +169,7 @@ function llmsTxt(pages, projects) {
   const link = (pg) => (pg ? `- [${pg.title.replace(/ \| 라별$/, "")}](${SITE_ORIGIN}${pg.path}): ${pg.description}` : "");
   return [
     "# 라별 (Rastar Comms)",
-    `> ${DEFAULT_DESCRIPTION} 컨퍼런스·포럼·세미나, 대학 축제와 신입생 오리엔테이션, 기업 행사·워크숍·송년회, 기념식·학위수여식, 팝업스토어·브랜드 프로모션 등을 기획부터 현장 운영까지 대행합니다.`,
+    `> ${DEFAULT_DESCRIPTION} 브랜드 액티베이션(BTL)·페스티벌·MICE 세 분야에서 대학 축제와 신입생 오리엔테이션, 포럼, 기념식·학위수여식, 브랜드 프로모션 등을 대행합니다.`,
     `- 회사: ${COMPANY.name}\n- 전화: ${COMPANY.phone}\n- 이메일: ${COMPANY.email}\n- 주소: ${COMPANY.address}\n- 웹사이트: ${SITE_ORIGIN}/`,
     "## 서비스",
     ["/btl", "/festival", "/mice"].map((p) => link(byPath(p))).filter(Boolean).join("\n"),
