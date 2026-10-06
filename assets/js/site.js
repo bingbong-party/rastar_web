@@ -503,6 +503,42 @@
       for (var i = 1; i <= total; i++) pager.appendChild(btn(String(i), { aria: i + " 페이지", to: i, current: i === page }));
       pager.appendChild(btn("›", { aria: "다음 페이지", to: page + 1, disabled: page === total }));
     }
+    // 제목이 한 줄에 다 안 들어가 잘린 카드 표시 → 제목에 호버하면 커서 옆에 전체 제목 툴팁
+    var markCut = function () {
+      cards.forEach(function (c) {
+        var t = c.querySelector(".pc-title");
+        if (t && !c.hidden) c.classList.toggle("is-cut", t.scrollWidth > t.clientWidth + 1);
+      });
+    };
+    var origShow = show;
+    show = function (p, scroll) { origShow(p, scroll); markCut(); };
+    window.addEventListener("resize", markCut);
+    // 브라우저 기본 툴팁처럼: 잠깐 머무르면 커서 오른쪽 아래에 뜨고, 커서를 따라 움직인다
+    var tip = el("div", { class: "pc-tip", role: "tooltip" });
+    document.body.appendChild(tip);
+    var tipTimer = 0;
+    var placeTip = function (x, y) {
+      var w = tip.offsetWidth, h = tip.offsetHeight;
+      var left = Math.min(x + 12, window.innerWidth - w - 8);
+      var top = y + 20 + h > window.innerHeight ? y - h - 10 : y + 20;
+      tip.style.left = Math.max(8, left) + "px";
+      tip.style.top = top + "px";
+    };
+    cards.forEach(function (c) {
+      var t = c.querySelector(".pc-title");
+      if (!t) return;
+      t.addEventListener("mouseenter", function (e) {
+        if (!c.classList.contains("is-cut")) return;
+        tip.textContent = t.textContent;
+        placeTip(e.clientX, e.clientY);
+        clearTimeout(tipTimer);
+        tipTimer = setTimeout(function () { tip.classList.add("on"); }, 350);
+      });
+      t.addEventListener("mousemove", function (e) { if (c.classList.contains("is-cut")) placeTip(e.clientX, e.clientY); });
+      t.addEventListener("mouseleave", function () { clearTimeout(tipTimer); tip.classList.remove("on"); });
+    });
+    window.addEventListener("scroll", function () { clearTimeout(tipTimer); tip.classList.remove("on"); }, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(markCut);
     show(page, false);
   }
 
