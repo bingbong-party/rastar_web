@@ -22,7 +22,7 @@ const NUMBERS = [
 
 export default {
   file: "about.html",
-  path: "/about.html",
+  path: "/about",
   footerBordered: true,
   title: "About · 라별커뮤니케이션즈 | 라별",
   description: "라별커뮤니케이션즈는 기획부터 디자인, 무대 시스템 운영, 전시부스, 섭외까지 행사에 필요한 모든 과정을 다루는 전문 행사 솔루션 에이전시입니다. 전체를 맡기셔도, 필요한 파트만 맡기셔도 됩니다.",

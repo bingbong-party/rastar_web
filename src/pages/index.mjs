@@ -2,15 +2,15 @@ import { SITE_ORIGIN, DEFAULT_DESCRIPTION, DEFAULT_IMAGE, esc } from "../layout.
 
 const SERVICES = [
   {
-    name: "btl", href: "/btl.html", en: "brand activation", tag: "브랜드가 사람을 만나는 가장 생생한 방식",
+    name: "btl", href: "/btl", en: "brand activation", tag: "브랜드가 사람을 만나는 가장 생생한 방식",
     body: ["팝업스토어, 프로모션, 론칭 이벤트와 로드쇼까지.", "브랜드의 메시지를 일방적인 노출이 아닌 사람들의 참여와 행동으로 이어지는 경험으로 만듭니다."],
   },
   {
-    name: "festival", href: "/festival.html", en: "culture & live experience", tag: "수많은 에너지가 하나의 장면이 되는 순간",
+    name: "festival", href: "/festival", en: "culture & live experience", tag: "수많은 에너지가 하나의 장면이 되는 순간",
     body: ["음악·문화·스포츠·지역 축제 등 다양한 사람들이 함께 즐기는 현장을 만듭니다.", "프로그램 기획부터 공간 연출, 관객 동선과 운영까지 축제의 모든 순간을 설계합니다."],
   },
   {
-    name: "mice", href: "/mice.html", en: "meeting & business event", tag: "비즈니스의 다음을 연결하는 자리",
+    name: "mice", href: "/mice", en: "meeting & business event", tag: "비즈니스의 다음을 연결하는 자리",
     body: ["컨퍼런스, 포럼, 전시, 시상식과 기업행사를 기획합니다.", "메시지는 정확하게 전달되고 새로운 관계와 가능성은 자연스럽게 이어지는 비즈니스 경험을 만듭니다."],
   },
 ];

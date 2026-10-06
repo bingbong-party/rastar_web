@@ -11,13 +11,13 @@ const FAQS = [
 
 export default {
   file: "faq.html",
-  path: "/faq.html",
+  path: "/faq",
   title: "FAQ · 자주 묻는 질문 | 라별",
   description: "행사 규모, 부분 의뢰, 견적 산정, 준비 기간, 지방·해외 행사 등 라별에 자주 묻는 질문을 모았습니다.",
   jsonLd: {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    url: `${SITE_ORIGIN}/faq.html`,
+    url: `${SITE_ORIGIN}/faq`,
     mainEntity: FAQS.map((f) => ({
       "@type": "Question",
       name: f.q,

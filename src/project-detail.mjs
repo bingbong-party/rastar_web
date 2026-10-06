@@ -35,7 +35,7 @@ ${gallery.map((g, i) => `          <button type="button" data-full="${g.full}" a
     : `<div class="stage"><span class="ph">IMAGE</span></div>`;
 
   return {
-    file: `projects/${p.id}.html`,
+    file: `projects/${p.id}.html`, // 배포 시 /projects/<id> 로 서비스됨
     path: p.url,
     title: `${p.title} | 라별`,
     description: p.summary || p.desc || "",
@@ -57,7 +57,7 @@ ${gallery.map((g, i) => `          <button type="button" data-full="${g.full}" a
   </div>
 </section>
 
-<div class="wrap detail-back"><a class="back" href="/Projects.html"><span aria-hidden="true">‹</span>back to projects</a></div>
+<div class="wrap detail-back"><a class="back" href="/Projects"><span aria-hidden="true">‹</span>back to projects</a></div>
 <div class="wrap detail">
   <div class="gallery">
       ${stage}

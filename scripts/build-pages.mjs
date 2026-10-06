@@ -94,7 +94,7 @@ async function prepareProjects(raw) {
     const start = String(p.date || "").split(" ~ ")[0];
     list.push({
       ...p,
-      url: `/projects/${encodeURIComponent(p.id)}.html`,
+      url: `/projects/${encodeURIComponent(p.id)}`,
       gallery,
       coverThumb: gallery[0] ? gallery[0].thumb : "",
       venue: p.venue || "",

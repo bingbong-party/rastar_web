@@ -558,7 +558,7 @@
     } else {
       var lastPage = null;
       try { lastPage = sessionStorage.getItem(LIST_PAGE_KEY); } catch (e) {}
-      if (lastPage && lastPage !== "1") backLink.href = "/Projects.html?page=" + encodeURIComponent(lastPage);
+      if (lastPage && lastPage !== "1") backLink.href = "/Projects?page=" + encodeURIComponent(lastPage);
     }
   }
 
