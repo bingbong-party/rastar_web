@@ -503,7 +503,7 @@
       for (var i = 1; i <= total; i++) pager.appendChild(btn(String(i), { aria: i + " 페이지", to: i, current: i === page }));
       pager.appendChild(btn("›", { aria: "다음 페이지", to: page + 1, disabled: page === total }));
     }
-    // 제목이 한 줄에 다 안 들어가 잘린 카드 표시 → 호버 시 전체 제목 띠를 보여준다
+    // 제목이 한 줄에 다 안 들어가 잘린 카드 표시 → 제목에 호버하면 전체 제목 뱃지를 보여준다
     var markCut = function () {
       cards.forEach(function (c) {
         var t = c.querySelector(".pc-title");

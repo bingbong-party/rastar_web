@@ -15,9 +15,10 @@ export default {
   <div class="project-grid" data-project-grid data-per-page="6">
 ${ctx.projects.map((p) => `    <article class="project-card">
       <a class="pc" href="${p.url}">
-        <div class="pc-img">${ctx.thumbImg(p)}<span class="pc-full" aria-hidden="true">${esc(p.title)}</span></div>
+        <div class="pc-img">${ctx.thumbImg(p)}</div>
         <div class="pc-cap">
           <h2 class="pc-title">${esc(p.title)}</h2>
+          <span class="pc-badge" aria-hidden="true">${esc(p.title)}</span>
           <span class="pc-meta">${esc([p.client, p.year].filter(Boolean).join(" · "))}</span>
         </div>
       </a>
