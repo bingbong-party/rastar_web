@@ -228,7 +228,7 @@ body.no-scroll{overflow:hidden}
 .featured-card:hover .more a span:last-child{transform:translate(4px,-4px)}
 
 .projects-list{padding-top:clamp(48px,6vw,96px);padding-bottom:clamp(80px,10vw,170px)}
-.project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(40px,4vw,56px) clamp(20px,2vw,28px)}
+.project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(26px,3.4vw,58px) clamp(20px,2.6vw,44px)}
 /* 프로젝트 카드: 각진 사진 + 블루 실선 + 제목(한 줄, 넘치면 …) / 클라이언트 · 연도 */
 .pc{display:block;min-width:0}
 .pc-img{position:relative;aspect-ratio:3/2;overflow:hidden;background:#DCDCDC}
