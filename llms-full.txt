@@ -35,7 +35,7 @@
 - [2026학년도 부천대학교 신입생 입학식](https://rastarcomms.com/projects/18): 기수단 행렬과 LED 무대, 화훼 연단으로 격식을 갖춘 부천대학교 신입생 입학식 (부천대학교 · 2026-02-20 · 부천대학교) — 전체 텍스트: https://rastarcomms.com/projects/18.md
 - [2026년 봄 가톨릭대학교 학위수여식](https://rastarcomms.com/projects/20): 블루 톤 LED 무대와 풍선 세리머니로 졸업을 축하한 가톨릭대학교 봄 학위수여식 (가톨릭대학교 · 2026-02-19 · 가톨릭대학교 성심교정) — 전체 텍스트: https://rastarcomms.com/projects/20.md
 - [제 46회 부천대학교 전기 학위수여식](https://rastarcomms.com/projects/12): 체육관 대형 LED 무대와 포토월, 축사·세리머니로 구성된 부천대학교 학위수여식 (부천대학교 · 2026-02-12 · 부천대학교) — 전체 텍스트: https://rastarcomms.com/projects/12.md
-- [네크워킹 데이](https://rastarcomms.com/projects/2): 전국 여성CEO가 모여 세미나와 네트워킹으로 교류한 한국여성경제인협회 행사 (한국여성경제인협회 · 2025-12-04 · 삼정호텔 아도니스홀) — 전체 텍스트: https://rastarcomms.com/projects/2.md
+- [전국 여성CEO 네트워킹데이](https://rastarcomms.com/projects/2): 전국 여성CEO가 모여 세미나와 네트워킹으로 교류한 한국여성경제인협회 행사 (한국여성경제인협회 · 2025-12-04 · 삼정호텔 아도니스홀) — 전체 텍스트: https://rastarcomms.com/projects/2.md
 - [2025년 미래여성경제인육성사업 통합 워크숍](https://rastarcomms.com/projects/17): 볼룸 무대에서 강연·창업 골든벨·시상·공연을 펼친 2025 여성경제인 통합 워크숍 (한국여성경제인협회 · 2025-11-21 · 호텔 ICC) — 전체 텍스트: https://rastarcomms.com/projects/17.md
 - [생명윤리법 시행 20주년 기념식](https://rastarcomms.com/projects/5): 생명윤리법 시행 20주년을 맞아 성과를 돌아보고 정책의 미래를 모색한 기념식 (국가생명윤리정책원 · 2025-11-19 · 가든호텔 그랜드볼룸) — 전체 텍스트: https://rastarcomms.com/projects/5.md
 - [2025 가톨릭대학교 다맛제](https://rastarcomms.com/projects/15): 야외 무대와 푸드트럭·버스킹, 야간 메인 공연으로 이어진 가톨릭대학교 가을 축제 (가톨릭대학교 · 2025-10-01 ~ 2025-10-02 · 가톨릭대학교 성심교정) — 전체 텍스트: https://rastarcomms.com/projects/15.md
@@ -678,7 +678,7 @@ QR·키오스크 스마트 등록과 LED 무대로 새내기를 맞은 가톨릭
 
 ---
 
-# 네크워킹 데이
+# 전국 여성CEO 네트워킹데이
 
 - 행사 분류: 세미나
 - 클라이언트(주최): 한국여성경제인협회
